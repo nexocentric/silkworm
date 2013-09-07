@@ -21,7 +21,7 @@ class HtmlInterface
 	private $doctype = "";
 	private $topTag = "";
 	private $indentLevel = -1;
-	private $indentPattern = "\t";
+	private $indentationCharacter = "\t";
 	private $cycles = array();
 	private $html = "";
 
@@ -87,6 +87,48 @@ class HtmlInterface
 		return $this->doctype . $this->topTag . $this->html;
 	}
 	
+	public function parseAttributes()
+	{
+
+	}
+
+	# comment tag
+	public function comment($comment) {
+		echo "\n", $this->indent(), "<!-- {$comment} -->\n";
+		$this->outdent();
+	}
+
+	public function setIndentationCharacter($character = "")
+	{
+		$this->indentationCharacter = $character;
+	}
+
+	public function adjustIndent()
+	{
+		# set indent level
+		public function set_indent_level($level){
+		if(is_numeric($level)) $this->$indent_level = $level-1;
+		}
+
+		# set indent pattern
+		public function set_indent_pattern($pattern){
+		$this->$indent_pattern = $pattern;
+		}
+
+		# increase indent level
+		private function indent($increment=true){
+		if($increment) $this->$indent_level++;
+		$tabs = "";
+		for($i=0; $i<$this->$indent_level; $i++) $tabs .= $this->$indent_pattern;
+		return $tabs;
+		}
+
+		# decrease indent level
+		private function outdent(){
+		$this->$indent_level--;
+		}
+	}
+
 	public function generateTag($name, $text="", $attributes=array(), $children=array())
 	{
 		//declarations
@@ -102,7 +144,8 @@ class HtmlInterface
 		$closing = $selfClosing ? " /" : $children . "</" . $name;
 
 		//adjust indentation
-		//$tag .= $this->increaseIndent();
+		$tag .= $this->increaseIndent();
+
 		//generate tab
 		$tag = sprintf(
 			"<%s%s%s%s>\n",
@@ -111,8 +154,9 @@ class HtmlInterface
 			$innerText,
 			$closing
 		);
+		
 		//re-adjust indentation
-		//$this->decreaseIndent();
+		$this->decreaseIndent();
 		
 		//generated tag
 		return $tag;
