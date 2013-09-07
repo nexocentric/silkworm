@@ -21,7 +21,13 @@ breakerr=1
 \=
 
 [Test.Suite]
-/=>
+/=>_i>"3" _hid>"-436925439" _dt2>"41525.0492206597"
+/ba54B3BC3D/eaB12B11AE/ja6A01BE39/oa16596D8F=>_n>"isHtmlInterface" _i>"3" _dt>"0.0041251182556152"
+/ba54B3BC3D/eaB12B11AE/ja6A01BE39/oa22B3E75E=>_n>"toString"
+/ba54B3BC3D/eaB12B11AE/ja6A01BE39=>_n>"HtmlOutputTest" _i>"3"
+/ba54B3BC3D/eaB12B11AE/ja6A01BE39/oa07329A7E=>_n>"returnsParentTag" _i>"3" _dt>"0.0016489028930664"
+/ba54B3BC3D/eaB12B11AE=>_n>"W:\html-interface\tests\HtmlOutputTest.php" _i>"3"
+/ba54B3BC3D=>_n>"W:\html-interface\tests" _i>"3"
 
 [PHPEdProject.Filters]
 \=
@@ -49,7 +55,7 @@ destinationtype=0
 [Testing]
 TestingCustomLoader=
 TestingCustomLoaderExtraArg=
-TestingConfig=phpunit.xml
+TestingConfig=tests\phpunit.xml
 FindTestMode=0
 TestingRoot=tests
 EnableTesting=1
@@ -62,7 +68,7 @@ ParserProp_CSS_SubLang=1
 CvsModule=
 EncoderEnabled=0
 DefaultEncodingCount=1
-CvsPassw=EMMK7VGWjqwp0nKI307ipGcKXABuBmucSUIieCu+ipTLek3w7XYnjMmyFmhlLsqE/Or94BXmGnwfIs1Y2J50dA==
+CvsPassw=Pj/xQTcUBPqXcFj2uQxYMqno5q4IBGFqV2CIZo380KIF2Bcey/St2jdQ/NZD7LASMsiHjrPkEEoBQCdGPtwugg==
 IncPath_count=0
 RelativeRootDir=..\html-interface
 MappingMainIdx=0
@@ -71,12 +77,12 @@ MappingURL0=
 ParserProp_PHP_AspTags=0
 MappingRemote0=
 CvsHost=
-RunMode=3
+RunMode=1
 CvsMethod=pserver
 CvsUser=
 CvsCVSROOT=:pserver:@
 DefaultFile=
-ChangeTime=41524.5671770602
+ChangeTime=41524.6006250463
 ParserProp_JS_ParsePHP=0
 ParserProp_Override=0
 GUID={0F50D0E1-B4D7-4EFE-AE69-1A4A977A956B}
