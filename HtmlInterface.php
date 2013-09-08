@@ -5,6 +5,8 @@ class HtmlInterface
 	const INNER_TEXT = 0;
 	const ATTRIBUTES = 1;
 	const CHILDREN = 2;
+	const TAG_NAME = 3;
+	const PROPERIETS = 4;
 
 	private $selfClosingTagList = array(
 		"base", 
@@ -24,6 +26,7 @@ class HtmlInterface
 	private $indentationCharacter = "\t";
 	private $cycles = array();
 	private $html = "";
+	private $isChild = false;
 
 	public function __construct($topTag, $innerText="")
 	{
@@ -74,12 +77,23 @@ class HtmlInterface
 			$propertyArray[HtmlInterface::ATTRIBUTES][$properties[$attributePair]] 
 				= $properties[$attributePair + 1];
 		}
-		return $this->generateTag(
-			$tagName,
-			$propertyArray[HtmlInterface::INNER_TEXT],
-			$propertyArray[HtmlInterface::ATTRIBUTES],
-			$propertyArray[HtmlInterface::CHILDREN]
-		);
+		
+		if($this->isChild) {
+			return array(
+				$tagName,
+				$propertyArray[HtmlInterface::INNER_TEXT],
+				$propertyArray[HtmlInterface::ATTRIBUTES],
+				$propertyArray[HtmlInterface::CHILDREN]
+			);
+		}
+		else {
+			return $this->generateTag(
+				$tagName,
+				$propertyArray[HtmlInterface::INNER_TEXT],
+				$propertyArray[HtmlInterface::ATTRIBUTES],
+				$propertyArray[HtmlInterface::CHILDREN]
+			);
+		}
 	}
 
 	public function __toString()
@@ -94,7 +108,7 @@ class HtmlInterface
 
 	# comment tag
 	public function comment($comment) {
-		echo "\n", $this->indent(), "<!-- {$comment} -->\n";
+		echo "\n", $this->indent(), "<!-- $comment -->\n";
 		$this->outdent();
 	}
 
@@ -137,7 +151,7 @@ class HtmlInterface
 
 		//property strings
 		$attributes = $this->parseAttributes($attributes);
-		$children = $this->fetchChildren($children);
+		$children = $this->generateChildren($children);
 
 		//change closing format according to type
 		$innerText = $selfClosing ? "" : ">". $text;
@@ -162,14 +176,25 @@ class HtmlInterface
 		return $tag;
 	}
 
-	public function fetchChildren($children)
+	public function generateChildren($children)
 	{
 		//declarations
-		$child = "";
+		$generatedChildren = "";
 
 		if(empty($children)) {
-			return $child;
+			return $generatedChildren;
 		}
+		
+		$this->isChild = true;
+		foreach($children as $child) {
+			$generatedChildren .= $this->__call(
+				$child[0],
+				$child[1],
+				$child[2],
+				$child[3]
+			);
+		}
+		$this->isChild = false;
 	}
 
 	public function parseAttributes($attributes)
