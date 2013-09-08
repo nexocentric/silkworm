@@ -78,9 +78,18 @@ class HtmlInterface
 				= $properties[$attributePair + 1];
 		}
 		
-		$nesting = $this->isChild ? "array" : "\$this->generateTag";
+		$nesting = $this->isChild ? "array" : array($this, "generateTag");
 		
-		if($this->isChild) {
+		/*return call_user_func_array(
+			$nesting,
+			array(
+				$tagName,
+				$propertyArray[HtmlInterface::INNER_TEXT],
+				$propertyArray[HtmlInterface::ATTRIBUTES],
+				$propertyArray[HtmlInterface::CHILDREN]
+			)
+		);*/
+		/*if($this->isChild) {
 			return array(
 				$tagName,
 				$propertyArray[HtmlInterface::INNER_TEXT],
@@ -88,14 +97,14 @@ class HtmlInterface
 				$propertyArray[HtmlInterface::CHILDREN]
 			);
 		}
-		else {
+		else {*/
 			return $this->generateTag(
 				$tagName,
 				$propertyArray[HtmlInterface::INNER_TEXT],
 				$propertyArray[HtmlInterface::ATTRIBUTES],
 				$propertyArray[HtmlInterface::CHILDREN]
-			);
-		}
+			);/*
+		}*/
 	}
 
 	public function __toString()
@@ -187,16 +196,9 @@ class HtmlInterface
 			return $generatedChildren;
 		}
 		
-		$this->isChild = true;
 		foreach($children as $child) {
-			$generatedChildren .= $this->__call(
-				$child[0],
-				$child[1],
-				$child[2],
-				$child[3]
-			);
+			$generatedChildren .= $child[0];
 		}
-		$this->isChild = false;
 		
 		return $generatedChildren;
 	}
