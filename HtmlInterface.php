@@ -195,6 +195,8 @@ class HtmlInterface
 			);
 		}
 		$this->isChild = false;
+		
+		return $generatedChildren;
 	}
 
 	public function parseAttributes($attributes)
