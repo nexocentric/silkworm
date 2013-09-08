@@ -78,6 +78,8 @@ class HtmlInterface
 				= $properties[$attributePair + 1];
 		}
 		
+		$nesting = $this->isChild ? "array" : "\$this->generateTag";
+		
 		if($this->isChild) {
 			return array(
 				$tagName,
