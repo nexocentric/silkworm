@@ -52,25 +52,21 @@ class HtmlInterface
 		//inner text and children
 		foreach($properties as $property) {
 			//inner text and children
-			if(is_string($property)) {
-				if(strpos($property, "\n") !== false) {
-					$propertyArray[HtmlInterface::CHILDREN][] .= $property;
-				}
-				$stringList[] = $property;
+			if(strpos($property, "\n") !== false) {
+				$propertyArray[HtmlInterface::CHILDREN][] .= $property;
 			}
-			//has child tags
-			if(is_array($property)) {
-				$propertyArray[HtmlInterface::CHILDREN] = $property;
+			else {
+				$stringList[] = $property;
 			}
 		}
 		
 		//count number of possible attributes
-		/*$stringCount = count($stringList);
+		$stringCount = count($stringList);
 		//if this is odd last string is inner text
 		if($hasInnerText = $stringCount % 2) {
 			$propertyArray[HtmlInterface::INNER_TEXT] 
 				= $properties[$stringCount - 1];
-		}*/
+		}
 		
 		//parse attributes
 		//set the limit for the number of attributes to pair
@@ -182,9 +178,17 @@ class HtmlInterface
 	
 	public function parseAttributes($attributes)
 	{
+		//declarations
+		$parsedAttributes = "";
+		
 		if(empty($attributes)) {
 			return "";
 		}
+		
+		foreach($attributes as $name => $value) {
+			$parsedAttributes = " $name='$value' ";
+		}
+		return $parsedAttributes;
 	}
 
 	public function doctype($attributes = "html")
