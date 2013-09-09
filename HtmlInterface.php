@@ -43,7 +43,7 @@ class HtmlInterface
 	# the magic
 	public function __call($tagName, $properties) {
 		//variable declarations
-		$propertyArray = array(null, array(), null);
+		$propertyArray = array(null, array(), array());
 		$stringCount = 0;
 		$stringList = array();
 		$hasInnerText = false;
@@ -53,6 +53,9 @@ class HtmlInterface
 		foreach($properties as $property) {
 			//inner text and children
 			if(is_string($property)) {
+				if(strpos($property, "\n") !== false) {
+					$propertyArray[HtmlInterface::CHILDREN][] .= $property;
+				}
 				$stringList[] = $property;
 			}
 			//has child tags
@@ -62,12 +65,12 @@ class HtmlInterface
 		}
 		
 		//count number of possible attributes
-		$stringCount = count($stringList);
+		/*$stringCount = count($stringList);
 		//if this is odd last string is inner text
 		if($hasInnerText = $stringCount % 2) {
 			$propertyArray[HtmlInterface::INNER_TEXT] 
 				= $properties[$stringCount - 1];
-		}
+		}*/
 		
 		//parse attributes
 		//set the limit for the number of attributes to pair
@@ -78,43 +81,17 @@ class HtmlInterface
 				= $properties[$attributePair + 1];
 		}
 		
-		$nesting = $this->isChild ? "array" : array($this, "generateTag");
-		
-		/*return call_user_func_array(
-			$nesting,
-			array(
-				$tagName,
-				$propertyArray[HtmlInterface::INNER_TEXT],
-				$propertyArray[HtmlInterface::ATTRIBUTES],
-				$propertyArray[HtmlInterface::CHILDREN]
-			)
-		);*/
-		/*if($this->isChild) {
-			return array(
-				$tagName,
-				$propertyArray[HtmlInterface::INNER_TEXT],
-				$propertyArray[HtmlInterface::ATTRIBUTES],
-				$propertyArray[HtmlInterface::CHILDREN]
-			);
-		}
-		else {*/
-			return $this->generateTag(
-				$tagName,
-				$propertyArray[HtmlInterface::INNER_TEXT],
-				$propertyArray[HtmlInterface::ATTRIBUTES],
-				$propertyArray[HtmlInterface::CHILDREN]
-			);/*
-		}*/
+		return $this->generateTag(
+			$tagName,
+			$propertyArray[HtmlInterface::INNER_TEXT],
+			$propertyArray[HtmlInterface::ATTRIBUTES],
+			$propertyArray[HtmlInterface::CHILDREN]
+		);
 	}
 
 	public function __toString()
 	{
 		return $this->doctype . $this->topTag . $this->html;
-	}
-	
-	public function parseAttributes()
-	{
-
 	}
 
 	# comment tag
@@ -131,7 +108,7 @@ class HtmlInterface
 	public function adjustIndent()
 	{
 		# set indent level
-		public function set_indent_level($level){
+		/*public function set_indent_level($level){
 		if(is_numeric($level)) $this->$indent_level = $level-1;
 		}
 
@@ -151,7 +128,7 @@ class HtmlInterface
 		# decrease indent level
 		private function outdent(){
 		$this->$indent_level--;
-		}
+		}*/
 	}
 
 	public function generateTag($name, $text="", $attributes=array(), $children=array())
@@ -161,15 +138,15 @@ class HtmlInterface
 		$selfClosing = in_array($name, $this->selfClosingTagList);
 
 		//property strings
+		$children = $this->concatenateChildren($children);
 		$attributes = $this->parseAttributes($attributes);
-		$children = $this->generateChildren($children);
 
 		//change closing format according to type
 		$innerText = $selfClosing ? "" : ">". $text;
-		$closing = $selfClosing ? " /" : $children . "</" . $name;
+		$closing = $selfClosing ? "" : $children . "</" . $name;
 
 		//adjust indentation
-		$tag .= $this->increaseIndent();
+		//$tag .= $this->increaseIndent();
 
 		//generate tab
 		$tag = sprintf(
@@ -181,13 +158,13 @@ class HtmlInterface
 		);
 		
 		//re-adjust indentation
-		$this->decreaseIndent();
+		//$this->decreaseIndent();
 		
 		//generated tag
 		return $tag;
 	}
-
-	public function generateChildren($children)
+	
+	public function concatenateChildren($children)
 	{
 		//declarations
 		$generatedChildren = "";
@@ -197,12 +174,12 @@ class HtmlInterface
 		}
 		
 		foreach($children as $child) {
-			$generatedChildren .= $child[0];
+			$generatedChildren .= $child;
 		}
 		
 		return $generatedChildren;
 	}
-
+	
 	public function parseAttributes($attributes)
 	{
 		if(empty($attributes)) {
@@ -216,9 +193,16 @@ class HtmlInterface
 	}
 }
 
-/*$htmlInterface = new HtmlInterface("html");
+$htmlInterface = new HtmlInterface("html");
+$htmlInterface->doctype();
 $string = (string)$htmlInterface->html(
-	$htmlInterface->head(),
-	$htmlInterface->body()
+	$htmlInterface->head(
+		$htmlInterface->meta("this", "that")
+	),
+	$htmlInterface->body(
+		$htmlInterface->div(
+			$htmlInterface->p("Hello World!")
+		)
+	)
 );
-1 + 1;*/
+1 + 1;
