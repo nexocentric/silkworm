@@ -6,7 +6,7 @@ class HtmlInterface
 	const ATTRIBUTES = 1;
 	const CHILDREN = 2;
 	const TAG_NAME = 3;
-	const PROPERIETS = 4;
+	const PROPERIES = 4;
 
 	private $selfClosingTagList = array(
 		"base", 
@@ -20,74 +20,91 @@ class HtmlInterface
 		"meta", 
 		"param"
 	);
+
+	//something
 	private $doctype = "";
-	private $topTag = "";
-	private $indentLevel = -1;
-	private $indentationCharacter = "\t";
-	private $cycles = array();
 	private $html = "";
-	private $isChild = false;
-
-	public function __construct($topTag, $innerText="")
+	private $childFragments = array();
+	
+	public function __construct($parentTag = "")
 	{
-		$attributes = func_get_args();
-		array_splice($attributes, 0, 2);
-
-		$this->topTag = $this->generateTag(
-			$topTag,
-			$innerText,
-			$attributes
-		);
+		$properties = func_get_args();
+		array_splice($properties, 0, 1);
+		$this->__call($parentTag, $properties);
 	}
 
-	# the magic
-	public function __call($tagName, $properties) {
-		//variable declarations
-		$propertyArray = array(null, array(), array());
-		$stringCount = 0;
+	//create a function for the html tag then save it
+	public function __call($tagName, $properties)
+	{
+		$attributes = array();
+		$innerText = "";
 		$stringList = array();
-		$hasInnerText = false;
 		
-		//a possible list of attributes
-		//inner text and children
 		foreach($properties as $property) {
 			//inner text and children
-			if(strpos($property, "\n") !== false) {
-				$propertyArray[HtmlInterface::CHILDREN][] .= $property;
-			}
-			else {
+			if(is_string($property)) {
 				$stringList[] = $property;
 			}
+	    }
+
+	    //
+	    $stringCount = count($stringList);
+	    for ($nextString = 0; $nextString <= $stringCount; $nextString += 2) {
+	    	if($nextString == $stringCount) {
+	    		//$innerText = $stringList[$nextString];
+	    		break;
+	    	}
+	    	$attributes[$stringList[$nextString]] = $stringList[$nextString + 1];
+	    }
+
+		$this->html = $this->createTag($tagName, $attributes, $innerText);
+	}
+
+	public function parseAttributes($attributes)
+	{
+		$attributeString = "";
+		if(empty($attributes)) {
+			return $attributeString;
 		}
-		
-		//count number of possible attributes
-		$stringCount = count($stringList);
-		//if this is odd last string is inner text
-		if($hasInnerText = $stringCount % 2) {
-			$propertyArray[HtmlInterface::INNER_TEXT] 
-				= $properties[$stringCount - 1];
+		foreach ($attributes as $name => $value) {
+			$attributeString .= " $name=\"$value\""; // there's a space here
 		}
-		
-		//parse attributes
-		//set the limit for the number of attributes to pair
-		$attributeCount = $stringCount - $hasInnerText;
-		//pair attributes and save
-		for($attributePair = 0; $attributePair < $attributeCount; $attributePair+=2) {
-			$propertyArray[HtmlInterface::ATTRIBUTES][$properties[$attributePair]] 
-				= $properties[$attributePair + 1];
+		return $attributeString;
+	}
+
+	public function parseChildren($children)
+	{
+		return "";
+	}
+
+	public function createTag($tagName, $attributes, $children)
+	{
+		$createdTag = "";
+
+		//
+		if(in_array($tagName, $this->selfClosingTagList)) {
+			//
+			$createdTag = "<$tagName%s>%s";
+		} else {
+			//
+			$createdTag = "<$tagName%s>%s</$tagName>";
 		}
-		
-		return $this->generateTag(
-			$tagName,
-			$propertyArray[HtmlInterface::INNER_TEXT],
-			$propertyArray[HtmlInterface::ATTRIBUTES],
-			$propertyArray[HtmlInterface::CHILDREN]
+
+		$createdTag = sprintf(
+			"$createdTag\n",
+			$this->parseAttributes($attributes),
+			$this->parseChildren($children),
+			"",
+			""
 		);
+
+		
+		return $createdTag;
 	}
 
 	public function __toString()
 	{
-		return $this->doctype . $this->topTag . $this->html;
+		return $this->doctype . $this->html;
 	}
 
 	# comment tag
@@ -95,118 +112,5 @@ class HtmlInterface
 		echo "\n", $this->indent(), "<!-- $comment -->\n";
 		$this->outdent();
 	}
-
-	public function setIndentationCharacter($character = "")
-	{
-		$this->indentationCharacter = $character;
-	}
-
-	public function adjustIndent()
-	{
-		# set indent level
-		/*public function set_indent_level($level){
-		if(is_numeric($level)) $this->$indent_level = $level-1;
-		}
-
-		# set indent pattern
-		public function set_indent_pattern($pattern){
-		$this->$indent_pattern = $pattern;
-		}
-
-		# increase indent level
-		private function indent($increment=true){
-		if($increment) $this->$indent_level++;
-		$tabs = "";
-		for($i=0; $i<$this->$indent_level; $i++) $tabs .= $this->$indent_pattern;
-		return $tabs;
-		}
-
-		# decrease indent level
-		private function outdent(){
-		$this->$indent_level--;
-		}*/
-	}
-
-	public function generateTag($name, $text="", $attributes=array(), $children=array())
-	{
-		//declarations
-		$tag = "";
-		$selfClosing = in_array($name, $this->selfClosingTagList);
-
-		//property strings
-		$children = $this->concatenateChildren($children);
-		$attributes = $this->parseAttributes($attributes);
-
-		//change closing format according to type
-		$innerText = $selfClosing ? "" : ">". $text;
-		$closing = $selfClosing ? "" : $children . "</" . $name;
-
-		//adjust indentation
-		//$tag .= $this->increaseIndent();
-
-		//generate tab
-		$tag = sprintf(
-			"<%s%s%s%s>\n",
-			$name,
-			$attributes,
-			$innerText,
-			$closing
-		);
-		
-		//re-adjust indentation
-		//$this->decreaseIndent();
-		
-		//generated tag
-		return $tag;
-	}
-	
-	public function concatenateChildren($children)
-	{
-		//declarations
-		$generatedChildren = "";
-
-		if(empty($children)) {
-			return $generatedChildren;
-		}
-		
-		foreach($children as $child) {
-			$generatedChildren .= $child;
-		}
-		
-		return $generatedChildren;
-	}
-	
-	public function parseAttributes($attributes)
-	{
-		//declarations
-		$parsedAttributes = "";
-		
-		if(empty($attributes)) {
-			return "";
-		}
-		
-		foreach($attributes as $name => $value) {
-			$parsedAttributes = " $name='$value' ";
-		}
-		return $parsedAttributes;
-	}
-
-	public function doctype($attributes = "html")
-	{
-		$this->doctype = sprintf("<!DOCTYPE %s>\n", $attributes);
-	}
 }
-
-$htmlInterface = new HtmlInterface("html");
-$htmlInterface->doctype();
-$string = (string)$htmlInterface->html(
-	$htmlInterface->head(
-		$htmlInterface->meta("this", "that")
-	),
-	$htmlInterface->body(
-		$htmlInterface->div(
-			$htmlInterface->p("Hello World!")
-		)
-	)
-);
-1 + 1;
+$something = new HtmlInterface("html", "somting", "yes");

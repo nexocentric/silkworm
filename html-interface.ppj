@@ -1,6 +1,6 @@
 ﻿[Debugger]
-stopbeginning=1
 dbgsessions=1
+stopbeginning=1
 excset=Exception
 profwithdbg=0
 excign=
@@ -8,26 +8,27 @@ breakexc=1
 cp=System default encoding
 tunnel=
 readonlyed=0
-custom=0
 host=localhost
+custom=0
 errset=E_ERROR,E_WARNING,E_PARSE,E_CORE_ERROR,E_CORE_WARNING,E_COMPILE_ERROR,E_COMPILE_WARNING,E_USER_ERROR,E_USER_WARNING,E_STRICT,E_RECOVERABLE_ERROR
 sesstimeout=15
 blkout=0
-showmaperrors=1
 Custom.Debug.Settings=0
+showmaperrors=1
 breakerr=1
 
 [PHPEdProject.Filters.Allow]
 \=
 
 [Test.Suite]
-/=>_i>"3" _hid>"-436925439" _dt2>"41525.0492206597"
-/ba54B3BC3D/eaB12B11AE/ja6A01BE39/oa16596D8F=>_n>"isHtmlInterface" _i>"3" _dt>"0.0041251182556152"
-/ba54B3BC3D/eaB12B11AE/ja6A01BE39/oa22B3E75E=>_n>"toString"
-/ba54B3BC3D/eaB12B11AE/ja6A01BE39=>_n>"HtmlOutputTest" _i>"3"
-/ba54B3BC3D/eaB12B11AE/ja6A01BE39/oa07329A7E=>_n>"returnsParentTag" _i>"3" _dt>"0.0016489028930664"
-/ba54B3BC3D/eaB12B11AE=>_n>"W:\html-interface\tests\HtmlOutputTest.php" _i>"3"
-/ba54B3BC3D=>_n>"W:\html-interface\tests" _i>"3"
+/=>_i>"7" _hid>"1384167853" _dt2>"41528.0272812616"
+/ba54B3BC3D/eaB12B11AE/ja6A01BE39/oa16596D8F=>_n>"isHtmlInterface" _i>"3" _dt>"0.0044088363647461"
+/ba54B3BC3D/eaB12B11AE/ja6A01BE39/oa22B3E75E=>_n>"toString" _i>"7" _dt>"0.0044629573822021" _t>"file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\Framework\Constraint.php line: 141&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\Framework\Constraint\IsIdentical.php line: 131 function: fail class: PHPUnit_Framework_Constraint type: -&gt; args: &quot;&lt;html&gt;&lt;\html&gt;&#10;&quot;,&quot;The string value from the actual test doesn&apos;t match the expected.&quot;,{}{&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\Framework\Assert.php line: 2100 function: evaluate class: PHPUnit_Framework_Constraint_IsIdentical type: -&gt; args: &quot;&lt;html&gt;&lt;\html&gt;&#10;&quot;,&quot;The string value from the actual test doesn&apos;t match the expected.&quot;.&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\Framework\Assert.php line: 1061 function: assertThat class: PHPUnit_Framework_Assert type: :: args: &quot;&lt;html&gt;&lt;\html&gt;&#10;&quot;,{},&quot;The string value from the actual test doesn&apos;t match the expected.&quot;.&#13;&#10;file: W:\html-interface\tests\HtmlOutputTest.php line: 106 function: assertSame class: PHPUnit_Framework_Assert type: :: args: &quot;&lt;html&gt;&#10;&lt;head&gt;&#10;&lt;\head&gt;&#10;&lt;body&gt;&lt;\body&gt;&#10;&lt;\html&gt;&quot;,&quot;&lt;html&gt;&lt;\html&gt;&#10;&quot;,&quot;The string value from the actual test doesn&apos;t match the expected.&quot;xpec&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\Framework\TestCase.php line: 918 function: invokeArgs class: ReflectionMethod type: -&gt; args: {&quot;htmlInterface&quot;:{}},[]&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\Framework\TestCase.php line: 780 function: runTest class: PHPUnit_Framework_TestCase type: -&gt; args: &#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\Framework\TestResult.php line: 649 function: runBare class: PHPUnit_Framework_TestCase type: -&gt; args: &#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\Framework\TestCase.php line: 727 function: run class: PHPUnit_Framework_TestResult type: -&gt; args: {&quot;htmlInterface&quot;:{}}&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\Framework\TestSuite.php line: 772 function: run class: PHPUnit_Framework_TestCase type: -&gt; args: {}&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\Framework\TestSuite.php line: 745 function: runTest class: PHPUnit_Framework_TestSuite type: -&gt; args: {&quot;htmlInterface&quot;:{}},{}&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\Framework\TestSuite.php line: 705 function: run class: PHPUnit_Framework_TestSuite type: -&gt; args: {},&quot;\^(HtmlOutputTest::isHtmlInterface)|(HtmlOutputTest::returnsDoctype)|(HtmlOutputTest::returnsParentTag)|(HtmlOutputTest::toString)$\&quot;,[],[],falsese&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\TextUI\TestRunner.php line: 325 function: run class: PHPUnit_Framework_TestSuite type: -&gt; args: {},&quot;\^(HtmlOutputTest::isHtmlInterface)|(HtmlOutputTest::returnsDoctype)|(HtmlOutputTest::returnsParentTag)|(HtmlOutputTest::toString)$\&quot;,[],[],falsese&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\TextUI\Command.php line: 187 function: doRun class: PHPUnit_TextUI_TestRunner type: -&gt; args: {},{&quot;listGroups&quot;:false,&quot;loader&quot;:null,&quot;useDefaultConfiguration&quot;:true,&quot;configuration&quot;:&quot;W:\html-interface\tests\phped_unittest.xml&quot;,&quot;filter&quot;:&quot;\^(HtmlOutputTest::isHtmlInterface)|(HtmlOutputTest::returnsDoctype)|(HtmlOutputTest::returnsParentTag)|(HtmlOutputTest::toString)$\&quot;}$\&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\pear\PHPUnit\TextUI\Command.php line: 125 function: run class: PHPUnit_TextUI_Command type: -&gt; args: [&quot;C:\Users\nexocentric\AppData\Roaming\PEAR\phpunit&quot;,&quot;--configuration&quot;,&quot;W:\html-interface\tests\phped_unittest.xml&quot;,&quot;--filter&quot;,&quot;\^(HtmlOutputTest::isHtmlInterface)|(HtmlOutputTest::returnsDoctype)|(HtmlOutputTest::returnsParentTag)|(HtmlOutputTest::toString)$\&quot;,&quot;W:\html-interface\tests&quot;],true\t&#13;&#10;file: C:\Users\nexocentric\AppData\Roaming\PEAR\phpunit line: 44 function: main class: PHPUnit_TextUI_Command type: :: args: " _m>"The string value from the actual test doesn&apos;t match the expected.&#10;Failed asserting that two strings are identical.&#10;--- Expected&#10;+++ Actual&#10;@@ @@&#10;-&lt;html&gt;&#10;-&lt;head&gt;&#10;-&lt;\head&gt;&#10;-&lt;body&gt;&lt;\body&gt;&#10;-&lt;\html&gt;&#10;+&lt;html&gt;&lt;\html&gt;&#10;+&#10;ml&gt;&lt;"
+/ba54B3BC3D/eaB12B11AE/ja6A01BE39=>_n>"HtmlOutputTest" _i>"7"
+/ba54B3BC3D/eaB12B11AE/ja6A01BE39/oa4C09945B=>_n>"returnsDoctype" _i>"3" _dt>"0.00048208236694336"
+/ba54B3BC3D/eaB12B11AE/ja6A01BE39/oa07329A7E=>_n>"returnsParentTag" _i>"3" _dt>"0.0035278797149658"
+/ba54B3BC3D/eaB12B11AE=>_n>"W:\html-interface\tests\HtmlOutputTest.php" _i>"7"
+/ba54B3BC3D=>_n>"W:\html-interface\tests" _i>"7"
 
 [PHPEdProject.Filters]
 \=
@@ -68,7 +69,7 @@ ParserProp_CSS_SubLang=1
 CvsModule=
 EncoderEnabled=0
 DefaultEncodingCount=1
-CvsPassw=Pj/xQTcUBPqXcFj2uQxYMqno5q4IBGFqV2CIZo380KIF2Bcey/St2jdQ/NZD7LASMsiHjrPkEEoBQCdGPtwugg==
+CvsPassw=Rk/GkV/cLIL/uPD+gdRAuvEwnrbgzIny/6ggblXE6Cr9II8m47zFYp+YlN47tKiaahA/lpusONJpiM9O5qRWCg==
 IncPath_count=0
 RelativeRootDir=..\html-interface
 MappingMainIdx=0
@@ -95,9 +96,9 @@ SourceControl=0
 ParserProp_HTML_SubLang=2
 ParserPropPHPShortTags=1
 ParserProp_PHP_SubLang=3
-PublishingFilterCount=1
-CustomPropCount=0
 HideFiles=.gitignore;.cvsignore
+CustomPropCount=0
+PublishingFilterCount=1
 
 [Publishing]
 DebuggerPublishingIdx=-1

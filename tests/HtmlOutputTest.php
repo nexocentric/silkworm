@@ -3,70 +3,115 @@ require_once(realpath("../HtmlInterface.php"));
 
 class HtmlOutputTest extends PHPUnit_Framework_TestCase
 {
-	public $htmlInterface = null;
-
-	public static function setUpBeforeClass()
+	/** 
+    * @test
+    */
+	public function selfClosingTag()
 	{
-		
-	}
-
-	public function setUp()
-	{
-		$this->htmlInterface = new HtmlInterface("html");
+		$br = new HtmlInterface("br");
+		$this->assertSame(
+			"<br>\n",
+			(string)$br,
+			"Failed to return br tag as parent (self-closing)."
+		);
 	}
 
 	/** 
-	* @test
-	*/
-	public function isHtmlInterface()
+    * @test
+    * @depends selfClosingTag
+    */
+	public function regularTag()
 	{
-		$this->assertTrue(
-			($this->htmlInterface instanceof HtmlInterface), 
-			"Failed to assert that this is an instance of HtmlIntrface."
+		$div = new HtmlInterface("div");
+		$this->assertSame(
+			"<div></div>\n",
+			(string)$div,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends selfClosingTag
+    */
+	public function selfClosingTagWithAttributes()
+	{
+		$meta = new HtmlInterface("meta", "content", "content-text");
+		$this->assertSame(
+			"<meta content=\"content-text\">\n",
+			(string)$meta,
+			"Failed to return br tag as parent (self-closing)."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends regularTag
+    * @depends selfClosingTagWithAttributes
+    */
+	public function regularTagWithAttributes()
+	{
+		$div = new HtmlInterface("div", "class", "classname");
+		$this->assertSame(
+			"<div class=\"classname\"></div>\n",
+			(string)$div,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends regularTag
+    */
+	public function documentFragment()
+	{
+		$div = new HtmlInterface("div");
+		$this->assertSame(
+			"<div>\n\t<span>\n\t\t<p></p>\n\t</span>\n</div>\n",
+			(string)$div,
+			"Failed to return div tag as parent."
 		);
 	}
 
 	/** 
     * @test
     */
-	public function returnsParentTag()
+	public function minimalDocument()
 	{
 		//setup
 		$html = new HtmlInterface("html");
 		$head = new HtmlInterface("head");
 		$body = new HtmlInterface("body");
-		$div = new HtmlInterface("div");
-		$br = new HtmlInterface("br");
+		
 
+		/*$html->body();
 		$this->assertSame(
-			"<html></html>\n",
+			"<html>\n\t<body></body>\n</html>\n",
 			(string)$html,
 			"Failed to return html tag as parent."
 		);
 
+		$head->meta();
 		$this->assertSame(
-			"<head></head>\n",
+			"<head>\n\t<meta></head>\n",
 			(string)$head,
 			"Failed to return head tag as parent."
 		);
 
+		$body->p();
 		$this->assertSame(
-			"<body></body>\n",
+			"<body>\n\t<p></p>\n</body>\n",
 			(string)$body,
 			"Failed to return body tag as parent."
 		);
 
 		$this->assertSame(
-			"<div></div>\n",
+			"<div>\n\t<span>\n\t\t<p></p>\n\t</span>\n</div>\n",
 			(string)$div,
 			"Failed to return div tag as parent."
 		);
 
-		$this->assertSame(
-			"<br />\n",
-			(string)$br,
-			"Failed to return br tag as parent (self-closing)."
-		);
+		*/
 	}
 
 	/** 
@@ -74,16 +119,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 	*/
 	public function returnsDoctype()
 	{
-		$html = new HtmlInterface("html");
-		$html->doctype(
-			"html"
-		);
-
-		$this->assertSame(
-			"<!DOCTYPE html>\n<html></html>\n", 
-			(string)$html, 
-			"Failed to convert produce valid doctype."
-		);
+		
 	}
 
 	/** 
@@ -91,17 +127,6 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 	*/
 	public function toString()
 	{
-		//create the most basic set of tags
-		$this->htmlInterface->html(
-			$this->htmlInterface->head(),
-			$this->htmlInterface->body()
-		);
 
-		//test the generated tags
-		$this->assertSame(
-			"<html>\n\t<head>\n\t</head>\n\t<body></body>\n\t</html>", 
-			(string)$this->htmlInterface,
-			"The string value from the actual test doesn't match the expected."
-		);
 	}
 }

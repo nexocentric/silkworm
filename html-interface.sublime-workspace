@@ -4,6 +4,66 @@
 		"selected_items":
 		[
 			[
+				"indentation",
+				"setIndentationCharacter"
+			],
+			[
+				"sp",
+				"sprintf"
+			],
+			[
+				"do",
+				"doctype"
+			],
+			[
+				"func_g",
+				"func_get_args"
+			],
+			[
+				"par",
+				"parseAttributes"
+			],
+			[
+				"pr",
+				"private"
+			],
+			[
+				"pro",
+				"properties"
+			],
+			[
+				"se",
+				"selfClosing"
+			],
+			[
+				"generat",
+				"generateTag"
+			],
+			[
+				"self",
+				"selfClosingTags"
+			],
+			[
+				"a",
+				"attributes"
+			],
+			[
+				"child",
+				"children"
+			],
+			[
+				"htm",
+				"htmlInterface"
+			],
+			[
+				"assertT",
+				"assertTrue"
+			],
+			[
+				"func",
+				"function"
+			],
+			[
 				"termi",
 				"terminus-settings"
 			],
@@ -30,10 +90,6 @@
 			[
 				"S",
 				"SETUP_FILE_DIRECTORY"
-			],
-			[
-				"func",
-				"func_num_args"
 			],
 			[
 				"con",
@@ -99,6 +155,41 @@
 	},
 	"buffers":
 	[
+		{
+			"contents": "<?php\nrequire_once(realpath(\"../HtmlInterface.php\"));\n\nclass HtmlOutputTest extends PHPUnit_Framework_TestCase\n{\n	/** \n    * @test\n    */\n	public function htmlFragment()\n	{\n		//setup\n		$html = new HtmlInterface(\"html\");\n		$head = new HtmlInterface(\"head\");\n		$body = new HtmlInterface(\"body\");\n		$div = new HtmlInterface(\"div\");\n		$br = new HtmlInterface(\"br\");\n\n		$this->assertSame(\n			\"<html>\\n\\t<body></body>\\n</html>\\n\",\n			(string)$html,\n			\"Failed to return html tag as parent.\"\n		);\n\n		$this->assertSame(\n			\"<head>\\n\\t<meta></head>\\n\",\n			(string)$head,\n			\"Failed to return head tag as parent.\"\n		);\n\n		$this->assertSame(\n			\"<body>\\n\\t<p></p>\\n</body>\\n\",\n			(string)$body,\n			\"Failed to return body tag as parent.\"\n		);\n\n		$this->assertSame(\n			\"<div></div>\\n\",\n			(string)$div,\n			\"Failed to return div tag as parent.\"\n		);\n\n		$this->assertSame(\n			\"<br>\\n\",\n			(string)$br,\n			\"Failed to return br tag as parent (self-closing).\"\n		);\n	}\n\n	/** \n	* @test\n	*/\n	public function returnsDoctype()\n	{\n		\n	}\n\n	/** \n	* @test\n	*/\n	public function toString()\n	{\n\n	}\n}\n",
+			"file": "tests/HtmlOutputTest.php",
+			"file_size": 1028,
+			"file_write_time": 130233021467095473,
+			"settings":
+			{
+				"buffer_size": 1070,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Dropbox/portable/settings/autohotkey/AutoHotkey.ahk",
+			"settings":
+			{
+				"buffer_size": 2787,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "HtmlInterface.php",
+			"settings":
+			{
+				"buffer_size": 4579,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "<html>\n<head>\n	<meta this='that' >\\n\n</head>\\n\n<body>\n	<div>\n		<p>Hello World!</p>\\n\n	</div>\\n\n</body>\\n\n</html>",
+			"settings":
+			{
+				"buffer_size": 112,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -107,8 +198,24 @@
 		"selected_items":
 		[
 			[
+				"syna",
+				"Set Syntax: AutoHotkey"
+			],
+			[
 				"ins",
 				"Package Control: Install Package"
+			],
+			[
+				"up",
+				"Convert Case: Upper Case"
+			],
+			[
+				"con",
+				"Indentation: Convert to Tabs"
+			],
+			[
+				"conver",
+				"Indentation: Convert to Tabs"
 			],
 			[
 				"tosid",
@@ -179,10 +286,6 @@
 				"View: Toggle Menu"
 			],
 			[
-				"con",
-				"Convert Case: Lower Case"
-			],
-			[
 				"php",
 				"Set Syntax: PHP"
 			],
@@ -232,6 +335,7 @@
 	},
 	"file_history":
 	[
+		"/C/Dropbox/portable/settings/AutoHotkey.ahk",
 		"/W/html-interface/tests/HtmlOutputTest.php",
 		"/W/nexocentric_studios.ppw",
 		"/W/terminus/terminus-settings.php",
@@ -257,6 +361,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\\t",
+			"$this->htmlInterface",
+			"\\n",
+			"parentName",
+			"html",
+			"HtmlGenerator",
+			"selfClosingTags",
+			"params",
 			"></script>",
 			"broilerplate",
 			"bashProfileText",
@@ -297,8 +409,117 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "tests/HtmlOutputTest.php",
+					"settings":
+					{
+						"buffer_size": 1070,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1003,
+								1003
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Dropbox/portable/settings/autohotkey/AutoHotkey.ahk",
+					"settings":
+					{
+						"buffer_size": 2787,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2438,
+								2438
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/AutoHotkey/AutoHotkey.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 390.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "HtmlInterface.php",
+					"settings":
+					{
+						"buffer_size": 4579,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 795.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"settings":
+					{
+						"buffer_size": 112,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								105,
+								105
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -343,6 +564,14 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"ht",
+				"HtmlInterface.php"
+			],
+			[
+				"hot",
+				"tests/HtmlOutputTest.php"
+			],
 			[
 				"ho",
 				"tests/HtmlOutputTest.php"
