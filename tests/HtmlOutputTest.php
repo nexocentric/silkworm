@@ -61,6 +61,66 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 
 	/** 
     * @test
+    * @depends selfClosingTag
+    */
+	public function selfClosingTagWithSiblings()
+	{
+		$meta = new HtmlInterface("meta");
+		$meta->meta("meta");
+		$this->assertSame(
+			"<meta>\n<meta>\n",
+			(string)$meta,
+			"Failed to return br tag as parent (self-closing)."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends regularTag
+    */
+	public function regularTagWithChildren()
+	{
+		$div = new HtmlInterface("div");
+		$div-span(
+			$div-p()
+		);
+		$this->assertSame(
+			"<div>\n\t<span>\n\t\t<p></p>\n\t</span></div>\n",
+			(string)$div,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends selfClosingTagWithSiblings
+    */
+	public function selfClosingTagWithAttributesAndSiblings()
+	{
+		$meta = new HtmlInterface("meta", "content", "content-text");
+		$this->assertSame(
+			"<meta content=\"content-text\">\n",
+			(string)$meta,
+			"Failed to return br tag as parent (self-closing)."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends regularTagWithChildren
+    */
+	public function regularTagWithAttributesAndChildren()
+	{
+		$div = new HtmlInterface("div", "class", "classname");
+		$this->assertSame(
+			"<div class=\"classname\"></div>\n",
+			(string)$div,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+    * @test
     * @depends regularTag
     */
 	public function documentFragment()
