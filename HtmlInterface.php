@@ -104,14 +104,14 @@ class HtmlInterface
 		//
 		if(in_array($tagName, $this->selfClosingTagList)) {
 			//
-			$createdTag = "<$tagName%s>%s%s";
+			$createdTag = "<$tagName%s>\n%s%s";
 		} else {
 			//
 			$createdTag = "<$tagName%s>%s%s</$tagName>\n";
 		}
 
 		$createdTag = sprintf(
-			"$createdTag\n",
+			"$createdTag",
 			$this->parseAttributes($attributes),
 			$innerText,
 			$this->parseChildren($children)
@@ -147,5 +147,6 @@ class HtmlInterface
 	}
 }
 
-$div = new HtmlInterface("br");
-$something = (string)$div;
+$tag = new HtmlInterface("meta");
+$tag->meta();
+$something = (string)$tag;
