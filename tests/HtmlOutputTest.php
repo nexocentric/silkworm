@@ -4,7 +4,21 @@ require_once(realpath("../HtmlInterface.php"));
 class HtmlOutputTest extends PHPUnit_Framework_TestCase
 {
 	/** 
+	* @test
+	*/
+	public function toString()
+	{
+		$html = new HtmlInterface("html");
+		$this->assertTrue(
+			is_string((string)$html),
+			"Failed to convert interface to string."
+		);
+
+	}
+
+	/** 
     * @test
+    * @depends toString
     */
 	public function selfClosingTag()
 	{
@@ -27,6 +41,21 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			"<div></div>\n",
 			(string)$div,
 			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+	* @test
+	* @depends regularTag
+	*/
+	public function returnsDoctype()
+	{
+		$html = new HtmlInterface("html");
+		$html->doctype("html //definitions");
+		$this->assertSame(
+			"<!DOCTYPE html //definitions>\n<html></html>\n", 
+			(string)$html, 
+			"Failed to set !DOCTYPE."
 		);
 	}
 
@@ -66,7 +95,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 	public function selfClosingTagWithSiblings()
 	{
 		$meta = new HtmlInterface("meta");
-		$meta->meta("meta");
+		$meta->meta();
 		$this->assertSame(
 			"<meta>\n<meta>\n",
 			(string)$meta,
@@ -81,8 +110,8 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 	public function regularTagWithChildren()
 	{
 		$div = new HtmlInterface("div");
-		$div-span(
-			$div-p()
+		$div->span(
+			$div->p()
 		);
 		$this->assertSame(
 			"<div>\n\t<span>\n\t\t<p></p>\n\t</span></div>\n",
@@ -135,6 +164,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 
 	/** 
     * @test
+    * @depends documentFragment
     */
 	public function minimalDocument()
 	{
@@ -143,7 +173,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 		$head = new HtmlInterface("head");
 		$body = new HtmlInterface("body");
 		
-
+		$this->assertTrue(false, "this test is unfinished");
 		/*$html->body();
 		$this->assertSame(
 			"<html>\n\t<body></body>\n</html>\n",
@@ -172,21 +202,5 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 		);
 
 		*/
-	}
-
-	/** 
-	* @test
-	*/
-	public function returnsDoctype()
-	{
-		
-	}
-
-	/** 
-	* @test
-	*/
-	public function toString()
-	{
-
 	}
 }

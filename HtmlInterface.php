@@ -2,11 +2,8 @@
 
 class HtmlInterface 
 {
-	const INNER_TEXT = 0;
-	const ATTRIBUTES = 1;
-	const CHILDREN = 2;
-	const TAG_NAME = 3;
-	const PROPERIES = 4;
+	const TOP_TAG_NAME = "TOP_TAG_NAME";
+	const PROPERTIES = "PROPERTIES";
 
 	private $selfClosingTagList = array(
 		"base", 
@@ -23,24 +20,40 @@ class HtmlInterface
 
 	//something
 	private $doctype = "";
+	private $topTag = array();
 	private $html = "";
 	private $childFragments = array();
 	
-	public function __construct($parentTag = "")
+	public function __construct($parentTag)
 	{
+		//initializations
+		$this->topTag[HtmlInterface::TOP_TAG_NAME] = "";
+		$this->topTag[HtmlInterface::PROPERTIES] = array();
+		
 		$properties = func_get_args();
 		array_splice($properties, 0, 1);
-		$this->__call($parentTag, $properties);
+		$this->topTag[HtmlInterface::TOP_TAG_NAME] = $parentTag;
+		$this->topTag[HtmlInterface::PROPERTIES] = $properties;
 	}
 
 	//create a function for the html tag then save it
 	public function __call($tagName, $properties)
 	{
+		$this->html = $this->something($tagName, $properties);
+	}
+	
+	private function something($tagName, $properties)
+	{
 		$attributes = array();
 		$innerText = "";
 		$stringList = array();
+		$children = array();
 		
 		foreach($properties as $property) {
+			if(strpos($property, "\n") !== false) {
+				$children[] = $property;
+				continue;
+			}
 			//inner text and children
 			if(is_string($property)) {
 				$stringList[] = $property;
@@ -57,7 +70,7 @@ class HtmlInterface
 	    	$attributes[$stringList[$nextString]] = $stringList[$nextString + 1];
 	    }
 
-		$this->html = $this->createTag($tagName, $attributes, $innerText);
+		return $this->createTag($tagName, $attributes, $innerText, $children);
 	}
 
 	public function parseAttributes($attributes)
@@ -74,37 +87,57 @@ class HtmlInterface
 
 	public function parseChildren($children)
 	{
-		return "";
+		$childString = "";
+		if(empty($children)) {
+			return $childString;
+		}
+		foreach($children as $child) {
+			$childString .= $child;
+		}
+		return $childString;
 	}
 
-	public function createTag($tagName, $attributes, $children)
+	public function createTag($tagName, $attributes, $innerText = "", $children = "")
 	{
 		$createdTag = "";
 
 		//
 		if(in_array($tagName, $this->selfClosingTagList)) {
 			//
-			$createdTag = "<$tagName%s>%s";
+			$createdTag = "<$tagName%s>%s%s";
 		} else {
 			//
-			$createdTag = "<$tagName%s>%s</$tagName>";
+			$createdTag = "<$tagName%s>%s%s</$tagName>\n";
 		}
 
 		$createdTag = sprintf(
 			"$createdTag\n",
 			$this->parseAttributes($attributes),
-			$this->parseChildren($children),
-			"",
-			""
+			$innerText,
+			$this->parseChildren($children)
 		);
 
 		
 		return $createdTag;
 	}
 
+	public function doctype($definition) {
+		$this->doctype = sprintf(
+			"<!DOCTYPE %s>\n",
+			$definition
+		);
+	}
+
 	public function __toString()
 	{
-		return $this->doctype . $this->html;
+		if(!empty($this->html)) {
+			$this->topTag[HtmlInterface::PROPERTIES][] = $this->html;
+		}
+		$html = $this->something(
+			$this->topTag[HtmlInterface::TOP_TAG_NAME],
+			$this->topTag[HtmlInterface::PROPERTIES]
+		);
+		return $this->doctype . $html;
 	}
 
 	# comment tag
@@ -113,4 +146,6 @@ class HtmlInterface
 		$this->outdent();
 	}
 }
-$something = new HtmlInterface("html", "somting", "yes");
+
+$div = new HtmlInterface("br");
+$something = (string)$div;
