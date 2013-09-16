@@ -4,6 +4,82 @@
 		"selected_items":
 		[
 			[
+				"inner",
+				"innerText"
+			],
+			[
+				"de",
+				"definition"
+			],
+			[
+				"Htm",
+				"HtmlInterface"
+			],
+			[
+				"defin",
+				"definitions"
+			],
+			[
+				"ass",
+				"assertSame"
+			],
+			[
+				"str",
+				"stringList"
+			],
+			[
+				"strin",
+				"stringCount"
+			],
+			[
+				"inne",
+				"innerText"
+			],
+			[
+				"inn",
+				"innerText"
+			],
+			[
+				"arrs",
+				"array_splice"
+			],
+			[
+				"pr",
+				"properties"
+			],
+			[
+				"a",
+				"attributeString"
+			],
+			[
+				"att",
+				"attributes"
+			],
+			[
+				"pro",
+				"propertyCount"
+			],
+			[
+				"ne",
+				"nextProperty"
+			],
+			[
+				"get_ar",
+				"func_get_args"
+			],
+			[
+				"parse",
+				"parseChildren"
+			],
+			[
+				"tag",
+				"tagName"
+			],
+			[
+				"creat",
+				"createdTag"
+			],
+			[
 				"indentation",
 				"setIndentationCharacter"
 			],
@@ -24,14 +100,6 @@
 				"parseAttributes"
 			],
 			[
-				"pr",
-				"private"
-			],
-			[
-				"pro",
-				"properties"
-			],
-			[
 				"se",
 				"selfClosing"
 			],
@@ -42,10 +110,6 @@
 			[
 				"self",
 				"selfClosingTags"
-			],
-			[
-				"a",
-				"attributes"
 			],
 			[
 				"child",
@@ -156,37 +220,26 @@
 	"buffers":
 	[
 		{
-			"contents": "<?php\nrequire_once(realpath(\"../HtmlInterface.php\"));\n\nclass HtmlOutputTest extends PHPUnit_Framework_TestCase\n{\n	/** \n    * @test\n    */\n	public function htmlFragment()\n	{\n		//setup\n		$html = new HtmlInterface(\"html\");\n		$head = new HtmlInterface(\"head\");\n		$body = new HtmlInterface(\"body\");\n		$div = new HtmlInterface(\"div\");\n		$br = new HtmlInterface(\"br\");\n\n		$this->assertSame(\n			\"<html>\\n\\t<body></body>\\n</html>\\n\",\n			(string)$html,\n			\"Failed to return html tag as parent.\"\n		);\n\n		$this->assertSame(\n			\"<head>\\n\\t<meta></head>\\n\",\n			(string)$head,\n			\"Failed to return head tag as parent.\"\n		);\n\n		$this->assertSame(\n			\"<body>\\n\\t<p></p>\\n</body>\\n\",\n			(string)$body,\n			\"Failed to return body tag as parent.\"\n		);\n\n		$this->assertSame(\n			\"<div></div>\\n\",\n			(string)$div,\n			\"Failed to return div tag as parent.\"\n		);\n\n		$this->assertSame(\n			\"<br>\\n\",\n			(string)$br,\n			\"Failed to return br tag as parent (self-closing).\"\n		);\n	}\n\n	/** \n	* @test\n	*/\n	public function returnsDoctype()\n	{\n		\n	}\n\n	/** \n	* @test\n	*/\n	public function toString()\n	{\n\n	}\n}\n",
 			"file": "tests/HtmlOutputTest.php",
-			"file_size": 1028,
-			"file_write_time": 130233021467095473,
 			"settings":
 			{
-				"buffer_size": 1070,
+				"buffer_size": 4619,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/Dropbox/portable/settings/autohotkey/AutoHotkey.ahk",
-			"settings":
-			{
-				"buffer_size": 2787,
-				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "HtmlInterface.php",
 			"settings":
 			{
-				"buffer_size": 4579,
+				"buffer_size": 3250,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "<html>\n<head>\n	<meta this='that' >\\n\n</head>\\n\n<body>\n	<div>\n		<p>Hello World!</p>\\n\n	</div>\\n\n</body>\\n\n</html>",
+			"file": "/W/nexocentric-studios-boilerplate/libraries/Webpage.php",
 			"settings":
 			{
-				"buffer_size": 112,
+				"buffer_size": 12090,
 				"line_ending": "Windows"
 			}
 		}
@@ -335,6 +388,7 @@
 	},
 	"file_history":
 	[
+		"/C/Dropbox/portable/settings/autohotkey/AutoHotkey.ahk",
 		"/C/Dropbox/portable/settings/AutoHotkey.ahk",
 		"/W/html-interface/tests/HtmlOutputTest.php",
 		"/W/nexocentric_studios.ppw",
@@ -361,6 +415,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"/*",
+			"(",
+			"h::",
+			"span",
 			"\\t",
 			"$this->htmlInterface",
 			"\\n",
@@ -409,7 +467,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -417,15 +475,15 @@
 					"file": "tests/HtmlOutputTest.php",
 					"settings":
 					{
-						"buffer_size": 1070,
+						"buffer_size": 4619,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1003,
-								1003
+								1406,
+								1406
 							]
 						],
 						"settings":
@@ -435,52 +493,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 135.0,
+						"translation.y": 757.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/C/Dropbox/portable/settings/autohotkey/AutoHotkey.ahk",
-					"settings":
-					{
-						"buffer_size": 2787,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2438,
-								2438
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/AutoHotkey/AutoHotkey.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 390.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "HtmlInterface.php",
 					"settings":
 					{
-						"buffer_size": 4579,
+						"buffer_size": 3250,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1253,
+								1253
 							]
 						],
 						"settings":
@@ -489,33 +520,35 @@
 							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 795.0,
+						"translation.x": 42.0,
+						"translation.y": 630.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 2,
+					"file": "/W/nexocentric-studios-boilerplate/libraries/Webpage.php",
 					"settings":
 					{
-						"buffer_size": 112,
+						"buffer_size": 12090,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								105,
-								105
+								3619,
+								3619
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 804.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
