@@ -90,116 +90,179 @@ class HtmlInterface
 	
 	#-----------------------------------------------------------
 	# [summary]
-	# none
+	# This splits the data passed to it by the __call function
+	# into attributes, children and HtmlInterface fragments and
+	# passes this information along with the tag name to the
+	# createTag function.
 	# [parameters]
-	# none
+	# 1) The name of the tag.
+	# 2) Tag properies(attributes, innertext, children/siblings)
 	# [return]
-	# none
+	# 1) A tag string created by the createTag function.
 	#-----------------------------------------------------------
 	private function initializeTag($tagName, $properties)
 	{
+	    //declarations
 		$attributes = array();
 		$innerText = "";
-		$stringList = array();
+		$stringList = array(); //work storage for strings passed to this function
 		$children = array();
 		
+		//go through the complete property list and
+		//divide it by property type
 		foreach($properties as $property) {
+		    //check if this is an HtmlInterface fragment
 			//since HtmlInterface has a to __toString method
 			//this has to be valuated before any
 			//string evaluations
 			if($property instanceof HtmlInterface) {
+			    //safety for users who set doctypes
+			    //on HtmlInterface fragments
 				$property->clearDoctype();
+				
+				//treat the fragment as a child
 				$children[] = $property;
 				continue;
 			}
+			//if it has a carriage, it's a chlid
 			if(strpos($property, "\n") !== false) {
 				$children[] = $property;
 				continue;
 			}
-			//inner text and children
+			//these are either attributes or inner text
 			if(is_string($property)) {
+			    //save for later and check for inner text
 				$stringList[] = $property;
 				continue;
 			}
 	    }
 
-	    //
+	    //begin analyzing the string list
 	    $stringCount = count($stringList);
+	    //if has a remainder this contains inner text
 	    if($stringCount % 2) {
+	        //inner text is always last string in list
 			$innerText = $stringList[$stringCount - 1];
 	    }
 	    
+	    //pair the rest of the strings as attributes
 	    for ($nextString = 0; ($nextString + 1) < $stringCount; $nextString += 2) {
+	        //attribute name = attribute value
+	        //this makes it easier for the create tag function
 	    	$attributes[$stringList[$nextString]] = $stringList[$nextString + 1];
 	    }
-
+        
+        //create a tag and return it
 		return $this->createTag($tagName, $attributes, $innerText, $children);
 	}
     
     #-----------------------------------------------------------
 	# [summary]
-	# none
+	# Function for turning the associative attribute array into
+	# valid html attributes.
 	# [parameters]
-	# none
+	# 1) An associative array of attribute names and values.
 	# [return]
-	# none
+	# 1) A string of attributes.
+	# 2) If no attributes are set, a blank string is returned.
 	#-----------------------------------------------------------
-	public function parseAttributes($attributes)
+	private function parseAttributes($attributes)
 	{
-		$attributeString = "";
+	    //declarations
+		$attributeString = ""; //parsed string of attributes
+		
+		//check if attributes where set
 		if(empty($attributes)) {
+		    //always return a blank string
 			return $attributeString;
 		}
 		foreach ($attributes as $name => $value) {
+		    //!!! you can make another array here
+		    //!!! for attributes that just require
+		    //!!! the name eg. "checked"
+		    //!!! this is the same as the check for self
+		    //!!! closing tags
 			$attributeString .= " $name=\"$value\""; // there's a space here
+			//!! change the space to a class constant
 		}
 		return $attributeString;
 	}
 
     #-----------------------------------------------------------
 	# [summary]
-	# none
+	# This increases the indentation of nested children.
 	# [parameters]
-	# none
+	# 1) A string of child tags.
 	# [return]
-	# none
+	# 1) A string of child tags that have had the indentation 
+	#    adjusted.
 	#-----------------------------------------------------------
 	private function increaseIndent($childString)
-    {	
+    {
+        //remove the final carriage because
+        //if it's there explode will treat
+        //it as an empty string
 		$childList = substr_replace(
 			$childString,
 			"",
 			strrpos($childString, "\n")
 		);
+		//split the children into their respective lines
 		$childList = explode("\n", $childList);
+		
+		//go through each and adjust the indentation
 		foreach($childList as $index => $child) {
+		    // they have to stay at their original index
+		    // for order
 			$childList[$index] = $this->indent() . $child;
 		}
+		//glue together with carriages and add the final
+		//one as well
 		return implode("\n", $childList) . "\n";
-		return $childString;
 	}
 	
 	#-----------------------------------------------------------
 	# [summary]
-	# none
+	# Parses an array of children by turning them into a string
+	# of appropriately indented ones.
 	# [parameters]
-	# none
+	# 1) An array of children.
 	# [return]
-	# none
+	# 1) A string of parsed children.
+	# 2) If no children are present, an empty string.
 	#-----------------------------------------------------------
 	//this function is probably going to cause you lots of problems right now...
-	// all fixing needs to happen here
+	// all fixing needs to happen here!!!!!
 	public function parseChildren($children)
 	{
+	    //delcarations
 		$childString = "";
-		$newline = $this->inParseCycle ? "" : "\n";
+		
+		//check if children exists
 		if(empty($children)) {
+		    //return empty string
 			return $childString;
 		}
+		
+		//special parse loop for HtmlInterface fragments
+		//the top line of a fragment doesn't have a carriage
+		//before it, so add it here
+		$newline = $this->inParseCycle ? "" : "\n";
+		
+		//the children for this tag are either
+		//a) a single string that missed array formatting
+		//b) an HtmlInterface fragment
 		if(!is_array($children)) {
+		    //convert the children to an array
+		    //for parsing
 			$children = array($children);
 		}
+		
+		//save the indent level just incase changes
+		//must be made
 		$currentIndentLevel = $this->indentLevel;
+		
+		
 		foreach($children as $child) {
 			if($child instanceof HtmlInterface) {
 				$this->inParseCycle = true;
