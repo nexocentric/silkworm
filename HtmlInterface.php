@@ -90,7 +90,7 @@ class HtmlInterface
 	#-----------------------------------------------------------
 	public function setIndentation($indentationPattern = "")
 	{
-		if(preg_match("/[^ \t]/", $indentationPattern) === 0)
+		if(preg_match("/[^" . HtmlInterface::SPACE . HtmlInterface::TAB ."]/", $indentationPattern) === 0)
 		{
 			$this->indentationPattern = $indentationPattern;
 		}
@@ -240,10 +240,10 @@ class HtmlInterface
 		foreach ($attributes as $name => $value) {
 			//check if the attribute is a boolean value
 		    if(in_array($name, $this->booleanAttributes)) {
-				$attributeString .= " $name"; // there's a space here
+				$attributeString .= HtmlInterface::SPACE . "$name";
 				continue;
 		    }
-			$attributeString .= " $name=\"$value\""; // there's a space here
+			$attributeString .= HtmlInterface::SPACE. "$name=\"$value\"";
 			//!! change the space to a class constant
 		}
 		return $attributeString;
