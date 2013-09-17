@@ -21,17 +21,17 @@
 // 7) $html->comment("comment text"); //create a comment in HTML document
 // 8) $html->repeat(HtmlInterface, int); //repeat a fragment n times
 #===============================================================================
-class HtmlInterface 
+class HtmlInterface
 {
-    //
-	const TOP_TAG_NAME = "TOP_TAG_NAME";
-	const PROPERTIES = "PROPERTIES";
+    //class constants
+    const NEWLINE = "\n";
+	const SPACE = " ";
+	const TAB = "\t";
 
-    
+	//member variables    
 	private $inParseCycle = false;
 	private $indentLevel = 0;
-	private $indentPattern = "\t"; //change it so that the indent
-	//pattern can be changed
+	private $indentationPattern = HtmlInterface::TAB;
 	private $selfClosingTagList = array(
 		"base", 
 		"basefont", 
@@ -44,13 +44,58 @@ class HtmlInterface
 		"meta", 
 		"param"
 	);
-
-	//something
+	private $booleanAttributes = array(
+		"allowfullscreen",
+		"async",
+		"autofocus",
+		"checked",
+		"compact",
+		"declare",
+		"default",
+		"defer",
+		"disabled",
+		"formnovalidate",
+		"hidden",
+		"inert",
+		"ismap",
+		"itemscope",
+		"multiple",
+		"multiple",
+		"muted",
+		"nohref",
+		"noresize",
+		"noshade",
+		"novalidate",
+		"nowrap",
+		"open",
+		"readonly",
+		"required",
+		"reversed",
+		"seamless",
+		"selected",
+		"sortable",
+		"truespeed",
+		"typemustmatch"
+	);
 	private $doctype = "";
-	private $topTag = array();
 	private $html = "";
-	private $childFragments = array();
 	
+	#-----------------------------------------------------------
+	# [summary]
+	# none
+	# [parameters]
+	# none
+	# [return]
+	# none
+	#-----------------------------------------------------------
+	public function setIndentation($indentationPattern = "")
+	{
+		if(preg_match("/[^ \t]/", $indentationPattern) === 0)
+		{
+			$this->indentationPattern = $indentationPattern;
+		}
+	}
+
 	#-----------------------------------------------------------
 	# [summary]
 	# Create a new HtmlInterface for use to create HTML.
@@ -87,6 +132,19 @@ class HtmlInterface
 	    //parse the tag properties and generate tag of $tagName
 		return $this->html = $this->initializeTag($tagName, $properties);
 	}
+
+	#-----------------------------------------------------------
+	# [summary]
+	# none
+	# [parameters]
+	# none
+	# [return]
+	# none
+	#-----------------------------------------------------------
+	public function __toString()
+	{
+		return $this->doctype . $this->html;
+	}
 	
 	#-----------------------------------------------------------
 	# [summary]
@@ -100,7 +158,7 @@ class HtmlInterface
 	# [return]
 	# 1) A tag string created by the createTag function.
 	#-----------------------------------------------------------
-	private function initializeTag($tagName, $properties)
+	protected function initializeTag($tagName, $properties)
 	{
 	    //declarations
 		$attributes = array();
@@ -125,7 +183,7 @@ class HtmlInterface
 				continue;
 			}
 			//if it has a carriage, it's a chlid
-			if(strpos($property, "\n") !== false) {
+			if(strpos($property, HtmlInterface::NEWLINE) !== false) {
 				$children[] = $property;
 				continue;
 			}
@@ -166,7 +224,7 @@ class HtmlInterface
 	# 1) A string of attributes.
 	# 2) If no attributes are set, a blank string is returned.
 	#-----------------------------------------------------------
-	private function parseAttributes($attributes)
+	protected function parseAttributes($attributes)
 	{
 	    //declarations
 		$attributeString = ""; //parsed string of attributes
@@ -176,12 +234,15 @@ class HtmlInterface
 		    //always return a blank string
 			return $attributeString;
 		}
+		
+		//go through the array of attributes
+		//and pair them accordingly
 		foreach ($attributes as $name => $value) {
-		    //!!! you can make another array here
-		    //!!! for attributes that just require
-		    //!!! the name eg. "checked"
-		    //!!! this is the same as the check for self
-		    //!!! closing tags
+			//check if the attribute is a boolean value
+		    if(in_array($name, $this->booleanAttributes)) {
+				$attributeString .= " $name"; // there's a space here
+				continue;
+		    }
 			$attributeString .= " $name=\"$value\""; // there's a space here
 			//!! change the space to a class constant
 		}
@@ -197,7 +258,7 @@ class HtmlInterface
 	# 1) A string of child tags that have had the indentation 
 	#    adjusted.
 	#-----------------------------------------------------------
-	private function increaseIndent($childString)
+	protected function increaseIndent($childString)
     {
         //remove the final carriage because
         //if it's there explode will treat
@@ -205,10 +266,10 @@ class HtmlInterface
 		$childList = substr_replace(
 			$childString,
 			"",
-			strrpos($childString, "\n")
+			strrpos($childString, HtmlInterface::NEWLINE)
 		);
 		//split the children into their respective lines
-		$childList = explode("\n", $childList);
+		$childList = explode(HtmlInterface::NEWLINE, $childList);
 		
 		//go through each and adjust the indentation
 		foreach($childList as $index => $child) {
@@ -218,7 +279,7 @@ class HtmlInterface
 		}
 		//glue together with carriages and add the final
 		//one as well
-		return implode("\n", $childList) . "\n";
+		return implode(HtmlInterface::NEWLINE, $childList) . HtmlInterface::NEWLINE;
 	}
 	
 	#-----------------------------------------------------------
@@ -233,7 +294,7 @@ class HtmlInterface
 	#-----------------------------------------------------------
 	//this function is probably going to cause you lots of problems right now...
 	// all fixing needs to happen here!!!!!
-	public function parseChildren($children)
+	protected function parseChildren($children)
 	{
 	    //delcarations
 		$childString = "";
@@ -247,7 +308,7 @@ class HtmlInterface
 		//special parse loop for HtmlInterface fragments
 		//the top line of a fragment doesn't have a carriage
 		//before it, so add it here
-		$newline = $this->inParseCycle ? "" : "\n";
+		$newline = $this->inParseCycle ? "" : HtmlInterface::NEWLINE;
 		
 		//the children for this tag are either
 		//a) a single string that missed array formatting
@@ -285,7 +346,7 @@ class HtmlInterface
 	# [return]
 	# none
 	#-----------------------------------------------------------
-	public function createTag($tagName, $attributes, $innerText = "", $children = "")
+	protected function createTag($tagName, $attributes, $innerText = "", $children = "")
 	{
 		$createdTag = "";
 		
@@ -295,12 +356,12 @@ class HtmlInterface
 			if($children) {
 				$createdTag = "<$tagName%s>%s%s";
 			} else {
-				$createdTag = "<$tagName%s>\n%s%s";
+				$createdTag = "<$tagName%s>" . HtmlInterface::NEWLINE . "%s%s";
 			}
 			$this->indentLevel = 0;
 		} else {
 			//
-			$createdTag = "<$tagName%s>%s%s</$tagName>\n";
+			$createdTag = "<$tagName%s>%s%s</$tagName>" . HtmlInterface::NEWLINE;
 			$this->indentLevel = 1;
 		}
 
@@ -337,7 +398,7 @@ class HtmlInterface
 	#-----------------------------------------------------------
 	public function doctype($definition) {
 		$this->doctype = sprintf(
-			"<!DOCTYPE %s>\n",
+			"<!DOCTYPE %s>" . HtmlInterface::NEWLINE,
 			$definition
 		);
 	}
@@ -365,7 +426,7 @@ class HtmlInterface
 	# none
 	#-----------------------------------------------------------
 	public function newline() {
-		return "\n";
+		return HtmlInterface::NEWLINE;
 	}
 	
 	#-----------------------------------------------------------
@@ -376,22 +437,9 @@ class HtmlInterface
 	# [return]
 	# none
 	#-----------------------------------------------------------
-	private function indent()
+	protected function indent()
 	{
-		return str_repeat($this->indentPattern, $this->indentLevel);
-	}
-    
-    #-----------------------------------------------------------
-	# [summary]
-	# none
-	# [parameters]
-	# none
-	# [return]
-	# none
-	#-----------------------------------------------------------
-	public function __toString()
-	{
-		return $this->doctype . $this->html;
+		return str_repeat($this->indentationPattern, $this->indentLevel);
 	}
 
 	#-----------------------------------------------------------
@@ -403,6 +451,6 @@ class HtmlInterface
 	# none
 	#-----------------------------------------------------------
 	public function comment($comment) {
-		return "<!-- $comment -->\n";
+		return "<!-- $comment -->" . HtmlInterface::NEWLINE;
 	}
 }#==================== HtmlInterface end ====================#

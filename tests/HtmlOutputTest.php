@@ -99,9 +99,66 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 	* @test
 	* @depends regularTag
 	*/
-	public function multipleSecondLevelTags()
+	public function tabIndentation()
 	{
 		$html = new HtmlInterface();
+		$html->html(
+			$html->head(),
+			$html->body()
+		);
+		$this->assertSame(
+			"<html>\n\t<head></head>\n\t<body></body>\n</html>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends tabIndentation
+    */
+	public function spaceIndentation()
+	{
+		$html = new HtmlInterface();
+		$html->setIndentation(" ");
+		$html->html(
+			$html->head(),
+			$html->body()
+		);
+		$this->assertSame(
+			"<html>\n <head></head>\n <body></body>\n</html>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends tabIndentation
+    */
+	public function mixedIndentation()
+	{
+		$html = new HtmlInterface();
+		$html->setIndentation(" \t");
+		$html->html(
+			$html->head(),
+			$html->body()
+		);
+		$this->assertSame(
+			"<html>\n \t<head></head>\n \t<body></body>\n</html>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends tabIndentation
+    */
+	public function reversionToTabIndentation()
+	{
+		$html = new HtmlInterface();
+		$html->setIndentation("A");
 		$html->html(
 			$html->head(),
 			$html->body()
