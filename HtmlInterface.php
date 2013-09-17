@@ -90,10 +90,17 @@ class HtmlInterface
 	#-----------------------------------------------------------
 	public function setIndentation($indentationPattern = "")
 	{
-		if(preg_match("/[^" . HtmlInterface::SPACE . HtmlInterface::TAB ."]/", $indentationPattern) === 0)
-		{
+		//declarations
+		$space = HtmlInterface::SPACE;
+		$tab = HtmlInterface::TAB;
+
+		//check to see if use entered invalid tab value
+		if(preg_match("/[^$space$tab]/", $indentationPattern) === 0) {
+			//indentation pattern is valid, use it
 			$this->indentationPattern = $indentationPattern;
+			return;
 		}
+		//trigger_error("Only ASCII spaces and tabs can be used for indentation.");
 	}
 
 	#-----------------------------------------------------------
