@@ -386,21 +386,20 @@ class HtmlInterface
 		$createdTag = "";
 		$newline = HtmlInterface::NEWLINE;
 		
-		//
+		//change sprintf statment for 
+		//regular and self closing tags
 		if(in_array($tagName, $this->selfClosingTagList)) {
-			//
-			if($children) {
-				$createdTag = "<$tagName%s>%s%s";
-			} else {
-				$createdTag = "<$tagName%s>$newline%s%s";
-			}
+			//self closing
+			$newline = $children ? "" : $newline; //newline if no children
+			$createdTag = "<$tagName%s>$newline%s%s";
 			$this->indentLevel = 0;
 		} else {
-			//
+			//regular tag
 			$createdTag = "<$tagName%s>%s%s</$tagName>$newline";
 			$this->indentLevel = 1;
 		}
 
+		//create the tag
 		$createdTag = sprintf(
 			"$createdTag",
 			$this->parseAttributes($attributes),
@@ -413,7 +412,11 @@ class HtmlInterface
 
     #-----------------------------------------------------------
 	# [summary]
-	# none
+	# Removes !DOCTYPE from children if the user accidentally
+	# set the !DOCTYPE on HTML fragments.
+	#
+	# !!NOTICE!!
+	# For internal use only.
 	# [parameters]
 	# none
 	# [return]
@@ -426,9 +429,9 @@ class HtmlInterface
 	
 	#-----------------------------------------------------------
 	# [summary]
-	# none
+	# Sets the !DOCTYPE for this HTML document.
 	# [parameters]
-	# none
+	# 1) !DOCTYPE definition
 	# [return]
 	# none
 	#-----------------------------------------------------------
@@ -441,11 +444,12 @@ class HtmlInterface
 	
 	#-----------------------------------------------------------
 	# [summary]
-	# none
+	# Repeats an HtmlInterface fragment n number of times.
 	# [parameters]
-	# none
+	# 1) HtmlInterface fragment.
+	# 2) The number of times to repeat the fragment.
 	# [return]
-	# none
+	# 1) A string of children repeated n number of times.
 	#-----------------------------------------------------------
 	public function repeat(HtmlInterface $html, $count)
 	{
@@ -455,7 +459,7 @@ class HtmlInterface
 	
 	#-----------------------------------------------------------
 	# [summary]
-	# none
+	# Adds a newline to the document for viusal purposes only.
 	# [parameters]
 	# none
 	# [return]
@@ -467,11 +471,15 @@ class HtmlInterface
 	
 	#-----------------------------------------------------------
 	# [summary]
-	# none
+	# Function for controlling the indentation pattern of this
+	# document.
+	#
+	# !!NOTICE!!
+	# For internal use only.
 	# [parameters]
 	# none
 	# [return]
-	# none
+	# An indentation pattern.
 	#-----------------------------------------------------------
 	protected function indent()
 	{
@@ -480,17 +488,13 @@ class HtmlInterface
 
 	#-----------------------------------------------------------
 	# [summary]
-	# none
+	# Adds an HTML style comment to the document.
 	# [parameters]
-	# none
+	# 1) Comment contents.
 	# [return]
-	# none
+	# 1) A comment for display.
 	#-----------------------------------------------------------
 	public function comment($comment) {
 		return "<!-- $comment -->" . HtmlInterface::NEWLINE;
 	}
 }#==================== HtmlInterface end ====================#
-
-$html = new HtmlInterface();
-$html->input("type", "checkbox", "checked", "disabled");
-(string)$html;
