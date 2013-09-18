@@ -83,9 +83,9 @@ class HtmlInterface
 	
 	#-----------------------------------------------------------
 	# [summary]
-	# none
+	# Changes the indentation pattern for the document.
 	# [parameters]
-	# none
+	# 1) An indentation pattern consisting of tabs or spaces.
 	# [return]
 	# none
 	#-----------------------------------------------------------
@@ -102,7 +102,7 @@ class HtmlInterface
 			return;
 		}
 		//trigger_error("Only ASCII spaces and tabs can be used for indentation.");
-	}
+	}#----------------- setIndentation end -----------------#
 
 	#-----------------------------------------------------------
 	# [summary]
@@ -122,8 +122,10 @@ class HtmlInterface
 		    //user specified a doctype, so set it
 			$this->doctype($definition);
 		}
-	}
+	}#----------------- __construct end -----------------#
 
+	/////////////////////////////////////
+	//start magic method implementation->
     #-----------------------------------------------------------
 	# [summary]
 	# This is an overload of the PHP __call function. This 
@@ -139,7 +141,7 @@ class HtmlInterface
 	{
 	    //parse the tag properties and generate tag of $tagName
 		return $this->html = $this->initializeTag($tagName, $properties);
-	}
+	}#----------------- __call end -----------------#
 
 	#-----------------------------------------------------------
 	# [summary]
@@ -153,7 +155,9 @@ class HtmlInterface
 	public function __toString()
 	{
 		return $this->doctype . $this->html;
-	}
+	}#----------------- __toString end -----------------#
+	//<-end magic method implementation
+	/////////////////////////////////////
 	
 	#-----------------------------------------------------------
 	# [summary]
@@ -233,7 +237,7 @@ class HtmlInterface
         
         //create a tag and return it
 		return $this->createTag($tagName, $attributes, $innerText, $children);
-	}
+	}#----------------- initializeTag end -----------------#
     
     #-----------------------------------------------------------
 	# [summary]
@@ -269,7 +273,7 @@ class HtmlInterface
 			$attributeString .=  "$space$name=$quote$value$quote";
 		}
 		return $attributeString;
-	}
+	}#----------------- parseAttributes end -----------------#
 
     #-----------------------------------------------------------
 	# [summary]
@@ -307,7 +311,7 @@ class HtmlInterface
 		//glue together with carriages and add the final
 		//one as well
 		return implode($newline, $childList) . $newline;
-	}
+	}#----------------- increaseIndent end -----------------#
 	
 	#-----------------------------------------------------------
 	# [summary]
@@ -367,7 +371,7 @@ class HtmlInterface
 			$childString .= $child;
 		}
 		return $newline . $childString;
-	}
+	}#----------------- parseChildren end -----------------#
     
     #-----------------------------------------------------------
 	# [summary]
@@ -408,7 +412,7 @@ class HtmlInterface
 		);
 		
 		return $createdTag;
-	}
+	}#----------------- createTag end -----------------#
 
     #-----------------------------------------------------------
 	# [summary]
@@ -425,7 +429,7 @@ class HtmlInterface
 	protected function clearDoctype()
 	{
 		$this->doctype = "";	
-	}
+	}#----------------- clearDoctype end -----------------#
 	
 	#-----------------------------------------------------------
 	# [summary]
@@ -440,7 +444,7 @@ class HtmlInterface
 			"<!DOCTYPE %s>" . HtmlInterface::NEWLINE,
 			$definition
 		);
-	}
+	}#----------------- doctype end -----------------#
 	
 	#-----------------------------------------------------------
 	# [summary]
@@ -455,7 +459,7 @@ class HtmlInterface
 	{
 		$html->clearDoctype();
 		return str_repeat($html, $count);
-	}
+	}#----------------- repeat end -----------------#
 	
 	#-----------------------------------------------------------
 	# [summary]
@@ -467,7 +471,7 @@ class HtmlInterface
 	#-----------------------------------------------------------
 	public function newline() {
 		return HtmlInterface::NEWLINE;
-	}
+	}#----------------- newline end -----------------#
 	
 	#-----------------------------------------------------------
 	# [summary]
@@ -484,7 +488,7 @@ class HtmlInterface
 	protected function indent()
 	{
 		return str_repeat($this->indentationPattern, $this->indentLevel);
-	}
+	}#----------------- indent end -----------------#
 
 	#-----------------------------------------------------------
 	# [summary]
@@ -496,5 +500,5 @@ class HtmlInterface
 	#-----------------------------------------------------------
 	public function comment($comment) {
 		return "<!-- $comment -->" . HtmlInterface::NEWLINE;
-	}
+	}#----------------- comment end -----------------#
 }#==================== HtmlInterface end ====================#
