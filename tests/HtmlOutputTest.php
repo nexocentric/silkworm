@@ -3,6 +3,8 @@ require_once(realpath("../HtmlInterface.php"));
 
 class HtmlOutputTest extends PHPUnit_Framework_TestCase
 {
+	const DOUBLE_QUOTE = "\"";
+
 	/** 
 	* @test
 	*/
@@ -68,6 +70,21 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 		$html->div();
 		$this->assertSame(
 			"<div></div>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends regularTag
+    */
+	public function regularTagWithInnerText()
+	{
+		$html = new HtmlInterface();
+		$html->div("look here");
+		$this->assertSame(
+			"<div>look here</div>\n",
 			(string)$html,
 			"Failed to return div tag as parent."
 		);
@@ -196,6 +213,40 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 		$html->div("class", "classname");
 		$this->assertSame(
 			"<div class=\"classname\"></div>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends selfClosingTagWithAttributes
+    */
+	public function selfClosingTagWithBooleanAttributes()
+	{
+		//declarations
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+
+		$html = new HtmlInterface();
+		$html->input("type", "checkbox", "checked", "disabled");
+		$this->assertSame(
+			"<input type=${qt}checkbox${qt} checked disabled>\n",
+			(string)$html,
+			"Failed to return br tag as parent (self-closing)."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends regularTagWithInnerText
+    * @depends regularTagWithAttributes
+    */
+	public function regularTagWithBooleanAttributes()
+	{
+		$html = new HtmlInterface();
+		$html->button("hidden", "disabled", "click me");
+		$this->assertSame(
+			"<button hidden disabled>click me</button>\n",
 			(string)$html,
 			"Failed to return div tag as parent."
 		);

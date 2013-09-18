@@ -24,12 +24,13 @@
 class HtmlInterface
 {
     //class constants
+    const DOUBLE_QUOTE = "\"";
     const NEWLINE = "\n";
 	const SPACE = " ";
 	const TAB = "\t";
 
 	//member variables    
-	private $inParseCycle = false;
+	private $parsingHtmlFragment = false;
 	private $indentLevel = 0;
 	private $indentationPattern = HtmlInterface::TAB;
 	private $selfClosingTagList = array(
@@ -142,11 +143,12 @@ class HtmlInterface
 
 	#-----------------------------------------------------------
 	# [summary]
-	# none
+	# This is an overload of the PHP __toString() function. This
+	# prints out the generated HTML data as a printable string.
 	# [parameters]
 	# none
 	# [return]
-	# none
+	# The generated HTML as a string.
 	#-----------------------------------------------------------
 	public function __toString()
 	{
@@ -202,6 +204,18 @@ class HtmlInterface
 			}
 	    }
 
+	    //set up boolean attributes for parsing
+		$stringCount = count($stringList);
+		for ($nextString = $stringCount; $nextString > 0; $nextString--) {
+			//going backwards through the list because of array slice
+	    	$property = $stringList[$nextString - 1];
+	    	if(in_array($property, $this->booleanAttributes)) {
+	    		//pair the boolean with a blank value
+	    		//for parsing purposes only
+	    		array_splice($stringList, $nextString, 0, "");
+	    	}
+		}
+
 	    //begin analyzing the string list
 	    $stringCount = count($stringList);
 	    //if has a remainder this contains inner text
@@ -234,6 +248,8 @@ class HtmlInterface
 	protected function parseAttributes($attributes)
 	{
 	    //declarations
+	    $space = HtmlInterface::SPACE;
+	    $quote = HtmlInterface::DOUBLE_QUOTE;
 		$attributeString = ""; //parsed string of attributes
 		
 		//check if attributes where set
@@ -247,11 +263,10 @@ class HtmlInterface
 		foreach ($attributes as $name => $value) {
 			//check if the attribute is a boolean value
 		    if(in_array($name, $this->booleanAttributes)) {
-				$attributeString .= HtmlInterface::SPACE . "$name";
+				$attributeString .= "$space$name";
 				continue;
 		    }
-			$attributeString .= HtmlInterface::SPACE. "$name=\"$value\"";
-			//!! change the space to a class constant
+			$attributeString .=  "$space$name=$quote$value$quote";
 		}
 		return $attributeString;
 	}
@@ -267,16 +282,20 @@ class HtmlInterface
 	#-----------------------------------------------------------
 	protected function increaseIndent($childString)
     {
+    	//declarations
+    	$newline = HtmlInterface::NEWLINE;
+    	
         //remove the final carriage because
         //if it's there explode will treat
         //it as an empty string
 		$childList = substr_replace(
 			$childString,
 			"",
-			strrpos($childString, HtmlInterface::NEWLINE)
+			strrpos($childString, $newline)
 		);
+		
 		//split the children into their respective lines
-		$childList = explode(HtmlInterface::NEWLINE, $childList);
+		$childList = explode($newline, $childList);
 		
 		//go through each and adjust the indentation
 		foreach($childList as $index => $child) {
@@ -284,9 +303,10 @@ class HtmlInterface
 		    // for order
 			$childList[$index] = $this->indent() . $child;
 		}
+		
 		//glue together with carriages and add the final
 		//one as well
-		return implode(HtmlInterface::NEWLINE, $childList) . HtmlInterface::NEWLINE;
+		return implode($newline, $childList) . $newline;
 	}
 	
 	#-----------------------------------------------------------
@@ -299,8 +319,6 @@ class HtmlInterface
 	# 1) A string of parsed children.
 	# 2) If no children are present, an empty string.
 	#-----------------------------------------------------------
-	//this function is probably going to cause you lots of problems right now...
-	// all fixing needs to happen here!!!!!
 	protected function parseChildren($children)
 	{
 	    //delcarations
@@ -315,7 +333,7 @@ class HtmlInterface
 		//special parse loop for HtmlInterface fragments
 		//the top line of a fragment doesn't have a carriage
 		//before it, so add it here
-		$newline = $this->inParseCycle ? "" : HtmlInterface::NEWLINE;
+		$newline = $this->parsingHtmlFragment ? "" : HtmlInterface::NEWLINE;
 		
 		//the children for this tag are either
 		//a) a single string that missed array formatting
@@ -330,15 +348,21 @@ class HtmlInterface
 		//must be made
 		$currentIndentLevel = $this->indentLevel;
 		
-		
+		//adjust the indentation of childrent to be nested
 		foreach($children as $child) {
+			//check if this is an html fragment
 			if($child instanceof HtmlInterface) {
-				$this->inParseCycle = true;
+				$this->parsingHtmlFragment = true; //start fragment parsing
+				
+				//the fragment is already indented
+				//so don't indent while parsing it to a string
 				$this->indentLevel = 0;
 				$child = $this->parseChildren((string)$child);
 				$this->indentLevel = $currentIndentLevel;
-				$this->inParseCycle = false;
+				
+				$this->parsingHtmlFragment = false; //end fragment parsing
 			}
+			//properly indent children
 			$child = $this->increaseIndent($child);
 			$childString .= $child;
 		}
@@ -347,15 +371,20 @@ class HtmlInterface
     
     #-----------------------------------------------------------
 	# [summary]
-	# none
+	# Creates a tag of with the specified parameters.
 	# [parameters]
-	# none
+	# 1) HTML tag name.
+	# 2) Tag attributes.
+	# 3) Inner text.
+	# 4) Children as strings or HTML fragments.
 	# [return]
-	# none
+	# 1) The generated tag.
 	#-----------------------------------------------------------
 	protected function createTag($tagName, $attributes, $innerText = "", $children = "")
 	{
+		//declarations
 		$createdTag = "";
+		$newline = HtmlInterface::NEWLINE;
 		
 		//
 		if(in_array($tagName, $this->selfClosingTagList)) {
@@ -363,12 +392,12 @@ class HtmlInterface
 			if($children) {
 				$createdTag = "<$tagName%s>%s%s";
 			} else {
-				$createdTag = "<$tagName%s>" . HtmlInterface::NEWLINE . "%s%s";
+				$createdTag = "<$tagName%s>$newline%s%s";
 			}
 			$this->indentLevel = 0;
 		} else {
 			//
-			$createdTag = "<$tagName%s>%s%s</$tagName>" . HtmlInterface::NEWLINE;
+			$createdTag = "<$tagName%s>%s%s</$tagName>$newline";
 			$this->indentLevel = 1;
 		}
 
@@ -461,3 +490,7 @@ class HtmlInterface
 		return "<!-- $comment -->" . HtmlInterface::NEWLINE;
 	}
 }#==================== HtmlInterface end ====================#
+
+$html = new HtmlInterface();
+$html->input("type", "checkbox", "checked", "disabled");
+(string)$html;
