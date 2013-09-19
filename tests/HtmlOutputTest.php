@@ -472,4 +472,179 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			(string)$html
 		);
 	}
+
+	/** 
+    * @test
+    * @depends documentFragment
+    */
+	public function autoTableThreeByThree()
+	{
+		$table = array(
+			array("a", "b", "c"),
+			array("d", "e", "f"),
+			array("g", "h", "i")
+		);
+		$html = new HtmlInterface();
+		$this->assertSame(
+			"<table>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>a</td>\n" .
+			"\t\t<td>b</td>\n" .
+			"\t\t<td>c</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>d</td>\n" .
+			"\t\t<td>e</td>\n" .
+			"\t\t<td>f</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>g</td>\n" .
+			"\t\t<td>h</td>\n" .
+			"\t\t<td>i</td>\n" .
+			"\t</tr>\n" .
+			"</table>\n", 
+			$html->autoTable($table), 
+			"failed to create 3 by 3 table."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends autoTableThreeByThree
+    */
+	public function autoTableTriangle()
+	{
+		$table = array(
+			array("a", "b", "c"),
+			array("d", "e"),
+			array("g")
+		);
+		$html = new HtmlInterface();
+		$this->assertSame(
+			"<table>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>a</td>\n" .
+			"\t\t<td>b</td>\n" .
+			"\t\t<td>c</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>d</td>\n" .
+			"\t\t<td>e</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>g</td>\n" .
+			"\t</tr>\n" .
+			"</table>\n", 
+			$html->autoTable($table), 
+			"failed to create a triangle table."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends autoTableThreeByThree
+    */
+	public function autoTableThreeByThreeWithTableAttributes()
+	{
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$table = array(
+			array("a", "b", "c"),
+			array("d", "e", "f"),
+			array("g", "h", "i")
+		);
+		$html = new HtmlInterface();
+		$this->assertSame(
+			"<table class=${qt}className${qt} noresize>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>a</td>\n" .
+			"\t\t<td>b</td>\n" .
+			"\t\t<td>c</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>d</td>\n" .
+			"\t\t<td>e</td>\n" .
+			"\t\t<td>f</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>g</td>\n" .
+			"\t\t<td>h</td>\n" .
+			"\t\t<td>i</td>\n" .
+			"\t</tr>\n" .
+			"</table>\n", 
+			$html->autoTable($table, "class", "classname", "noresize"), 
+			"failed to create 3 by 3 table."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends autoTableThreeByThree
+    */
+	public function autoTableThreeByThreeWithRowAttributesSame()
+	{
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$table = array(
+			array("a", "b", "c"),
+			array("d", "e", "f"),
+			array("g", "h", "i")
+		);
+		$html = new HtmlInterface();
+		$this->assertSame(
+			"<table class=${qt}className${qt} noresize>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>a</td>\n" .
+			"\t\t<td>b</td>\n" .
+			"\t\t<td>c</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>d</td>\n" .
+			"\t\t<td>e</td>\n" .
+			"\t\t<td>f</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>g</td>\n" .
+			"\t\t<td>h</td>\n" .
+			"\t\t<td>i</td>\n" .
+			"\t</tr>\n" .
+			"</table>\n", 
+			$html->autoTable($table, "class", "classname", "noresize"), 
+			"failed to create 3 by 3 table."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends autoTableThreeByThreeWithRowAttributesSame
+    */
+	public function autoTableThreeByThreeWithRowAttributesDifferent()
+	{
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$table = array(
+			array("a", "b", "c"),
+			array("d", "e", "f"),
+			array("g", "h", "i")
+		);
+		$html = new HtmlInterface();
+		$this->assertSame(
+			"<table class=${qt}className${qt} noresize>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>a</td>\n" .
+			"\t\t<td>b</td>\n" .
+			"\t\t<td>c</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>d</td>\n" .
+			"\t\t<td>e</td>\n" .
+			"\t\t<td>f</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>g</td>\n" .
+			"\t\t<td>h</td>\n" .
+			"\t\t<td>i</td>\n" .
+			"\t</tr>\n" .
+			"</table>\n", 
+			$html->autoTable($table, "class", "classname", "noresize"), 
+			"failed to create 3 by 3 table."
+		);
+	}
 }

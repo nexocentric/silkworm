@@ -498,7 +498,88 @@ class HtmlInterface
 	# [return]
 	# 1) A comment for display.
 	#-----------------------------------------------------------
-	public function comment($comment) {
+	public function comment($comment)
+	{
 		return "<!-- $comment -->" . HtmlInterface::NEWLINE;
 	}#----------------- comment end -----------------#
+
+	//////////////////////////////
+	//start auto table functions->
+	private function parseCells($array)
+	{
+		$cells = "";
+		
+		foreach($array as $cell) {
+			$cells .= $this->initializeTag(
+				"td",
+				array($cell)
+			);
+		}
+		return $cells;
+	}
+	
+	private function parseRows($array, $rowAttributes)
+	{
+		$rows = "";
+		
+		//
+		foreach($array as $row) {
+			$rowAttributes[] = $this->parseCells($row);
+			$rows .= $this->initializeTag(
+				"tr",
+				$rowAttributes
+			);
+		}
+		
+		return $rows;
+		
+		return "<tr>\n" .
+			"\t<td>a</td>\n" .
+			"\t<td>b</td>\n" .
+			"\t<td>c</td>\n" .
+			"</tr>\n" .
+			"<tr>\n" .
+			"\t<td>d</td>\n" .
+			"\t<td>e</td>\n" .
+			"\t<td>f</td>\n" .
+			"</tr>\n" .
+			"<tr>\n" .
+			"\t<td>g</td>\n" .
+			"\t<td>h</td>\n" .
+			"\t<td>i</td>\n" .
+			"</tr>\n";
+	}
+
+	public function autoTable($array)
+	{
+		//declarations
+		$table = "";
+		$rowAttributes = array();
+		
+		//initializations
+		$properties = func_get_args();
+		array_splice($properties, 0, 1); //array that the table is to parse
+		
+		//find the row attributes
+		foreach($properties as $property) {
+			if(is_array($property)) {
+				$rowAttributes[] = $property;
+			}
+		}
+
+		$properties[] = $this->parseRows($array, $rowAttributes);
+		$table = $this->initializeTag(
+			"table",
+			$properties
+		);
+		
+		return $table;
+	}
+	//<-end auto table functions
+	//////////////////////////////
 }#==================== HtmlInterface end ====================#
+
+$table = array(array("a", "b", "c"));
+
+$html = new HtmlInterface();
+$html->autoTable($table);
