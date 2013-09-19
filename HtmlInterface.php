@@ -524,10 +524,10 @@ class HtmlInterface
 		
 		//
 		foreach($array as $row) {
-			$rowAttributes[] = $this->parseCells($row);
+			$rowAttributes = $this->parseCells($row);
 			$rows .= $this->initializeTag(
 				"tr",
-				$rowAttributes
+				array($rowAttributes)
 			);
 		}
 		
@@ -579,7 +579,11 @@ class HtmlInterface
 	//////////////////////////////
 }#==================== HtmlInterface end ====================#
 
-$table = array(array("a", "b", "c"));
+$table = array(
+	array("a", "b", "c"),
+	array("d", "e", "f"),
+	array("g", "h", "i")
+);
 
 $html = new HtmlInterface();
 $html->autoTable($table);
