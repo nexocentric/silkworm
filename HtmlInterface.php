@@ -518,42 +518,27 @@ class HtmlInterface
 		return $cells;
 	}
 	
-	private function parseRows($array, $rowAttributes)
+	private function parseRows($array, $properties)
 	{
 		$rows = "";
 		
 		//
 		foreach($array as $row) {
-			$rowAttributes = $this->parseCells($row);
+			$properties = $this->parseCells($row);
 			$rows .= $this->initializeTag(
 				"tr",
-				array($rowAttributes)
+				array($properties)
 			);
 		}
 		
 		return $rows;
-		
-		return "<tr>\n" .
-			"\t<td>a</td>\n" .
-			"\t<td>b</td>\n" .
-			"\t<td>c</td>\n" .
-			"</tr>\n" .
-			"<tr>\n" .
-			"\t<td>d</td>\n" .
-			"\t<td>e</td>\n" .
-			"\t<td>f</td>\n" .
-			"</tr>\n" .
-			"<tr>\n" .
-			"\t<td>g</td>\n" .
-			"\t<td>h</td>\n" .
-			"\t<td>i</td>\n" .
-			"</tr>\n";
 	}
 
 	public function autoTable($array)
 	{
 		//declarations
 		$table = "";
+		$tableAttributes = "";
 		$rowAttributes = array();
 		
 		//initializations
@@ -565,12 +550,15 @@ class HtmlInterface
 			if(is_array($property)) {
 				$rowAttributes[] = $property;
 			}
+			if(is_string($property)) {
+				$tableAttributes[] = $property;
+			}
 		}
 
-		$properties[] = $this->parseRows($array, $rowAttributes);
+		$tableAttributes[] = $this->parseRows($array, $rowAttributes);
 		$table = $this->initializeTag(
 			"table",
-			$properties
+			$tableAttributes
 		);
 		
 		return $table;

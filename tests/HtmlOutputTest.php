@@ -572,7 +572,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			"\t</tr>\n" .
 			"</table>\n", 
 			$html->autoTable($table, "class", "classname", "noresize"), 
-			"failed to create 3 by 3 table."
+			"failed to create 3 by 3 table with attributes."
 		);
 	}
 
@@ -590,25 +590,25 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 		);
 		$html = new HtmlInterface();
 		$this->assertSame(
-			"<table class=${qt}className${qt} noresize>\n" .
-			"\t<tr>\n" .
+			"<table>\n" .
+			"\t<tr class=${qt}className${qt} noresize>\n" .
 			"\t\t<td>a</td>\n" .
 			"\t\t<td>b</td>\n" .
 			"\t\t<td>c</td>\n" .
 			"\t</tr>\n" .
-			"\t<tr>\n" .
+			"\t<tr class=${qt}className${qt} noresize>\n" .
 			"\t\t<td>d</td>\n" .
 			"\t\t<td>e</td>\n" .
 			"\t\t<td>f</td>\n" .
 			"\t</tr>\n" .
-			"\t<tr>\n" .
+			"\t<tr class=${qt}className${qt} noresize>\n" .
 			"\t\t<td>g</td>\n" .
 			"\t\t<td>h</td>\n" .
 			"\t\t<td>i</td>\n" .
 			"\t</tr>\n" .
 			"</table>\n", 
-			$html->autoTable($table, "class", "classname", "noresize"), 
-			"failed to create 3 by 3 table."
+			$html->autoTable($table, array("class", "classname", "noresize")),
+			"failed to create 3 by 3 table with row attributes."
 		);
 	}
 
@@ -643,8 +643,15 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			"\t\t<td>i</td>\n" .
 			"\t</tr>\n" .
 			"</table>\n", 
-			$html->autoTable($table, "class", "classname", "noresize"), 
-			"failed to create 3 by 3 table."
+			$html->autoTable(
+			    $table,
+			    array(
+			        array("class", "top"), 
+			        array("class", "middle"), 
+			        array("class", "bottom")
+			    )
+			), 
+			"failed to create 3 by 3 table with different row attributes."
 		);
 	}
 }
