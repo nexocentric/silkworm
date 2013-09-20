@@ -508,8 +508,17 @@ class HtmlInterface
 	private function parseCells($array)
 	{
 		$cells = "";
+		$nestedTable = "";
 		
 		foreach($array as $cell) {
+			if(is_array($cell)) {
+				//$nestedTable = $this->autoTable($cell);
+				$cells .= $this->initializeTag(
+					"td",
+					array($this->autoTable($cell))
+				);
+				continue;
+			}
 			$cells .= $this->initializeTag(
 				"td",
 				array($cell)
