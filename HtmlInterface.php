@@ -521,13 +521,36 @@ class HtmlInterface
 	private function parseRows($array, $properties)
 	{
 		$rows = "";
-		
+		$rowAttributes = array();
+		$differentAttributes = array();
+
+        foreach($properties as $property) {
+            if(is_string($property)) {
+                $rowAttributes[] = $property;
+            }
+            if(is_array($property)) {
+				$differentAttributes[] = $property;
+            }
+        }
+
 		//
+		$differentArrayMarker = 0;
+		$differentArrayCount = count($differentAttributes);
 		foreach($array as $row) {
-			$properties = $this->parseCells($row);
+			if($differentAttributes) {
+				foreach($differentAttributes[$differentArrayMarker] as $attribute) {
+		            $rowAttributes[] = $attribute;
+		        }
+				if(($differentArrayMarker + 1) == $differentArrayCount) {
+					$differentArrayMarker = 0;		
+				} else {
+					$differentArrayMarker++;
+				}
+			}
+			$rowAttributes["cells"] = $this->parseCells($row);
 			$rows .= $this->initializeTag(
 				"tr",
-				array($properties)
+				$rowAttributes
 			);
 		}
 		
@@ -538,7 +561,7 @@ class HtmlInterface
 	{
 		//declarations
 		$table = "";
-		$tableAttributes = "";
+		$tableAttributes = array();
 		$rowAttributes = array();
 		
 		//initializations
@@ -548,7 +571,9 @@ class HtmlInterface
 		//find the row attributes
 		foreach($properties as $property) {
 			if(is_array($property)) {
-				$rowAttributes[] = $property;
+				foreach($property as $rowAttribute) {
+					$rowAttributes[] = $rowAttribute;
+				}
 			}
 			if(is_string($property)) {
 				$tableAttributes[] = $property;
@@ -573,5 +598,6 @@ $table = array(
 	array("g", "h", "i")
 );
 
+$attributes = array("class", "classname", "noresize");
 $html = new HtmlInterface();
-$html->autoTable($table);
+$html->autoTable($table, $attributes);
