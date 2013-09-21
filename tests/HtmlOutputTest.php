@@ -1,7 +1,7 @@
 <?php
-require_once(realpath("../HtmlInterface.php"));
+require_once(realpath("../HyperTextWriter.php"));
 
-class HtmlOutputTest extends PHPUnit_Framework_TestCase
+class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 {
 	const DOUBLE_QUOTE = "\"";
 
@@ -10,7 +10,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 	*/
 	public function toString()
 	{
-		$html = new HtmlInterface("html");
+		$html = new HyperTextWriter("html");
 		$this->assertTrue(
 			is_string((string)$html),
 			"Failed to convert interface to string."
@@ -23,7 +23,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function newline()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$this->assertSame(
 			"\n", 
 			$html->newline(), 
@@ -36,7 +36,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 	*/
 	public function comment()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$this->assertSame(
 			"<!-- this is a comment -->\n",
 			$html->comment("this is a comment"),
@@ -51,7 +51,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function selfClosingTag()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->br();
 		$this->assertSame(
 			"<br>\n",
@@ -66,7 +66,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function regularTag()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->div();
 		$this->assertSame(
 			"<div></div>\n",
@@ -81,7 +81,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function regularTagWithInnerText()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->div("look here");
 		$this->assertSame(
 			"<div>look here</div>\n",
@@ -96,14 +96,14 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 	*/
 	public function returnsDoctype()
 	{
-		$html = new HtmlInterface("html //definitions");
+		$html = new HyperTextWriter("html //definitions");
 		$this->assertSame(
 			"<!DOCTYPE html //definitions>\n", 
 			(string)$html, 
 			"Failed to set solidary !DOCTYPE."
 		);
 
-		$html = new HtmlInterface("html //definitions");
+		$html = new HyperTextWriter("html //definitions");
 		$html->html();
 		$this->assertSame(
 			"<!DOCTYPE html //definitions>\n<html></html>\n", 
@@ -118,7 +118,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 	*/
 	public function tabIndentation()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->html(
 			$html->head(),
 			$html->body()
@@ -136,7 +136,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function spaceIndentation()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->setIndentation(" ");
 		$html->html(
 			$html->head(),
@@ -155,7 +155,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function mixedIndentation()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->setIndentation(" \t");
 		$html->html(
 			$html->head(),
@@ -174,7 +174,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function reversionToTabIndentation()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->setIndentation("A");
 		$html->html(
 			$html->head(),
@@ -193,8 +193,8 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function selfClosingTagWithAttributes()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
-		$html = new HtmlInterface();
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$html = new HyperTextWriter();
 		$html->meta("content", "content-text");		
 		$this->assertSame(
 			"<meta content=${qt}content-text${qt}>\n",
@@ -210,8 +210,8 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function regularTagWithAttributes()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
-		$html = new HtmlInterface();
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$html = new HyperTextWriter();
 		$html->div("class", "classname");
 		$this->assertSame(
 			"<div class=${qt}classname${qt}></div>\n",
@@ -226,8 +226,8 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function selfClosingTagWithAttributesFromArray()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
-		$html = new HtmlInterface();
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$html = new HyperTextWriter();
 		$attributes["content"] = "content-text";
 		$html->meta($attributes);		
 		$this->assertSame(
@@ -243,9 +243,9 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function regularTagWithAttributesFromArray()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
 
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$attributes["class"] = "classname";
 		$html->div($attributes);
 		$this->assertSame(
@@ -262,9 +262,9 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 	public function selfClosingTagWithBooleanAttributes()
 	{
 		//declarations
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
 
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->input("type", "checkbox", "checked", "disabled");
 		$this->assertSame(
 			"<input type=${qt}checkbox${qt} checked disabled>\n",
@@ -280,7 +280,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function regularTagWithBooleanAttributes()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->button("hidden", "disabled", "click me");
 		$this->assertSame(
 			"<button hidden disabled>click me</button>\n",
@@ -295,7 +295,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function selfClosingTagWithSiblings()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->meta(
 			$html->meta()
 		);
@@ -312,7 +312,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function regularTagWithChildren()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->div(
 			$html->span(
 				$html->p()
@@ -331,9 +331,9 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function selfClosingTagWithAttributesAndSiblings()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
 
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->meta(
 			"content",
 			"content-text",
@@ -352,9 +352,9 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function regularTagWithAttributesAndChildren()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
 
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->div(
 			"class", 
 			"classname",
@@ -379,7 +379,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function documentFragment()
 	{
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->div(
 			$html->comment("this works"),
 			$html->h1(),
@@ -402,9 +402,9 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function completeDocument()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
 		//setup
-		$html = new HtmlInterface("html");
+		$html = new HyperTextWriter("html");
 		$html->html(
 			$html->head(
 				$html->meta("name", "description")
@@ -434,10 +434,10 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 	*/
 	public function clearDoctype()
 	{
-		$body = new HtmlInterface("html //definitions");
+		$body = new HyperTextWriter("html //definitions");
 		$body->body();
 
-		$html = new HtmlInterface("html //definitions");
+		$html = new HyperTextWriter("html //definitions");
 		$html->html($body);
 		$this->assertSame(
 			"<!DOCTYPE html //definitions>\n<html>\n\t<body></body>\n</html>\n", 
@@ -454,14 +454,14 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function completeDocumentFromFragments()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
 		//setup
-		$html = new HtmlInterface("html");
-		$head = new HtmlInterface();
+		$html = new HyperTextWriter("html");
+		$head = new HyperTextWriter();
 		$head->head(
 				$head->meta("name", "description")
 		);
-		$body = new HtmlInterface();
+		$body = new HyperTextWriter();
 		$body->body(
 			$body->p("document")
 		);
@@ -489,13 +489,13 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function repeatFragment()
 	{
-		$div = new HtmlInterface();
+		$div = new HyperTextWriter();
 		$div->div(
 			$div->div(
 				$div->p()
 			)
 		);
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$html->html(
 			$html->repeat($div, 2)
 		);
@@ -527,7 +527,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr>\n" .
@@ -562,7 +562,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			array("d", "e"),
 			array("g")
 		);
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr>\n" .
@@ -589,13 +589,13 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function autoTableThreeByThreeWithTableAttributes()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$this->assertSame(
 			"<table class=${qt}className${qt} noresize>\n" .
 			"\t<tr>\n" .
@@ -625,13 +625,13 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function autoTableThreeByThreeWithRowAttributesSame()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}className${qt} noresize>\n" .
@@ -661,13 +661,13 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function autoTableThreeByThreeWithRowAttributesDifferent()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}top${qt}>\n" .
@@ -704,13 +704,13 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function autoTableThreeByThreeWithNestedTable()
 	{
-		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", array(array("a")))
 		);
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr>\n" .
@@ -753,7 +753,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
-		$html = new HtmlInterface();
+		$html = new HyperTextWriter();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr>\n" .
@@ -772,7 +772,48 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			"\t\t<td>i</td>\n" .
 			"\t</tr>\n" .
 			"</table>\n", 
-			$html->autoTable($table), 
+			$html->autoTable($table, true), 
+			"failed to create 3 by 3 table."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends autoTableThreeByThreeWithTableHeaders
+    */
+	public function autoTableThreeByThreeWithTableHeadersAndNestedTable()
+	{
+		$table = array(
+			array("a", "b", "c"),
+			array("d", "e", "f"),
+			array("g", "h", array(array("a")))
+		);
+		$html = new HyperTextWriter();
+		$this->assertSame(
+			"<table>\n" .
+			"\t<tr>\n" .
+			"\t\t<th>a</th>\n" .
+			"\t\t<th>b</th>\n" .
+			"\t\t<th>c</th>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>d</td>\n" .
+			"\t\t<td>e</td>\n" .
+			"\t\t<td>f</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>g</td>\n" .
+			"\t\t<td>h</td>\n" .
+			"\t\t<td>\n" .
+			"\t\t\t<table>\n" .
+			"\t\t\t\t<tr>\n" .
+			"\t\t\t\t\t<td>a</td>\n" .
+			"\t\t\t\t</tr>\n" .
+			"\t\t\t</table>\n" .
+			"\t\t</td>\n" .
+			"\t</tr>\n" .
+			"</table>\n", 
+			$html->autoTable($table, true), 
 			"failed to create 3 by 3 table."
 		);
 	}
