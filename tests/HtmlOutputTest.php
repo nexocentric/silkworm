@@ -222,6 +222,38 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     * @test
     * @depends selfClosingTagWithAttributes
     */
+	public function selfClosingTagWithAttributesFromArray()
+	{
+		$html = new HtmlInterface();
+		$attributes["content"] = "content-text";
+		$html->meta($attributes);		
+		$this->assertSame(
+			"<meta content=\"content-text\">\n",
+			(string)$html,
+			"Failed to return br tag as parent (self-closing)."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends regularTagWithAttributes
+    */
+	public function regularTagWithAttributesFromArray()
+	{
+		$html = new HtmlInterface();
+		$attributes["class"] = "classname";
+		$html->div($attributes);
+		$this->assertSame(
+			"<div class=\"classname\"></div>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+    * @test
+    * @depends selfClosingTagWithAttributes
+    */
 	public function selfClosingTagWithBooleanAttributes()
 	{
 		//declarations
