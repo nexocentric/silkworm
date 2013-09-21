@@ -1,7 +1,9 @@
 <?php
 #===============================================================================
+// [author]
+// Dodzi Dzakuma
 // [summary]
-// This is a simple interface designed for making it possible to produce
+// This is a simple class designed for making it possible to produce
 // html tags and documents using PHP. This interfaces always produces
 // systematically indented HTML code to ease the reading and visual debugging
 // of HTML documents.
@@ -12,25 +14,31 @@
 // This is a list of public methods. Please see the README.md for more detailed
 // documentation on usage.
 //
-// 1) $html = new HtmlInterface(); // create a new interface
-// 2) ... = new HtmlINterface("html"); // create a new interface with doctype
-// 3) $html->doctype("html"); // set the doctype
-// 4) $html->indentCharacter(" "); // set indent character as tabs or spaces
-// 5) $html->html(); // create a tag !!see README.md for more information
+// 1) $html = new HtmlInterface(); //create a new interface
+// 2) ... = new HtmlINterface("html"); //create a new interface with doctype
+// 3) $html->doctype("html"); //set the doctype
+// 4) $html->indentCharacter(" "); //set indent character as tabs or spaces
+// 5) $html->html(); //create a tag !!see README.md for more information
 // 6) $html->newline(); //create a newline in HTML document
 // 7) $html->comment("comment text"); //create a comment in HTML document
 // 8) $html->repeat(HtmlInterface, int); //repeat a fragment n times
+// 9) $html->autoTable(array(array()); //create table from array(array())
 #===============================================================================
 class HtmlInterface
 {
-    //class constants
+	/////////////////////////
+	//start class constants->
     const DOUBLE_QUOTE = "\"";
     const NEWLINE = "\n";
 	const SPACE = " ";
 	const TAB = "\t";
+	//<-end class constants
+	/////////////////////////
 
-	//member variables    
+	/////////////////////////
+	//start class variables->    
 	private $parsingHtmlFragment = false;
+	private $parsingTableHeader = false;
 	private $indentLevel = 0;
 	private $indentationPattern = HtmlInterface::TAB;
 	private $selfClosingTagList = array(
@@ -80,8 +88,12 @@ class HtmlInterface
 	);
 	private $doctype = "";
 	private $html = "";
+	//<-end class variables
+	/////////////////////////
 	
 	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# Changes the indentation pattern for the document.
 	# [parameters]
@@ -105,6 +117,8 @@ class HtmlInterface
 	}#----------------- setIndentation end -----------------#
 
 	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# Create a new HtmlInterface for use to create HTML.
 	# [parameters]
@@ -127,6 +141,8 @@ class HtmlInterface
 	/////////////////////////////////////
 	//start magic method implementation->
     #-----------------------------------------------------------
+    # [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# This is an overload of the PHP __call function. This 
 	# passes the name of an HTML tag to be generated along with
@@ -144,6 +160,8 @@ class HtmlInterface
 	}#----------------- __call end -----------------#
 
 	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# This is an overload of the PHP __toString() function. This
 	# prints out the generated HTML data as a printable string.
@@ -160,6 +178,8 @@ class HtmlInterface
 	/////////////////////////////////////
 	
 	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# This splits the data passed to it by the __call function
 	# into attributes, children and HtmlInterface fragments and
@@ -240,6 +260,8 @@ class HtmlInterface
 	}#----------------- initializeTag end -----------------#
     
     #-----------------------------------------------------------
+    # [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# Function for turning the associative attribute array into
 	# valid html attributes.
@@ -276,6 +298,8 @@ class HtmlInterface
 	}#----------------- parseAttributes end -----------------#
 
     #-----------------------------------------------------------
+    # [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# This increases the indentation of nested children.
 	# [parameters]
@@ -314,6 +338,8 @@ class HtmlInterface
 	}#----------------- increaseIndent end -----------------#
 	
 	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# Parses an array of children by turning them into a string
 	# of appropriately indented ones.
@@ -374,6 +400,8 @@ class HtmlInterface
 	}#----------------- parseChildren end -----------------#
     
     #-----------------------------------------------------------
+    # [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# Creates a tag of with the specified parameters.
 	# [parameters]
@@ -415,6 +443,8 @@ class HtmlInterface
 	}#----------------- createTag end -----------------#
 
     #-----------------------------------------------------------
+    # [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# Removes !DOCTYPE from children if the user accidentally
 	# set the !DOCTYPE on HTML fragments.
@@ -432,6 +462,8 @@ class HtmlInterface
 	}#----------------- clearDoctype end -----------------#
 	
 	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# Sets the !DOCTYPE for this HTML document.
 	# [parameters]
@@ -447,6 +479,8 @@ class HtmlInterface
 	}#----------------- doctype end -----------------#
 	
 	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# Repeats an HtmlInterface fragment n number of times.
 	# [parameters]
@@ -462,6 +496,8 @@ class HtmlInterface
 	}#----------------- repeat end -----------------#
 	
 	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# Adds a newline to the document for viusal purposes only.
 	# [parameters]
@@ -474,6 +510,8 @@ class HtmlInterface
 	}#----------------- newline end -----------------#
 	
 	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# Function for controlling the indentation pattern of this
 	# document.
@@ -491,6 +529,8 @@ class HtmlInterface
 	}#----------------- indent end -----------------#
 
 	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
 	# [summary]
 	# Adds an HTML style comment to the document.
 	# [parameters]
@@ -505,58 +545,110 @@ class HtmlInterface
 
 	//////////////////////////////
 	//start auto table functions->
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
+	# [summary]
+	# Makes a cell tag for every element in the array passed
+	# as its parameter.
+	# 
+	# !!NOTICE!!
+	# If the array passed to this function is multidimensional
+	# the function will treat it as a nested table. This makes a
+	# call to the autoTable function to start the process again.
+	# [parameters]
+	# 1) A single dimenion array to parse.
+	# [return]
+	# 1) A string of parsed cells.
+	#-----------------------------------------------------------
 	private function parseCells($array)
 	{
+		//declarations
 		$cells = "";
-		$nestedTable = "";
 		
 		foreach($array as $cell) {
+			//check to make sure this is a single
+			//dimensional array
 			if(is_array($cell)) {
-				//$nestedTable = $this->autoTable($cell);
+				//treat this as a nested table
 				$cells .= $this->initializeTag(
 					"td",
 					array($this->autoTable($cell))
 				);
 				continue;
 			}
+			
+			//regular cell parse
 			$cells .= $this->initializeTag(
 				"td",
 				array($cell)
 			);
 		}
+		
 		return $cells;
-	}
+	}#----------------- parseCells end -----------------#
 	
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
+	# [summary]
+	# Makes a table row for every array contained in the array
+	# passed to the function as a parameter.
+	#
+	# !NOTICE!
+	# If a flat array is given for the properties, all rows will
+	# have the properties applied to them. If a multidimensioned
+	# array is passed, the properties in the array will
+	# alternate rows.
+	# [parameters]
+	# 1) A multidimensional array.
+	# 2) Row attributes.
+	# [return]
+	# 1) A string of rows and attributes.
+	#-----------------------------------------------------------
 	private function parseRows($array, $properties)
 	{
+		//declarations
 		$rows = "";
 		$rowAttributes = array();
 		$differentAttributes = array();
 
+		//walkthrough and parse row properties
         foreach($properties as $property) {
+        	//this is a flat array
             if(is_string($property)) {
                 $rowAttributes[] = $property;
             }
+            //alternating properties passed
             if(is_array($property)) {
 				$differentAttributes[] = $property;
             }
         }
 
-		//
+		//this parses properties and adds it
+		//and creates new rows
 		$differentArrayMarker = 0;
 		$differentArrayCount = count($differentAttributes);
 		foreach($array as $row) {
+			//check to see if alternating properties passed
 			if($differentAttributes) {
+				//make sure that we have an array of strings
 				foreach($differentAttributes[$differentArrayMarker] as $attribute) {
 		            $rowAttributes[] = $attribute;
 		        }
+		        
+		        //alternate the properties using this marker
 				if(($differentArrayMarker + 1) == $differentArrayCount) {
 					$differentArrayMarker = 0;		
 				} else {
 					$differentArrayMarker++;
 				}
 			}
+			
+			//add the parsed cells to the row attributes
 			$rowAttributes["cells"] = $this->parseCells($row);
+			
+			//tag created
 			$rows .= $this->initializeTag(
 				"tr",
 				$rowAttributes
@@ -564,8 +656,20 @@ class HtmlInterface
 		}
 		
 		return $rows;
-	}
-
+	}#----------------- parseRows end -----------------#
+	
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Dzakuma
+	# [summary]
+	# Creates an HTML table based on the arrays passed.
+	# [parameters]
+	# 1) Multidimensional array to parse.
+	# 2) Optional array of row attributes. (can be xDimensional)
+	# 3) Optional table attributes. (x number of strings)
+	# [return]
+	# 1) An HTML table.
+	#-----------------------------------------------------------
 	public function autoTable($array)
 	{
 		//declarations
@@ -577,36 +681,33 @@ class HtmlInterface
 		$properties = func_get_args();
 		array_splice($properties, 0, 1); //array that the table is to parse
 		
-		//find the row attributes
+		//separate attributes
 		foreach($properties as $property) {
+			//check for row attributes
 			if(is_array($property)) {
+				//separate row attributes
 				foreach($property as $rowAttribute) {
 					$rowAttributes[] = $rowAttribute;
 				}
 			}
+			
+			//table attributes
 			if(is_string($property)) {
 				$tableAttributes[] = $property;
 			}
 		}
 
+		//add parsed rows to table attributes
 		$tableAttributes[] = $this->parseRows($array, $rowAttributes);
+		
+		//table created
 		$table = $this->initializeTag(
 			"table",
 			$tableAttributes
 		);
 		
 		return $table;
-	}
+	}#----------------- comment end -----------------#
 	//<-end auto table functions
 	//////////////////////////////
 }#==================== HtmlInterface end ====================#
-
-$table = array(
-	array("a", "b", "c"),
-	array("d", "e", "f"),
-	array("g", "h", "i")
-);
-
-$attributes = array("class", "classname", "noresize");
-$html = new HtmlInterface();
-$html->autoTable($table, $attributes);
