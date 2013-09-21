@@ -193,10 +193,11 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function selfClosingTagWithAttributes()
 	{
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
 		$html = new HtmlInterface();
 		$html->meta("content", "content-text");		
 		$this->assertSame(
-			"<meta content=\"content-text\">\n",
+			"<meta content=${qt}content-text${qt}>\n",
 			(string)$html,
 			"Failed to return br tag as parent (self-closing)."
 		);
@@ -209,10 +210,11 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function regularTagWithAttributes()
 	{
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
 		$html = new HtmlInterface();
 		$html->div("class", "classname");
 		$this->assertSame(
-			"<div class=\"classname\"></div>\n",
+			"<div class=${qt}classname${qt}></div>\n",
 			(string)$html,
 			"Failed to return div tag as parent."
 		);
@@ -224,11 +226,12 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function selfClosingTagWithAttributesFromArray()
 	{
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
 		$html = new HtmlInterface();
 		$attributes["content"] = "content-text";
 		$html->meta($attributes);		
 		$this->assertSame(
-			"<meta content=\"content-text\">\n",
+			"<meta content=${qt}content-text${qt}>\n",
 			(string)$html,
 			"Failed to return br tag as parent (self-closing)."
 		);
@@ -240,11 +243,13 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function regularTagWithAttributesFromArray()
 	{
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+
 		$html = new HtmlInterface();
 		$attributes["class"] = "classname";
 		$html->div($attributes);
 		$this->assertSame(
-			"<div class=\"classname\"></div>\n",
+			"<div class=${qt}classname${qt}></div>\n",
 			(string)$html,
 			"Failed to return div tag as parent."
 		);
@@ -326,6 +331,8 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function selfClosingTagWithAttributesAndSiblings()
 	{
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+
 		$html = new HtmlInterface();
 		$html->meta(
 			"content",
@@ -333,7 +340,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			$html->meta()
 		);
 		$this->assertSame(
-			"<meta content=\"content-text\">\n<meta>\n",
+			"<meta content=${qt}content-text${qt}>\n<meta>\n",
 			(string)$html,
 			"Failed to return br tag as parent (self-closing)."
 		);
@@ -345,6 +352,8 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function regularTagWithAttributesAndChildren()
 	{
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
+
 		$html = new HtmlInterface();
 		$html->div(
 			"class", 
@@ -353,7 +362,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			$html->p("nothing")
 		);
 		$this->assertSame(
-			"<div class=\"classname\">\n\t" .
+			"<div class=${qt}classname${qt}>\n\t" .
 			"<p>something</p>\n\t" .
 			"<p>nothing</p>\n" .
 			"</div>\n",
@@ -393,6 +402,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function completeDocument()
 	{
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
 		//setup
 		$html = new HtmlInterface("html");
 		$html->html(
@@ -407,7 +417,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			"<!DOCTYPE html>\n" .
 			"<html>\n" .
 			"\t<head>\n" .
-			"\t\t<meta name=\"description\">\n" .
+			"\t\t<meta name=${qt}description${qt}>\n" .
 			"\t</head>\n" .
 			"\t<body>\n" . 
 			"\t\t<p>document</p>\n" .
@@ -444,6 +454,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
     */
 	public function completeDocumentFromFragments()
 	{
+		$qt = HtmlOutputTest::DOUBLE_QUOTE;
 		//setup
 		$html = new HtmlInterface("html");
 		$head = new HtmlInterface();
@@ -462,7 +473,7 @@ class HtmlOutputTest extends PHPUnit_Framework_TestCase
 			"<!DOCTYPE html>\n" .
 			"<html>\n" .
 			"\t<head>\n" .
-			"\t\t<meta name=\"description\">\n" .
+			"\t\t<meta name=${qt}description${qt}>\n" .
 			"\t</head>\n" .
 			"\t<body>\n" . 
 			"\t\t<p>document</p>\n" .
