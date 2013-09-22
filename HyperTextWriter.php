@@ -222,19 +222,30 @@ class HyperTextWriter
 				$children[] = $property;
 				continue;
 			}
+			
 			//these are probably matched attributes
+			//this check is done before the strpos check
+			//because arrays break strpos
 			if(is_array($property)) {
-			    //key is attribute name
-				$stringList[] = key($property);
-				//value is attribute value
-				$stringList[] = $property[key($property)];
+				foreach($property as $attributeName => $value) {
+					//key is attribute name
+					$stringList[] = $attributeName;
+					
+					//non booleans get paired
+					if(!in_array($property, $this->booleanAttributes)) {
+						//value is attribute value
+						$stringList[] = $value;
+					}
+				}
 				continue;
 			}
+			
 			//if it has a carriage, it's a chlid
 			if(strpos($property, HyperTextWriter::NEWLINE) !== false) {
 				$children[] = $property;
 				continue;
 			}
+			
 			//these are either attributes or inner text
 			if(is_string($property)) {
 			    //save for later and check for inner text
@@ -706,8 +717,13 @@ class HyperTextWriter
 			//check for row attributes
 			if(is_array($property)) {
 				//separate row attributes
-				foreach($property as $rowAttribute) {
-					$rowAttributes[] = $rowAttribute;
+				foreach($property as $value) {
+					if(is_array($rowAttribute)) {
+						$rowAttributes[] = $value;
+						continue;
+					}
+					//flat attributes
+					$tableAttributes[] = $value;
 				}
 			}
 			if(is_bool($property)) {
