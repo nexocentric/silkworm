@@ -24,7 +24,7 @@
 // 1) $html = new HyperTextSilkworm(); //create a new interface
 // 2) ... = new HyperTextSilkworm("html"); //create a new interface with doctype
 // 3) $html->doctype("html"); //set the doctype
-// 4) $html->indentCharacter(" "); //set indent character as tabs or spaces
+// 4) $html->setIndentation(" "); //set indent character as tabs or spaces
 // 5) $html->html(); //create a tag !!see README.md for more information
 // 6) $html->newline(); //create a newline in HTML document
 // 7) $html->comment("comment text"); //create a comment in HTML document
@@ -97,31 +97,6 @@ class HyperTextSilkworm
 	private $html = "";
 	//<-end class variables
 	/////////////////////////
-	
-	#-----------------------------------------------------------
-	# [author]
-	# Dodzi Y. Dzakuma
-	# [summary]
-	# Changes the indentation pattern for the document.
-	# [parameters]
-	# 1) An indentation pattern consisting of tabs or spaces.
-	# [return]
-	# none
-	#-----------------------------------------------------------
-	public function setIndentation($indentationPattern = "")
-	{
-		//declarations
-		$space = HyperTextSilkworm::SPACE;
-		$tab = HyperTextSilkworm::TAB;
-
-		//check to see if use entered invalid tab value
-		if(preg_match("/[^$space$tab]/", $indentationPattern) === 0) {
-			//indentation pattern is valid, use it
-			$this->indentationPattern = $indentationPattern;
-			return;
-		}
-		//trigger_error("Only ASCII spaces and tabs can be used for indentation.");
-	}#----------------- setIndentation end -----------------#
 
 	#-----------------------------------------------------------
 	# [author]
@@ -568,6 +543,31 @@ class HyperTextSilkworm
 	{
 		return "<!-- $comment -->" . HyperTextSilkworm::NEWLINE;
 	}#----------------- comment end -----------------#
+	
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Changes the indentation pattern for the document.
+	# [parameters]
+	# 1) An indentation pattern consisting of tabs or spaces.
+	# [return]
+	# none
+	#-----------------------------------------------------------
+	public function setIndentation($indentationPattern = "")
+	{
+		//declarations
+		$space = HyperTextSilkworm::SPACE;
+		$tab = HyperTextSilkworm::TAB;
+
+		//check to see if use entered invalid tab value
+		if(preg_match("/[^$space$tab]/", $indentationPattern) === 0) {
+			//indentation pattern is valid, use it
+			$this->indentationPattern = $indentationPattern;
+			return;
+		}
+		//trigger_error("Only ASCII spaces and tabs can be used for indentation.");
+	}#----------------- setIndentation end -----------------#
 
 	//////////////////////////////
 	//start auto table functions->

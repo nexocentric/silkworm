@@ -1,6 +1,6 @@
 Hyper Text Silkworm
 ===================
-[日本語はこちらです。](./README.jp)
+[English here.](./README)
 [中文说明在这儿。](./README.zh)
 
 Hyper Text Silkworm is a PHP library to aid in the creation of HTML documents in PHP. Hyper Text Silkworm is an abstraction layer from HTML which allows you to focus on PHP when you're programming in PHP and worry about HTML presentation later.
@@ -11,15 +11,15 @@ History
 -------
 Hyper Text Silkworm was built from the ground up and has been throughly tested using PhpUnit.
 
-Changelog
----------
-| Version | Name            | Changes         |
-|---------|-----------------|-----------------|
-| 1.00    | ao              | initial release |
+更新履歴
+--------
+| バージョン | 名バージョン | 更新内容 |
+|------------|--------------|----------|
+| 1.00       | ao           | 初期     |
 
-Installation and Configuration
-------------------------------
-### Installation
+設定とインストール
+------------------
+### インストール
 Hyper Text Silkworm has no dependencies and can be installed the following ways:
 1. GitHub Copy and Include
   * Copy the library from GitHub
@@ -36,10 +36,10 @@ Hyper Text Silkworm has no dependencies and can be installed the following ways:
   ```
 Instantiate `$html = new HyperTextSilkworm();` and go.
 
-#### Testing
-All test for Hyper Text Silkworm have been conducted with PhpUnit. The tests are contained in the [tests folder](./tests), so feel free to run them to make sure your version is working.
+#### テスト
+All tests for Hyper Text Silkworm have been conducted with PhpUnit. The tests are contained in the [tests folder](./tests), so feel free to run them to make sure your version is working.
 
-### Configuration
+### 設定
 Hyper Text Silkworm doesn't require any configuration before use. Currently, only the character that is used for indentation can be changed. You can choose from a combination of tabs and/or spaces.
 
 ```php
@@ -47,11 +47,11 @@ $html = new HyperTextSilkworm();
 $html->setIndentation("   "); //indentation is now set to 3 spaces
 ```
 
-Usage
------
+インストール方法
+----------------
 There are a number of ways to use Hyper Text Silkworm.
 
-### Basic
+### 基本
 ```php
 $table = array(
     array("Version", "Name", "Changes"),
@@ -75,14 +75,14 @@ $html->html(
 ### Advanced
 For advanced usage please see the example folder. The examples are set up and ready for display. You should be able to access the files from your browser and see how they display there. Feel free to tinker with the examples to test out the system.
 
-Contact
--------
-### General
+連絡情報
+--------
+### 一般
 You can contact me via:
 * Twitter: [@nexocentric](https://twitter.com/nexocentric)
 * GitHub: [nexocentric](https://github.com/nexocentric)
 
-### Bugs
+### バッグ報告
 If you find any bugs while using Hyper Text Silkworm, I'd like to know so that I can fix them as soon as possible.
 
 Please submit the issue via GitHub and I'll contact you for more information.
@@ -105,11 +105,12 @@ Acknowledgements
 ----------------
 I would like to thank all of the people who supported me through out development for all of their help and advice.
 
+* Brandon Kuwahara
 * Tommie Barlow
 * Wataru Kitamura
 
-Copyright
----------
+ライセンス
+----------
 The MIT License (MIT)
 
 Copyright (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)

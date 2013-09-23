@@ -15,7 +15,7 @@ $example1->html(
 	$example1->head(
 		$example1->comment("start standard header block"),
 		$example1->meta("charset", "UTF-8"),
-		$example1->title("Ageha Blue Hyper Text Writer (quick start example)"),
+		$example1->title("Hyper Text Silkworm (quick start example)"),
 		$example1->newline(),
 		$example1->meta("name", "description", "content", "This is just a quick example on how to get started."),
 		$example1->meta("name", "viewport", "content", "width=device-width"),
@@ -32,7 +32,7 @@ $example1->html(
 			$example1->div(
 				"class", "content",
 				$example1->p("This is a short and sweet example to demonstrate Ageha Blue's writer usage.")
-			)
+			),
 		
 			$example1->newline(),
 			$example1->table( 
@@ -40,7 +40,7 @@ $example1->html(
 					"class", "table-header",
 					$example1->th("Example 1"),
 					$example1->th("Example 2"),
-					$example1->th("Example 3"),
+					$example1->th("Example 3")
 				),
 				$example1->tr(
 					$example1->td(
@@ -62,9 +62,9 @@ $example1->html(
 					$example1->td(
 						"Example 3 is available to show that this library is fairly " .
 						"Dynamic and the only thing holding you back is creativity."
-					),
-				),
-			),
+					)
+				)
+			)
 		)
 	)
 );
@@ -89,7 +89,7 @@ This allows you to divide web page creation into parts that
 can be managed by classes that you define yourself  
 This also introduces the autoTable() function which  
 accepts a multidimensional array and turns it into an  
-HTML table
+HTML table.
 TEXT2;
 
 $text3 = <<<TEXT3
@@ -107,7 +107,7 @@ $head = new HyperTextSilkworm();
 $head->head(
 	$head->comment("start standard header block"),
 	$head->meta("charset", "UTF-8"),
-	$head->title("Ageha Blue Hyper Text Writer (quick start example)"),
+	$head->title("Hyper Text Silkworm (quick start example)"),
 	$head->newline(),
 	$head->meta("name", "description", "content", "This is just a quick example on how to get started."),
 	$head->meta("name", "viewport", "content", "width=device-width"),
@@ -124,13 +124,13 @@ $rowAttributes = array(
 	array("class", "table-header"),
 	//array("", "") //see what happens when you uncomment this line
 );
-$divAttributes = array("class"=>"content")
+$divAttributes = array("class"=>"content");
 $body->body(
 	$body->div(
 		$body->div(
 			$divAttributes, //you can pass attributes as
 			$body->p("This is a short and sweet example to demonstrate Ageha Blue's writer usage.")
-		)
+		),
 		$body->newline(),
 		$body->autoTable(
 			$table,
@@ -147,7 +147,7 @@ $example2->html($head, $body);
 #-----------------------------------------------------------
 # quick example 3 (fancy, but it works)
 #-----------------------------------------------------------
-$example3 = new HyperTextSilkworm("html"); //define your doctype here if you need one
+/*$example3 = new HyperTextSilkworm("html"); //define your doctype here if you need one
 
 $head = array(
 );
@@ -164,7 +164,7 @@ foreach($body as $nestedTag) {
 
 $document
 
-$example3->html($document);
+$example3->html($document);*/
 
 
 #-----------------------------------------------------------

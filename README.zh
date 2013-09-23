@@ -1,7 +1,7 @@
 Hyper Text Silkworm
 ===================
+[English here.](./README)
 [日本語はこちらです。](./README.jp)
-[中文说明在这儿。](./README.zh)
 
 Hyper Text Silkworm is a PHP library to aid in the creation of HTML documents in PHP. Hyper Text Silkworm is an abstraction layer from HTML which allows you to focus on PHP when you're programming in PHP and worry about HTML presentation later.
 
