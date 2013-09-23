@@ -1,7 +1,7 @@
 <?php
 ////////////////////////////////////////////////////////////////////////////////
-// Work     : Ageha Blue Hyper Text Writer (tables example)
-// Copyright: (c) 2013 Dodzi Dzakuma (http://www.nexocentric.com)
+// Work     : Hyper Text Silkworm (tables example)
+// Copyright: (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
 //                See copywrite at footer for more information.
 // Version  : 1.00
 ////////////////////////////////////////////////////////////////////////////////

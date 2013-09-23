@@ -1,7 +1,7 @@
 <?php
-require_once(realpath("../HyperTextWriter.php"));
+require_once(realpath("../HyperTextSilkworm.php"));
 
-class HyperTextWriterTest extends PHPUnit_Framework_TestCase
+class HyperTextSilkwormTest extends PHPUnit_Framework_TestCase
 {
 	const DOUBLE_QUOTE = "\"";
 
@@ -10,7 +10,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function toString()
 	{
-		$html = new HyperTextWriter("html");
+		$html = new HyperTextSilkworm("html");
 		$this->assertTrue(
 			is_string((string)$html),
 			"Failed to convert interface to string."
@@ -23,7 +23,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function newline()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$this->assertSame(
 			"\n", 
 			$html->newline(), 
@@ -36,7 +36,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function comment()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$this->assertSame(
 			"<!-- this is a comment -->\n",
 			$html->comment("this is a comment"),
@@ -51,7 +51,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function selfClosingTag()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->br();
 		$this->assertSame(
 			"<br>\n",
@@ -66,7 +66,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTag()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->div();
 		$this->assertSame(
 			"<div></div>\n",
@@ -81,7 +81,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithInnerText()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->div("look here");
 		$this->assertSame(
 			"<div>look here</div>\n",
@@ -96,14 +96,14 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function returnsDoctype()
 	{
-		$html = new HyperTextWriter("html //definitions");
+		$html = new HyperTextSilkworm("html //definitions");
 		$this->assertSame(
 			"<!DOCTYPE html //definitions>\n", 
 			(string)$html, 
 			"Failed to set solidary !DOCTYPE."
 		);
 
-		$html = new HyperTextWriter("html //definitions");
+		$html = new HyperTextSilkworm("html //definitions");
 		$html->html();
 		$this->assertSame(
 			"<!DOCTYPE html //definitions>\n<html></html>\n", 
@@ -118,7 +118,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function tabIndentation()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->html(
 			$html->head(),
 			$html->body()
@@ -136,7 +136,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function spaceIndentation()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->setIndentation(" ");
 		$html->html(
 			$html->head(),
@@ -155,7 +155,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function mixedIndentation()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->setIndentation(" \t");
 		$html->html(
 			$html->head(),
@@ -174,7 +174,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function reversionToTabIndentation()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->setIndentation("A");
 		$html->html(
 			$html->head(),
@@ -193,8 +193,8 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function selfClosingTagWithAttributes()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
-		$html = new HyperTextWriter();
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
+		$html = new HyperTextSilkworm();
 		$html->meta("content", "content-text");		
 		$this->assertSame(
 			"<meta content=${qt}content-text${qt}>\n",
@@ -210,8 +210,8 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithAttributes()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
-		$html = new HyperTextWriter();
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
+		$html = new HyperTextSilkworm();
 		$html->div("class", "classname");
 		$this->assertSame(
 			"<div class=${qt}classname${qt}></div>\n",
@@ -226,8 +226,8 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function selfClosingTagWithAttributesFromArray()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
-		$html = new HyperTextWriter();
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
+		$html = new HyperTextSilkworm();
 		$attributes["content"] = "content-text";
 		$html->meta($attributes);		
 		$this->assertSame(
@@ -243,9 +243,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithAttributesFromArray()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
 
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$attributes["class"] = "classname";
 		$html->div($attributes);
 		$this->assertSame(
@@ -262,9 +262,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	public function selfClosingTagWithBooleanAttributes()
 	{
 		//declarations
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
 
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->input("type", "checkbox", "checked", "disabled");
 		$this->assertSame(
 			"<input type=${qt}checkbox${qt} checked disabled>\n",
@@ -280,7 +280,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithBooleanAttributes()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->button("hidden", "disabled", "click me");
 		$this->assertSame(
 			"<button hidden disabled>click me</button>\n",
@@ -296,8 +296,8 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function selfClosingTagWithAttributesFromArrayAndStrings()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
-		$html = new HyperTextWriter();
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
+		$html = new HyperTextSilkworm();
 		$attributes = array("name"=>"frame1", "marginheight"=>"10");
 		$html->frame($attributes, "noresize");		
 		$this->assertSame(
@@ -314,8 +314,8 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithAttributesFromArrayStringsAndInnerText()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
-		$html = new HyperTextWriter();
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
+		$html = new HyperTextSilkworm();
 		$attributes = array("class"=>"classname");
 		$html->p($attributes, "disabled", "hidden", "Lorem ipsum dolor sit amet...");
 		$this->assertSame(
@@ -331,7 +331,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function selfClosingTagWithSiblings()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->meta(
 			$html->meta()
 		);
@@ -348,7 +348,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithChildren()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->div(
 			$html->span(
 				$html->p()
@@ -367,9 +367,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function selfClosingTagWithAttributesAndSiblings()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
 
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->meta(
 			"content",
 			"content-text",
@@ -388,9 +388,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithAttributesAndChildren()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
 
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->div(
 			"class", 
 			"classname",
@@ -415,7 +415,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function documentFragment()
 	{
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->div(
 			$html->comment("this works"),
 			$html->h1(),
@@ -438,9 +438,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function completeDocument()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
 		//setup
-		$html = new HyperTextWriter("html");
+		$html = new HyperTextSilkworm("html");
 		$html->html(
 			$html->head(
 				$html->meta("name", "description")
@@ -470,10 +470,10 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function clearDoctype()
 	{
-		$body = new HyperTextWriter("html //definitions");
+		$body = new HyperTextSilkworm("html //definitions");
 		$body->body();
 
-		$html = new HyperTextWriter("html //definitions");
+		$html = new HyperTextSilkworm("html //definitions");
 		$html->html($body);
 		$this->assertSame(
 			"<!DOCTYPE html //definitions>\n<html>\n\t<body></body>\n</html>\n", 
@@ -490,14 +490,14 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function completeDocumentFromFragments()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
 		//setup
-		$html = new HyperTextWriter("html");
-		$head = new HyperTextWriter();
+		$html = new HyperTextSilkworm("html");
+		$head = new HyperTextSilkworm();
 		$head->head(
 				$head->meta("name", "description")
 		);
-		$body = new HyperTextWriter();
+		$body = new HyperTextSilkworm();
 		$body->body(
 			$body->p("document")
 		);
@@ -525,13 +525,13 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function repeatFragment()
 	{
-		$div = new HyperTextWriter();
+		$div = new HyperTextSilkworm();
 		$div->div(
 			$div->div(
 				$div->p()
 			)
 		);
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$html->html(
 			$html->repeat($div, 2)
 		);
@@ -563,7 +563,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr>\n" .
@@ -598,7 +598,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 			array("d", "e"),
 			array("g")
 		);
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr>\n" .
@@ -625,13 +625,13 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function autoTableThreeByThreeWithTableAttributes()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$this->assertSame(
 			"<table class=${qt}className${qt} noresize>\n" .
 			"\t<tr>\n" .
@@ -661,13 +661,13 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function autoTableThreeByThreeWithRowAttributesSame()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}className${qt} noresize>\n" .
@@ -697,13 +697,13 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function autoTableThreeByThreeWithRowAttributesDifferent()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}top${qt}>\n" .
@@ -740,13 +740,13 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	*/
 	public function autoTableThreeByThreeWithNestedTable()
 	{
-		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", array(array("a")))
 		);
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr>\n" .
@@ -789,7 +789,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr>\n" .
@@ -824,7 +824,7 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 			array("d", "e", "f"),
 			array("g", "h", array(array("a")))
 		);
-		$html = new HyperTextWriter();
+		$html = new HyperTextSilkworm();
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr>\n" .

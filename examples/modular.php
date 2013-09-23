@@ -1,7 +1,7 @@
 <?php
 ////////////////////////////////////////////////////////////////////////////////
-// Work     : Ageha Blue Hyper Text Writer (modular tutorial)
-// Copyright: (c) 2013 Dodzi Dzakuma (http://www.nexocentric.com)
+// Work     : Hyper Text Silkworm (modular tutorial)
+// Copyright: (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
 //                See copywrite at footer for more information.
 // Version  : 1.00
 ////////////////////////////////////////////////////////////////////////////////
@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)
 // 
-// Copyright (c) 2013 Dodzi Dzakuma (http://www.nexocentric.com)
+// Copyright (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal

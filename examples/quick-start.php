@@ -1,16 +1,16 @@
 <?php
 ////////////////////////////////////////////////////////////////////////////////
-// Work     : Ageha Blue Hyper Text Writer (quick start example)
-// Copyright: (c) 2013 Dodzi Dzakuma (http://www.nexocentric.com)
+// Work     : Hyper Text Silkworm (quick start example)
+// Copyright: (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
 //                See copywrite at footer for more information.
 // Version  : 1.00
 ////////////////////////////////////////////////////////////////////////////////
-require_once("../HyperTextWriter.php");
+require_once("../HyperTextSilkworm.php");
 
 #-----------------------------------------------------------
 # quick example 1 (brute force)
 #-----------------------------------------------------------
-$example1 = new HyperTextWriter("html"); //define your doctype here if you need one
+$example1 = new HyperTextSilkworm("html"); //define your doctype here if you need one
 $example1->html(
 	$example1->head(
 		$example1->comment("start standard header block"),
@@ -103,7 +103,7 @@ $table = array(
 );
 
 //this is for our head block
-$head = new HyperTextWriter();
+$head = new HyperTextSilkworm();
 $head->head(
 	$head->comment("start standard header block"),
 	$head->meta("charset", "UTF-8"),
@@ -119,7 +119,7 @@ $head->head(
 );
 
 //this is for the body
-$body = new HyperTextWriter();
+$body = new HyperTextSilkworm();
 $rowAttributes = array(
 	array("class", "table-header"),
 	//array("", "") //see what happens when you uncomment this line
@@ -140,14 +140,14 @@ $body->body(
 );
 
 //you can also define a doctype this way if you like
-$example2 = new HyperTextWriter();
+$example2 = new HyperTextSilkworm();
 $example2->doctype("HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"");
 $example2->html($head, $body);
 
 #-----------------------------------------------------------
 # quick example 3 (fancy, but it works)
 #-----------------------------------------------------------
-$example3 = new HyperTextWriter("html"); //define your doctype here if you need one
+$example3 = new HyperTextSilkworm("html"); //define your doctype here if you need one
 
 $head = array(
 );
