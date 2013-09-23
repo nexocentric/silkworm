@@ -718,7 +718,7 @@ class HyperTextWriter
 			if(is_array($property)) {
 				//separate row attributes
 				foreach($property as $value) {
-					if(is_array($rowAttribute)) {
+					if(is_array($value)) {
 						$rowAttributes[] = $value;
 						continue;
 					}

@@ -19,8 +19,8 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    */
+	* @test
+	*/
 	public function newline()
 	{
 		$html = new HyperTextWriter();
@@ -46,9 +46,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends toString
-    */
+	* @test
+	* @depends toString
+	*/
 	public function selfClosingTag()
 	{
 		$html = new HyperTextWriter();
@@ -61,9 +61,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends selfClosingTag
-    */
+	* @test
+	* @depends selfClosingTag
+	*/
 	public function regularTag()
 	{
 		$html = new HyperTextWriter();
@@ -76,9 +76,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends regularTag
-    */
+	* @test
+	* @depends regularTag
+	*/
 	public function regularTagWithInnerText()
 	{
 		$html = new HyperTextWriter();
@@ -131,9 +131,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends tabIndentation
-    */
+	* @test
+	* @depends tabIndentation
+	*/
 	public function spaceIndentation()
 	{
 		$html = new HyperTextWriter();
@@ -150,9 +150,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends tabIndentation
-    */
+	* @test
+	* @depends tabIndentation
+	*/
 	public function mixedIndentation()
 	{
 		$html = new HyperTextWriter();
@@ -169,9 +169,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends tabIndentation
-    */
+	* @test
+	* @depends tabIndentation
+	*/
 	public function reversionToTabIndentation()
 	{
 		$html = new HyperTextWriter();
@@ -188,9 +188,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends selfClosingTag
-    */
+	* @test
+	* @depends selfClosingTag
+	*/
 	public function selfClosingTagWithAttributes()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -204,10 +204,10 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends regularTag
-    * @depends selfClosingTagWithAttributes
-    */
+	* @test
+	* @depends regularTag
+	* @depends selfClosingTagWithAttributes
+	*/
 	public function regularTagWithAttributes()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -221,9 +221,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends selfClosingTagWithAttributes
-    */
+	* @test
+	* @depends selfClosingTagWithAttributes
+	*/
 	public function selfClosingTagWithAttributesFromArray()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -238,9 +238,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends regularTagWithAttributes
-    */
+	* @test
+	* @depends regularTagWithAttributes
+	*/
 	public function regularTagWithAttributesFromArray()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -256,9 +256,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends selfClosingTagWithAttributes
-    */
+	* @test
+	* @depends selfClosingTagWithAttributes
+	*/
 	public function selfClosingTagWithBooleanAttributes()
 	{
 		//declarations
@@ -274,10 +274,10 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends regularTagWithInnerText
-    * @depends regularTagWithAttributes
-    */
+	* @test
+	* @depends regularTagWithInnerText
+	* @depends regularTagWithAttributes
+	*/
 	public function regularTagWithBooleanAttributes()
 	{
 		$html = new HyperTextWriter();
@@ -290,9 +290,45 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends selfClosingTag
-    */
+	* @test
+	* @depends selfClosingTagWithAttributesFromArray
+	* @depends selfClosingTagWithBooleanAttributes
+	*/
+	public function selfClosingTagWithAttributesFromArrayAndStrings()
+	{
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$html = new HyperTextWriter();
+		$attributes = array("name"=>"frame1", "marginheight"=>"10");
+		$html->frame($attributes, "noresize");		
+		$this->assertSame(
+			"<frame name=${qt}frame1${qt} marginheight=${qt}10${qt} noresize>\n",
+			(string)$html,
+			"Failed to return br tag as parent (self-closing)."
+		);
+	}
+
+	/** 
+	* @test
+	* @depends regularTagWithAttributesFromArray
+	* @depends regularTagWithBooleanAttributes
+	*/
+	public function regularTagWithAttributesFromArrayStringsAndInnerText()
+	{
+		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
+		$html = new HyperTextWriter();
+		$attributes = array("class"=>"classname");
+		$html->p($attributes, "disabled", "hidden", "Lorem ipsum dolor sit amet...");
+		$this->assertSame(
+			"<p class=${qt}classname${qt} disabled hidden>Lorem ipsum dolor sit amet...</p>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+	* @test
+	* @depends selfClosingTag
+	*/
 	public function selfClosingTagWithSiblings()
 	{
 		$html = new HyperTextWriter();
@@ -307,9 +343,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends regularTag
-    */
+	* @test
+	* @depends regularTag
+	*/
 	public function regularTagWithChildren()
 	{
 		$html = new HyperTextWriter();
@@ -326,9 +362,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends selfClosingTagWithSiblings
-    */
+	* @test
+	* @depends selfClosingTagWithSiblings
+	*/
 	public function selfClosingTagWithAttributesAndSiblings()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -347,9 +383,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends regularTagWithChildren
-    */
+	* @test
+	* @depends regularTagWithChildren
+	*/
 	public function regularTagWithAttributesAndChildren()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -372,11 +408,11 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends comment
-    * @depends newline
-    * @depends regularTagWithAttributesAndChildren
-    */
+	* @test
+	* @depends comment
+	* @depends newline
+	* @depends regularTagWithAttributesAndChildren
+	*/
 	public function documentFragment()
 	{
 		$html = new HyperTextWriter();
@@ -397,9 +433,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends regularTagWithAttributesAndChildren
-    */
+	* @test
+	* @depends regularTagWithAttributesAndChildren
+	*/
 	public function completeDocument()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -447,11 +483,11 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends clearDoctype
-    * @depends documentFragment
-    * @depends completeDocument
-    */
+	* @test
+	* @depends clearDoctype
+	* @depends documentFragment
+	* @depends completeDocument
+	*/
 	public function completeDocumentFromFragments()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -484,9 +520,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends completeDocumentFromFragments
-    */
+	* @test
+	* @depends completeDocumentFromFragments
+	*/
 	public function repeatFragment()
 	{
 		$div = new HyperTextWriter();
@@ -517,9 +553,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends documentFragment
-    */
+	* @test
+	* @depends documentFragment
+	*/
 	public function autoTableThreeByThree()
 	{
 		$table = array(
@@ -552,9 +588,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends autoTableThreeByThree
-    */
+	* @test
+	* @depends autoTableThreeByThree
+	*/
 	public function autoTableTriangle()
 	{
 		$table = array(
@@ -584,9 +620,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends autoTableThreeByThree
-    */
+	* @test
+	* @depends autoTableThreeByThree
+	*/
 	public function autoTableThreeByThreeWithTableAttributes()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -620,9 +656,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends autoTableThreeByThree
-    */
+	* @test
+	* @depends autoTableThreeByThree
+	*/
 	public function autoTableThreeByThreeWithRowAttributesSame()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -650,15 +686,15 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 			"\t\t<td>i</td>\n" .
 			"\t</tr>\n" .
 			"</table>\n", 
-			$html->autoTable($table, array("class", "className", "noresize")),
+			$html->autoTable($table, array(array("class", "className", "noresize"))),
 			"failed to create 3 by 3 table with row attributes."
 		);
 	}
 
 	/** 
-    * @test
-    * @depends autoTableThreeByThreeWithRowAttributesSame
-    */
+	* @test
+	* @depends autoTableThreeByThreeWithRowAttributesSame
+	*/
 	public function autoTableThreeByThreeWithRowAttributesDifferent()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -687,21 +723,21 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 			"\t</tr>\n" .
 			"</table>\n", 
 			$html->autoTable(
-			    $table,
-			    array(
-			        array("class", "top"), 
-			        array("class", "middle"), 
-			        array("class", "bottom")
-			    )
+				$table,
+				array(
+					array("class", "top"), 
+					array("class", "middle"), 
+					array("class", "bottom")
+				)
 			), 
 			"failed to create 3 by 3 table with different row attributes."
 		);
 	}
 
 	/** 
-    * @test
-    * @depends autoTableThreeByThree
-    */
+	* @test
+	* @depends autoTableThreeByThree
+	*/
 	public function autoTableThreeByThreeWithNestedTable()
 	{
 		$qt = HyperTextWriterTest::DOUBLE_QUOTE;
@@ -736,16 +772,16 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 			"\t</tr>\n" .
 			"</table>\n", 
 			$html->autoTable(
-			    $table
+				$table
 			), 
 			"failed to create 3 by 3 table with different row attributes."
 		);
 	}
 
 	/** 
-    * @test
-    * @depends documentFragment
-    */
+	* @test
+	* @depends documentFragment
+	*/
 	public function autoTableThreeByThreeWithTableHeaders()
 	{
 		$table = array(
@@ -778,9 +814,9 @@ class HyperTextWriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-    * @test
-    * @depends autoTableThreeByThreeWithTableHeaders
-    */
+	* @test
+	* @depends autoTableThreeByThreeWithTableHeaders
+	*/
 	public function autoTableThreeByThreeWithTableHeadersAndNestedTable()
 	{
 		$table = array(
