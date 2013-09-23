@@ -51,7 +51,7 @@ $example1->html(
 					),
 					$example1->td(
 						"Example 2 shows that you can break everything up into " .
-						"more manageable parts, that you can then toss into Ageha Blue " .
+						"more manageable parts, that you can then toss into Silkworm " .
 						"for some quick formatting and parsing before you display it. " .
 						"This allows you to divide web page creation into parts that " .
 						"can be managed by classes that you define yourself. " .
@@ -83,7 +83,7 @@ TEXT1;
 
 $text2 = <<<TEXT2
 Example 2 shows that you can break everything up into  
-more manageable parts, that you can then toss into Ageha Blue  
+more manageable parts, that you can then toss into Silkworm  
 for some quick formatting and parsing before you display it  
 This allows you to divide web page creation into parts that  
 can be managed by classes that you define yourself  
@@ -100,6 +100,10 @@ TEXT3;
 $table = array(
 	array("Example 1", "Example 2", "Example 3"),
 	array($text1, $text2, $text3)
+);
+$rowAttributes = array(
+	array("class", "table-header"),
+	//array("", "") //see what happens when you uncomment this line
 );
 
 //this is for our head block
@@ -120,21 +124,18 @@ $head->head(
 
 //this is for the body
 $body = new HyperTextSilkworm();
-$rowAttributes = array(
-	array("class", "table-header"),
-	//array("", "") //see what happens when you uncomment this line
-);
+
 $divAttributes = array("class"=>"content");
 $body->body(
 	$body->div(
 		$body->div(
-			$divAttributes, //you can pass attributes as
-			$body->p("This is a short and sweet example to demonstrate Ageha Blue's writer usage.")
+			$divAttributes, //you can pass attributes as arrays too
+			$body->p("This is a short and sweet example to demonstrate Silkworm's usage.")
 		),
 		$body->newline(),
 		$body->autoTable(
 			$table,
-			true
+			$rowAttributes
 		)
 	)
 );
@@ -147,24 +148,40 @@ $example2->html($head, $body);
 #-----------------------------------------------------------
 # quick example 3 (fancy, but it works)
 #-----------------------------------------------------------
-/*$example3 = new HyperTextSilkworm("html"); //define your doctype here if you need one
+$example3 = new HyperTextSilkworm("html"); //define your doctype here if you need one
 
 $head = array(
+	"comment"=>"start standard header block",
+	"meta"=>"charset", "UTF-8",
+	"title"=>"Hyper Text Silkworm (quick start example)",
+	"newline"=>"",
+	"meta"=>array("name", "description", "content", "This is just a quick example on how to get started."),
+	"meta"=>array("name"=>"viewport", "content"=>"width=device-width"),
+	"comment"=>"end standard header block",
+	"newline"=>"",
+	"comment"=>"a stylesheet for some flair?",
+	"comment"=>"just passing a parameter makes it easier",
+	"style"=>$style
 );
-foreach($head as $nestedTag) {
 
+$nestedHeadTags = "";
+$tagGenerator = new HyperTextSilkworm();
+foreach($head as $tagName => $value) {
+	$nestedHeadTags .= "{$tagGenerator->$tagName($value)}";
 }
 
 $body = array(
-
+	
 );
+
+$nestedBodyTags = "";
 foreach($body as $nestedTag) {
 
 }
+//
+$document = $nestedHeadTags . $nestedBodyTags;
 
-$document
-
-$example3->html($document);*/
+$example3->html($document);
 
 
 #-----------------------------------------------------------
