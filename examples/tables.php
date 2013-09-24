@@ -5,7 +5,96 @@
 //                See copywrite at footer for more information.
 // Version  : 1.00
 ////////////////////////////////////////////////////////////////////////////////
+require_once("../HyperTextSilkworm.php");
 
+//////////////////////
+//start example data->
+$table = array( //we'll be recreating this data a number of ways in the examples
+	array("column 1", "column 2", "column 3"),
+	array("Hyper", "Texting", "Manually"),
+	array("Shortcuts", "are", "better..."),
+);
+//<-end example data
+//////////////////////
+
+#-----------------------------------------------------------
+# example 1 (completely manual - tedious, but has uses)
+#-----------------------------------------------------------
+$example1 = new HyperTextSilkworm();
+$example1->table(
+	"class", "example-table-1",
+	$example1->tr(
+		array("class"=>"top-row"), //valid attribute syntax
+		$example1->th("column 1"),
+		$example1->th("column 2"),
+		$example1->th("column 3")
+	),
+	$example1->tr(
+		"class", "middle-row", //this is also valid attribute syntax
+		$example1->td("Hyper"),
+		$example1->td("Texting"),
+		$example1->td("Manually")
+	),
+	$example1->tr(
+		"class", "bottom-row", //you can mix
+		array("id"=>"table-footer"), //and match both
+		$example1->td("Shortcuts"),
+		$example1->td("are"),
+		$example1->td("better...")
+	)
+);
+
+#-----------------------------------------------------------
+# example 2 (autoTable allows you to use pure PHP arrays)
+#-----------------------------------------------------------
+$example2 = new HyperTextSilkworm();
+$example2->autoTable($table); //that's it we have a table
+//however... the formatting isn't there... hold on
+
+#-----------------------------------------------------------
+# example 3 (with full attributes)
+#-----------------------------------------------------------
+$rowAttributes = array( //these are passed as a second 2D array
+	array("class"=>"top-row"),
+	array("class"=>"middle-row"), //associative
+	array("class", "bottom-row") //and regular syntax are valid
+);
+
+$example3 = new HyperTextSilkworm();
+$example3->autoTable(
+	$table, //first array is the table to parse
+	true, //this means treat first row as <th>
+	"class", "example-table-3", //you can pass attributes as arrays too
+	$rowAttributes //
+);
+//we now have a table that the same as the one above
+
+#-----------------------------------------------------------
+# example 4 (nested tables)
+#-----------------------------------------------------------
+$nestedTable = array(
+	array("a", "b", "c"),
+	array("d", array(
+			array("yes", "we", "can"),
+			array("generate", "xD", "ARRAYS!")
+		), 
+		"f"),
+	array("g", "h", array(
+			array("aa", "bb", "cc"),
+			array("dd", "ee", "ff"),
+			array("gg", "hh", "ii")
+		)
+	)
+);
+$example4 = new HyperTextSilkworm();
+//attibutes can be used just the same as example 3
+//for simplicity we'll omit them, but feel free to
+//use attributes for xD arrays as well
+$example4->autoTable($nestedTable); 
+
+#-----------------------------------------------------------
+# example 4 (nested tables)
+#-----------------------------------------------------------
 
 
 ////////////////////////////////////////////////////////////////////////////////

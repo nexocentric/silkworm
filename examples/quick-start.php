@@ -152,10 +152,10 @@ $example3 = new HyperTextSilkworm("html"); //define your doctype here if you nee
 
 $head = array(
 	"comment"=>"start standard header block",
-	"meta"=>"charset", "UTF-8",
+	"meta"=>array("charset", "UTF-8"),
 	"title"=>"Hyper Text Silkworm (quick start example)",
 	"newline"=>"",
-	"meta"=>array("name", "description", "content", "This is just a quick example on how to get started."),
+	"meta"=>array("name"=>"description", "content"=>"This is just a quick example on how to get started."),
 	"meta"=>array("name"=>"viewport", "content"=>"width=device-width"),
 	"comment"=>"end standard header block",
 	"newline"=>"",
@@ -170,14 +170,14 @@ foreach($head as $tagName => $value) {
 	$nestedHeadTags .= "{$tagGenerator->$tagName($value)}";
 }
 
-$body = array(
+//$body = array(
 	
-);
+//);
 
-$nestedBodyTags = "";
-foreach($body as $nestedTag) {
+$nestedBodyTags = "<body>\n\t<p>something</p>\n</body>\n";
+//foreach($body as $nestedTag) {
 
-}
+//}
 //
 $document = $nestedHeadTags . $nestedBodyTags;
 
