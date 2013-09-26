@@ -592,9 +592,11 @@ class HyperTextSilkworm
 		//declarations
 		$cells = "";
 		$cellType = $this->parsingTableHeader ? "th" : "td";
+		$properties = array();
 		
 		//decide whether to parse cells or rows
-		foreach($array as $cell) {
+		foreach($array as $attributes => $cell) {
+			$properties = array();
 			//check to make sure this is a single
 			//dimensional array
 			if(is_array($cell)) {
@@ -606,10 +608,28 @@ class HyperTextSilkworm
 				continue;
 			}
 			
+			if (!is_numeric($attributes)) {
+				if (strpos($attributes, "=>") !== false) {
+					$attributes = explode("=>", $attributes);
+					$properties[] = array($attributes[0]=>$attributes[1]);
+				} elseif (strpos($attributes, "=") !== false) {
+					$attributes = explode("=", $attributes);
+					$properties[] = array($attributes[0]=>$attributes[1]);
+				} else {
+					$attributes = explode(", ", $attributes);
+					$properties[] = array($attributes[0]=>$attributes[1]);
+				}
+			} else {
+				$attributes = "";
+			}
+			
+			$properties[] = $cell;
+			
 			//regular cell parse
 			$cells .= $this->initializeTag(
 				$cellType,
-				array($cell)
+				#array($cell, $attributes)
+				$properties
 			);
 		}
 		
@@ -661,8 +681,13 @@ class HyperTextSilkworm
 			//check to see if alternating properties passed
 			if($differentAttributes) {
 				//make sure that we have an array of strings
-				foreach($differentAttributes[$differentArrayMarker] as $attribute) {
+				foreach($differentAttributes[$differentArrayMarker] as $attribute => $value) {
+					if(is_array($value)) {
+						$rowAttributes[] = $value;
+						continue;
+					}
 		            $rowAttributes[] = $attribute;
+		            $rowAttributes[] = $value;
 		        }
 		        
 		        //alternate the properties using this marker
@@ -739,7 +764,7 @@ class HyperTextSilkworm
 		$tableAttributes[] = $this->parseRows($array, $rowAttributes);
 		
 		//table created
-		$table = $this->initializeTag(
+		$table = $this->__call(
 			"table",
 			$tableAttributes
 		);
@@ -749,6 +774,18 @@ class HyperTextSilkworm
 	//<-end auto table functions
 	//////////////////////////////
 }#==================== HyperTextSilkworm end ====================#
+
+
+$qt = HyperTextSilkworm::DOUBLE_QUOTE;
+		$table = array(
+			array("a", "hello=this"=>"b", "c"),
+			array("d", "e", "f"),
+			array("g", "h", "i")
+		);
+		$html = new HyperTextSilkworm();
+		$html->autoTable(
+				$table
+			);
 
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)

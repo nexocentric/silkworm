@@ -589,6 +589,45 @@ class HyperTextSilkwormTest extends PHPUnit_Framework_TestCase
 
 	/** 
 	* @test
+	* @depends documentFragment
+	* @depends autoTableThreeByThree
+	*/
+	public function autoTableThreeByThreeAsFragment()
+	{
+		$table = array(
+			array("a", "b", "c"),
+			array("d", "e", "f"),
+			array("g", "h", "i")
+		);
+		$parsedTable = new HyperTextSilkworm();
+		$parsedTable->autoTable($table);
+		
+		$html = new HyperTextSilkworm();
+		$this->assertSame(
+			"<table>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>a</td>\n" .
+			"\t\t<td>b</td>\n" .
+			"\t\t<td>c</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>d</td>\n" .
+			"\t\t<td>e</td>\n" .
+			"\t\t<td>f</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr>\n" .
+			"\t\t<td>g</td>\n" .
+			"\t\t<td>h</td>\n" .
+			"\t\t<td>i</td>\n" .
+			"\t</tr>\n" .
+			"</table>\n", 
+			(string)$parsedTable, 
+			"failed to create 3 by 3 table."
+		);
+	}
+	
+	/** 
+	* @test
 	* @depends autoTableThreeByThree
 	*/
 	public function autoTableTriangle()
@@ -733,7 +772,116 @@ class HyperTextSilkwormTest extends PHPUnit_Framework_TestCase
 			"failed to create 3 by 3 table with different row attributes."
 		);
 	}
+	
+	/** 
+	* @test
+	* @depends autoTableThreeByThreeWithRowAttributesDifferent
+	*/
+	public function autoTableThreeByThreeWithRowAttributesAlternatingAssociateArray()
+	{
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
+		$table = array(
+			array("a", "b", "c"),
+			array("d", "e", "f"),
+			array("g", "h", "i")
+		);
+		$html = new HyperTextSilkworm();
+		$this->assertSame(
+			"<table>\n" .
+			"\t<tr class=${qt}odd${qt}>\n" .
+			"\t\t<td>a</td>\n" .
+			"\t\t<td>b</td>\n" .
+			"\t\t<td>c</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr class=${qt}even${qt}>\n" .
+			"\t\t<td>d</td>\n" .
+			"\t\t<td>e</td>\n" .
+			"\t\t<td>f</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr class=${qt}odd${qt}>\n" .
+			"\t\t<td>g</td>\n" .
+			"\t\t<td>h</td>\n" .
+			"\t\t<td>i</td>\n" .
+			"\t</tr>\n" .
+			"</table>\n", 
+			$html->autoTable(
+				$table,
+				array(
+					array("class"=>"odd"), 
+					array("class"=>"even")
+				)
+			), 
+			"failed to create 3 by 3 table with different row attributes."
+		);
+	}
+	
+	/** 
+	* @test
+	* @depends autoTableThreeByThreeWithRowAttributesDifferent
+	*/
+	public function autoTableThreeByThreeWithRowAttributesAlternatingIndexedArray()
+	{
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
+		$table = array(
+			array("a", "b", "c"),
+			array("d", "e", "f"),
+			array("g", "h", "i")
+		);
+		$html = new HyperTextSilkworm();
+		$this->assertSame(
+			"<table>\n" .
+			"\t<tr class=${qt}odd${qt}>\n" .
+			"\t\t<td>a</td>\n" .
+			"\t\t<td>b</td>\n" .
+			"\t\t<td>c</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr class=${qt}even${qt}>\n" .
+			"\t\t<td>d</td>\n" .
+			"\t\t<td>e</td>\n" .
+			"\t\t<td>f</td>\n" .
+			"\t</tr>\n" .
+			"\t<tr class=${qt}odd${qt}>\n" .
+			"\t\t<td>g</td>\n" .
+			"\t\t<td>h</td>\n" .
+			"\t\t<td>i</td>\n" .
+			"\t</tr>\n" .
+			"</table>\n", 
+			$html->autoTable(
+				$table,
+				array(
+					array("class", "odd"), 
+					array("class", "even")
+				)
+			), 
+			"failed to create 3 by 3 table with different row attributes."
+		);
+	}
 
+	/** 
+	* @test
+	* @depends documentFragment
+	*/
+	public function autoTableWithCellAttributes()
+	{
+		$qt = HyperTextSilkwormTest::DOUBLE_QUOTE;
+		$table = array(
+			array("class=>left"=>"a", "class=middle"=>"b", "class, right"=>"c")
+		);
+		$html = new HyperTextSilkworm();
+		$this->assertSame(
+			"<table>\n" .
+			"\t<tr>\n" .
+			"\t\t<td class=${qt}left${qt}>a</td>\n" .
+			"\t\t<td class=${qt}middle${qt}>b</td>\n" .
+			"\t\t<td class=${qt}right${qt}>c</td>\n" .
+			"\t</tr>\n" .
+			"</table>\n", 
+			$html->autoTable($table), 
+			"failed to create 3 by 3 table."
+		);
+	}
+	
+	
 	/** 
 	* @test
 	* @depends autoTableThreeByThree
