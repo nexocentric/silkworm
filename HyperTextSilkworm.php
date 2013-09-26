@@ -616,8 +616,11 @@ class HyperTextSilkworm
 					$attributes = explode("=", $attributes);
 					$properties[] = array($attributes[0]=>$attributes[1]);
 				} else {
-					$attributes = explode(", ", $attributes);
-					$properties[] = array($attributes[0]=>$attributes[1]);
+					$attributes = explode(",", $attributes);
+					$properties[] = array(
+						trim($attributes[0]) =>
+						trim($attributes[1])
+					);
 				}
 			} else {
 				$attributes = "";
@@ -774,18 +777,6 @@ class HyperTextSilkworm
 	//<-end auto table functions
 	//////////////////////////////
 }#==================== HyperTextSilkworm end ====================#
-
-
-$qt = HyperTextSilkworm::DOUBLE_QUOTE;
-		$table = array(
-			array("a", "hello=this"=>"b", "c"),
-			array("d", "e", "f"),
-			array("g", "h", "i")
-		);
-		$html = new HyperTextSilkworm();
-		$html->autoTable(
-				$table
-			);
 
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)
