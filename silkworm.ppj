@@ -1,0 +1,143 @@
+﻿[Debugger]
+stopbeginning=1
+dbgsessions=1
+excset=Exception
+profwithdbg=0
+excign=
+breakexc=1
+cp=System default encoding
+tunnel=
+readonlyed=0
+custom=0
+host=localhost
+errset=E_ERROR,E_WARNING,E_PARSE,E_CORE_ERROR,E_CORE_WARNING,E_COMPILE_ERROR,E_COMPILE_WARNING,E_USER_ERROR,E_USER_WARNING,E_STRICT,E_RECOVERABLE_ERROR
+sesstimeout=15
+blkout=0
+showmaperrors=1
+Custom.Debug.Settings=0
+breakerr=1
+
+[PHPEdProject.Filters.Allow]
+\=
+
+[Test.Suite]
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa43760FA4=>_n>"documentFragment" _d>"comment,newline,regularTagWithAttributesAndChildren"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa9E8E3DD5=>_n>"selfClosingTagWithAttributesFromArray" _d>"selfClosingTagWithAttributes"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa049E68B0=>_n>"regularTagWithChildren" _d>"regularTag"
+/=>_i>"3" _hid>"-644577062" _dt2>"41545.0713946759"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaDC2DAAA6=>_n>"newline"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaF7893D2B=>_n>"selfClosingTag" _d>"toString"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaD0E42DAD=>_n>"clearDoctype" _d>"returnsDoctype,documentFragment"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa8CBB5518=>_n>"regularTagWithInnerText" _d>"regularTag"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa11C8E166=>_n>"autoTableThreeByThree" _d>"documentFragment"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa88CD708C=>_n>"autoTableTriangle" _d>"autoTableThreeByThree"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa5434457C=>_n>"autoTableWithCellAttributes" _d>"documentFragment"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa5AEFE5FC=>_n>"reversionToTabIndentation" _d>"tabIndentation"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa4C09945B=>_n>"returnsDoctype" _d>"regularTag"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa1C082CD8=>_n>"regularTagWithBooleanAttributes" _d>"regularTagWithInnerText,regularTagWithAttributes"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaEFAB67CB=>_n>"regularTagWithAttributes" _d>"regularTag,selfClosingTagWithAttributes"
+/ba54B3BC3D/ea44A89BC3/ja123091FF=>_n>"SilkwormTest"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaE2908FB7=>_n>"completeDocument" _d>"regularTagWithAttributesAndChildren"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa7DF8D722=>_n>"autoTableThreeByThreeAsFragment" _d>"documentFragment,autoTableThreeByThree"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa06982C20=>_n>"tabIndentation" _d>"regularTag"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaA553CD2E=>_n>"selfClosingTagWithAttributesAndSiblings" _d>"selfClosingTagWithSiblings"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa22B3E75E=>_n>"toString"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa792C1D60=>_n>"autoTableThreeByThreeWithRowAttributesAlternatingAssociateArray" _d>"autoTableThreeByThreeWithRowAttributesDifferent"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaC09C5B20=>_n>"autoTableThreeByThreeWithTableHeadersAndNestedTable" _d>"autoTableThreeByThreeWithTableHeaders"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa3DB703B8=>_n>"autoTableThreeByThreeWithNestedTable" _d>"autoTableThreeByThree"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaB65C1BF9=>_n>"mixedIndentation" _d>"tabIndentation"
+/ba54B3BC3D=>_i>"3" _n>"W:\html-interface\tests"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaA4DF12A4=>_n>"selfClosingTagWithAttributes" _d>"selfClosingTag"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa8B85B63E=>_n>"autoTableThreeByThreeWithTableHeaders" _d>"documentFragment"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa5D8C5236=>_n>"regularTagWithAttributesFromArray" _d>"regularTagWithAttributes"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa47364C5C=>_n>"autoTableThreeByThreeWithTableAttributes" _d>"autoTableThreeByThree"
+/ba54B3BC3D/ea44A89BC3=>_n>"W:\html-interface\tests\SilkwormTest.php"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa3C23158A=>_n>"regularTagWithAttributesFromArrayStringsAndInnerText" _d>"regularTagWithAttributesFromArray,regularTagWithBooleanAttributes"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaD0BD40DE=>_n>"selfClosingTagWithSiblings" _d>"selfClosingTag"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa32475A23=>_n>"comment"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa0825F4B6=>_n>"completeDocumentFromFragments" _d>"clearDoctype,documentFragment,completeDocument"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaC90A1922=>_n>"regularTagWithAttributesAndChildren" _d>"regularTagWithChildren"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa81076A5D=>_n>"selfClosingTagWithAttributesFromArrayAndStrings" _d>"selfClosingTagWithAttributesFromArray,selfClosingTagWithBooleanAttributes"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa50B2FE98=>_n>"regularTag" _d>"selfClosingTag"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oaB706DF1A=>_n>"autoTableThreeByThreeWithRowAttributesSame" _d>"autoTableThreeByThree"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa8CAC5D93=>_n>"spaceIndentation" _d>"tabIndentation"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa084625D3=>_n>"selfClosingTagWithBooleanAttributes" _d>"selfClosingTagWithAttributes"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa2695B396=>_n>"autoTableThreeByThreeWithRowAttributesDifferent" _d>"autoTableThreeByThreeWithRowAttributesSame"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa40AE07FE=>_n>"repeatFragment" _d>"completeDocumentFromFragments"
+/ba54B3BC3D/ea44A89BC3/ja123091FF/oa6FA44681=>_n>"autoTableThreeByThreeWithRowAttributesAlternatingIndexedArray" _d>"autoTableThreeByThreeWithRowAttributesDifferent"
+
+[PHPEdProject.Filters]
+\=
+
+[Encoder]
+excl=0
+asptags=0
+obfusclevel=0
+stoponerr=0
+extinfo=0
+licensing=0
+phpdoc=1
+compatibilitylevel=1
+nofreeinc=0
+copyall=1
+suppresssucc=0
+headertype=0
+shorttags=1
+lineinfo=0
+destinationtype=0
+
+[PHPEdProject.Encodings]
+\=UTF-8
+
+[Testing]
+TestingCustomLoader=
+TestingCustomLoaderExtraArg=
+TestingConfig=tests\phpunit.xml
+FindTestMode=0
+TestingRoot=tests
+EnableTesting=1
+
+[PHPEdProject]
+HideDirs=CVS;.svn;.git
+CvsRoot=
+MappingLocal0=W:\html-interface
+ParserProp_CSS_SubLang=1
+CvsModule=
+EncoderEnabled=0
+DefaultEncodingCount=1
+CvsPassw=nN/LcA1CKngtvt6Uk3oG8ON2IIzSsg9oTS6OhOfqruBP5lF8MSLDWM2eenQpWu7QeFbBbGmSvkgbDiFklMqQwA==
+IncPath_count=0
+RelativeRootDir=..\html-interface
+MappingMainIdx=0
+ParserProp_CSS_ParsePHP=0
+MappingURL0=
+ParserProp_PHP_AspTags=0
+MappingRemote0=
+CvsHost=
+RunMode=1
+CvsMethod=pserver
+CvsUser=
+CvsCVSROOT=:pserver:@
+DefaultFile=
+ChangeTime=41524.6006250463
+ParserProp_JS_ParsePHP=0
+ParserProp_Override=0
+GUID={0F50D0E1-B4D7-4EFE-AE69-1A4A977A956B}
+CvsUseUtf8=0
+MappingCount=1
+ParserProp_AllowSingleAsteriskXDoc=0
+PublishingAllowFilterCount=1
+DontPublishDirs=CVS;.svn;.git
+SourceControl=0
+ParserProp_HTML_SubLang=2
+ParserPropPHPShortTags=1
+ParserProp_PHP_SubLang=3
+PublishingFilterCount=1
+CustomPropCount=0
+HideFiles=.gitignore;.cvsignore
+
+[Publishing]
+DebuggerPublishingIdx=-1
+count=0
+DfltPublishingIdx=-1
+

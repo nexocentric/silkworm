@@ -1,6 +1,6 @@
 <?php
 ////////////////////////////////////////////////////////////////////////////////
-// Work     : Hyper Text Silkworm (modular tutorial)
+// Work     : Silkworm (modular tutorial)
 // Copyright: (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
 //                See copywrite at footer for more information.
 // Version  : 1.00

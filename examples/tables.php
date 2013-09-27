@@ -1,18 +1,18 @@
 <?php
 ////////////////////////////////////////////////////////////////////////////////
-// Work     : Hyper Text Silkworm (tables example)
+// Work     : Silkworm (tables example)
 // Copyright: (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
 //                See copywrite at footer for more information.
 // Version  : 1.00
 ////////////////////////////////////////////////////////////////////////////////
-require_once("../HyperTextSilkworm.php");
+require_once("../Silkworm.php");
 
 //////////////////////
 //start example data->
 $table = array( //we'll be recreating this data a number of ways in the examples
 	array("column 1", "column 2", "column 3"),
-	array("Assisted", "Hyper", "Texting"),
-	array("Definitely", "way", "better!!"),
+	array("Assisted", "text", "markup"),
+	array("definitely", "way", "better!!"),
 );
 //<-end example data
 //////////////////////
@@ -20,7 +20,7 @@ $table = array( //we'll be recreating this data a number of ways in the examples
 #-----------------------------------------------------------
 # example 1 (completely manual - tedious, but has uses)
 #-----------------------------------------------------------
-$example1 = new HyperTextSilkworm();
+$example1 = new Silkworm();
 $example1->table(
 	"class", "example-table-1",
 	$example1->tr(
@@ -31,23 +31,23 @@ $example1->table(
 	),
 	$example1->tr(
 		"class", "middle-row", //this is also valid attribute syntax
-		$example1->td("Hyper"),
-		$example1->td("Texting"),
-		$example1->td("Manually")
+		$example1->td("Text"),
+		$example1->td("markup"),
+		$example1->td("manually...")
 	),
 	$example1->tr(
 		"class", "bottom-row", //you can mix
 		array("id"=>"table-footer"), //and match both
-		$example1->td("Shortcuts"),
-		$example1->td("are"),
-		$example1->td("better...")
+		$example1->td("assistance"),
+		$example1->td("greatly"),
+		$example1->td("required...")
 	)
 );
 
 #-----------------------------------------------------------
 # example 2 (autoTable allows you to use pure PHP arrays)
 #-----------------------------------------------------------
-$example2 = new HyperTextSilkworm();
+$example2 = new Silkworm();
 $example2->autoTable($table); //that's it we have a table
 //however... the formatting isn't there... hold on
 
@@ -60,7 +60,7 @@ $rowAttributes = array( //these are passed as a second 2D array
 	array("class", "bottom-row") //and regular syntax are valid
 );
 
-$example3 = new HyperTextSilkworm();
+$example3 = new Silkworm();
 $example3->autoTable(
 	$table, //first array is the table to parse
 	true, //this means treat first row as <th>
@@ -92,7 +92,7 @@ $nestedTable = array( //you would probably generate this table programatically
 		)
 	)
 );
-$example4 = new HyperTextSilkworm();
+$example4 = new Silkworm();
 //attibutes can be used just the same as example 3
 //for simplicity we'll omit them, but feel free to
 //use attributes for xD arrays as well
@@ -122,7 +122,7 @@ $longTableAttributes = array(
 );
 
 //notice that the attributes
-$example5 = new HyperTextSilkworm();
+$example5 = new Silkworm();
 $example5->autoTable($longTable, $longTableAttributes);
 
 #-----------------------------------------------------------
@@ -232,10 +232,10 @@ table td {
 
 PAGE_STYLES;
 
-$head = new HyperTextSilkworm();
+$head = new Silkworm();
 $head->head(
 	$head->meta("charset", "UTF-8"),
-	$head->title("Hyper Text Silkworm (tables example)"),
+	$head->title("Silkworm (tables example)"),
 	$head->newline(),
 	$head->meta("name", "description", "content", "This demostrates how to use tables."),
 	$head->meta("name", "viewport", "content", "width=device-width"),
@@ -244,7 +244,7 @@ $head->head(
 	$head->style($style)
 );
 
-$displayExamples = new HyperTextSilkworm();
+$displayExamples = new Silkworm();
 $displayExamples->html(
 	$head,
 	$displayExamples->body(
