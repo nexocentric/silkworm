@@ -3,8 +3,6 @@ require_once(realpath("../Silkworm.php"));
 
 class SilkwormTest extends PHPUnit_Framework_TestCase
 {
-	const DOUBLE_QUOTE = "\"";
-
 	/** 
 	* @test
 	*/
@@ -96,14 +94,16 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function returnsDoctype()
 	{
-		$html = new Silkworm("html //definitions");
+		$html = new Silkworm();
+		$html->doctype("html //definitions");
 		$this->assertSame(
 			"<!DOCTYPE html //definitions>\n", 
 			(string)$html, 
 			"Failed to set solidary !DOCTYPE."
 		);
 
-		$html = new Silkworm("html //definitions");
+		$html = new Silkworm();
+		$html->doctype("html //definitions");
 		$html->html();
 		$this->assertSame(
 			"<!DOCTYPE html //definitions>\n<html></html>\n", 
@@ -193,7 +193,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function selfClosingTagWithAttributes()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$html = new Silkworm();
 		$html->meta("content", "content-text");		
 		$this->assertSame(
@@ -210,7 +210,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithAttributes()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$html = new Silkworm();
 		$html->div("class", "classname");
 		$this->assertSame(
@@ -226,7 +226,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function selfClosingTagWithAttributesFromArray()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$html = new Silkworm();
 		$attributes["content"] = "content-text";
 		$html->meta($attributes);		
@@ -243,7 +243,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithAttributesFromArray()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 
 		$html = new Silkworm();
 		$attributes["class"] = "classname";
@@ -262,12 +262,31 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	public function selfClosingTagWithBooleanAttributes()
 	{
 		//declarations
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 
 		$html = new Silkworm();
+		$html->booleanDisplayStyle("mi"); //does the short version work
 		$html->input("type", "checkbox", "checked", "disabled");
 		$this->assertSame(
 			"<input type=${qt}checkbox${qt} checked disabled>\n",
+			(string)$html,
+			"Failed to return br tag as parent (self-closing)."
+		);
+		
+		$html = new Silkworm();
+		$html->booleanDisplayStyle("MAXIMIZED"); //does all caps work
+		$html->input("type", "checkbox", "checked", "disabled");
+		$this->assertSame(
+			"<input type=${qt}checkbox${qt} checked=${qt}checked${qt} disabled=${qt}disabled${qt}>\n",
+			(string)$html,
+			"Failed to return br tag as parent (self-closing)."
+		);
+		
+		$html = new Silkworm();
+		$html->booleanDisplayStyle("boolean"); //does all lowercase work
+		$html->input("type", "checkbox", "checked", "disabled");
+		$this->assertSame(
+			"<input type=${qt}checkbox${qt} checked=${qt}true${qt} disabled=${qt}true${qt}>\n",
 			(string)$html,
 			"Failed to return br tag as parent (self-closing)."
 		);
@@ -280,10 +299,32 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithBooleanAttributes()
 	{
+		//declarations
+		$qt = Silkworm::DOUBLE_QUOTE;
+		
 		$html = new Silkworm();
+		$html->booleanDisplayStyle(); //no string defaults to minimized
 		$html->button("hidden", "disabled", "click me");
 		$this->assertSame(
 			"<button hidden disabled>click me</button>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+		
+		$html = new Silkworm();
+		$html->booleanDisplayStyle("MA"); //does the caps short version work
+		$html->button("hidden", "disabled", "click me");
+		$this->assertSame(
+			"<button hidden=${qt}hidden${qt} disabled=${qt}disabled${qt}>click me</button>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+		
+		$html = new Silkworm();
+		$html->booleanDisplayStyle("BoOl"); //does half the word random caps work
+		$html->button("hidden", "disabled", "click me");
+		$this->assertSame(
+			"<button hidden=${qt}true${qt} disabled=${qt}true${qt}>click me</button>\n",
 			(string)$html,
 			"Failed to return div tag as parent."
 		);
@@ -296,8 +337,9 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function selfClosingTagWithAttributesFromArrayAndStrings()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$html = new Silkworm();
+		$html->booleanDisplayStyle(); //no string defaults to minimized
 		$attributes = array("name"=>"frame1", "marginheight"=>"10");
 		$html->frame($attributes, "noresize");		
 		$this->assertSame(
@@ -314,8 +356,9 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithAttributesFromArrayStringsAndInnerText()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$html = new Silkworm();
+		$html->booleanDisplayStyle(); //no string defaults to minimized
 		$attributes = array("class"=>"classname");
 		$html->p($attributes, "disabled", "hidden", "Lorem ipsum dolor sit amet...");
 		$this->assertSame(
@@ -367,9 +410,10 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function selfClosingTagWithAttributesAndSiblings()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 
 		$html = new Silkworm();
+		$html->booleanDisplayStyle(); //no string defaults to minimized
 		$html->meta(
 			"content",
 			"content-text",
@@ -388,9 +432,10 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function regularTagWithAttributesAndChildren()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 
 		$html = new Silkworm();
+		$html->booleanDisplayStyle(); //no string defaults to minimized
 		$html->div(
 			"class", 
 			"classname",
@@ -438,9 +483,10 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function completeDocument()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		//setup
-		$html = new Silkworm("html");
+		$html = new Silkworm();
+		$html->doctype("html");
 		$html->html(
 			$html->head(
 				$html->meta("name", "description")
@@ -470,10 +516,12 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function clearDoctype()
 	{
-		$body = new Silkworm("html //definitions");
+		$body = new Silkworm();
+		$body->doctype("html //definitions");
 		$body->body();
 
-		$html = new Silkworm("html //definitions");
+		$html = new Silkworm();
+		$html->doctype("html //definitions");
 		$html->html($body);
 		$this->assertSame(
 			"<!DOCTYPE html //definitions>\n<html>\n\t<body></body>\n</html>\n", 
@@ -490,9 +538,10 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function completeDocumentFromFragments()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		//setup
-		$html = new Silkworm("html");
+		$html = new Silkworm();
+		$html->doctype("html");
 		$head = new Silkworm();
 		$head->head(
 				$head->meta("name", "description")
@@ -664,13 +713,14 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function autoTableThreeByThreeWithTableAttributes()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
 		$html = new Silkworm();
+		$html->booleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table class=${qt}className${qt} noresize>\n" .
 			"\t<tr>\n" .
@@ -700,13 +750,14 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function autoTableThreeByThreeWithRowAttributesSame()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
 		$html = new Silkworm();
+		$html->booleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}className${qt} noresize>\n" .
@@ -736,13 +787,14 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function autoTableThreeByThreeWithRowAttributesDifferent()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
 		$html = new Silkworm();
+		$html->booleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}top${qt}>\n" .
@@ -779,13 +831,14 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function autoTableThreeByThreeWithRowAttributesAlternatingAssociateArray()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
 		$html = new Silkworm();
+		$html->booleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}odd${qt}>\n" .
@@ -821,13 +874,14 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function autoTableThreeByThreeWithRowAttributesAlternatingIndexedArray()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
 			array("g", "h", "i")
 		);
 		$html = new Silkworm();
+		$html->booleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}odd${qt}>\n" .
@@ -863,11 +917,12 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function autoTableWithCellAttributes()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$table = array(
 			array("class=>left"=>"a", "class=middle"=>"b", "class, right"=>"c")
 		);
 		$html = new Silkworm();
+		$html->booleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr>\n" .
@@ -888,7 +943,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function autoTableThreeByThreeWithNestedTable()
 	{
-		$qt = SilkwormTest::DOUBLE_QUOTE;
+		$qt = Silkworm::DOUBLE_QUOTE;
 		$table = array(
 			array("a", "b", "c"),
 			array("d", "e", "f"),
@@ -999,6 +1054,169 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			"</table>\n", 
 			$html->autoTable($table, true), 
 			"failed to create 3 by 3 table."
+		);
+	}
+	
+	/** 
+	* @test
+	* @depends documentFragment
+	*/
+	public function saveAccessFragmentNumericKey()
+	{
+		$html = new Silkworm();
+		$html[] = $html->div(
+			$html->comment("this works"),
+			$html->h1(),
+			$html->newline(),
+			$html->span(
+				$html->p(
+				)
+			)
+		);
+		$this->assertSame(
+			"<div>\n" .
+			"\t<!-- this works -->\n" .
+			"\t<h1></h1>\n" .
+			"\t\n" .
+			"\t<span>\n" .
+			"\t\t<p></p>\n" .
+			"\t</span>\n" .
+			"</div>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+		$this->assertSame(
+			"<div>\n" .
+			"\t<!-- this works -->\n" .
+			"\t<h1></h1>\n" .
+			"\t\n" .
+			"\t<span>\n" .
+			"\t\t<p></p>\n" .
+			"\t</span>\n" .
+			"</div>\n",
+			$html[0],
+			"Failed to return div tag as parent."
+		);
+	}
+	
+	/** 
+	* @test
+	* @depends documentFragment
+	*/
+	public function saveAccessFragmentNamedKey()
+	{
+		$html = new Silkworm();
+		$html["a"] = $html->div(
+			$html->comment("this works"),
+			$html->h1(),
+			$html->newline(),
+			$html->span(
+				$html->p(
+				)
+			)
+		);
+		$this->assertSame(
+			"<div>\n" .
+			"\t<!-- this works -->\n" .
+			"\t<h1></h1>\n" .
+			"\t\n" .
+			"\t<span>\n" .
+			"\t\t<p></p>\n" .
+			"\t</span>\n" .
+			"</div>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+		$this->assertSame(
+			"<div>\n" .
+			"\t<!-- this works -->\n" .
+			"\t<h1></h1>\n" .
+			"\t\n" .
+			"\t<span>\n" .
+			"\t\t<p></p>\n" .
+			"\t</span>\n" .
+			"</div>\n",
+			$html["a"],
+			"Failed to return div tag as parent."
+		);
+	}
+	
+	/** 
+	* @test
+	* @depends saveAccessFragmentNumericKey
+	* @depends saveAccessFragmentNamedKey
+	*/
+	public function saveFragmentRandomRetrieveAlphaNumericOrder()
+	{
+		$html = new Silkworm();
+		$html[] = $html->newline(); //this is c
+		$html["b"] = $html->h1();
+		$html["a"] = $html->comment("this works");
+		$html[] = $html->span( //this is d
+			$html->p()
+		);
+		$this->assertSame(
+			"<div>\n" .
+			"\t<!-- this works -->\n" .
+			"\t<h1></h1>\n" .
+			"\t\n" .
+			"\t<span>\n" .
+			"\t\t<p></p>\n" .
+			"\t</span>\n" .
+			"</div>\n",
+			(string)$html->div(
+				(string)$html
+			),
+			"Failed to return div tag as parent."
+		);
+	}
+	
+	/**
+	* @test
+	* @depends saveAccessFragmentNumericKey
+	* @depends saveAccessFragmentNamedKey
+	*/
+	public function saveFragmentUnsetDisplay()
+	{
+		$html = new Silkworm();
+		$html[] = $html->newline(); //this is c
+		$html["b"] = $html->h1();
+		$html["a"] = $html->comment("this works");
+		$html[] = $html->span( //this is d
+			$html->p()
+		);
+		unset($html["a"]);
+		$this->assertSame(
+			"<div>\n" .
+			"\t<h1></h1>\n" .
+			"\t\n" .
+			"\t<span>\n" .
+			"\t\t<p></p>\n" .
+			"\t</span>\n" .
+			"</div>\n",
+			(string)$html->div(
+				(string)$html
+			),
+			"Failed to return div tag as parent."
+		);
+	}
+	
+	/**
+	* @test
+	* @depends saveFragmentUnsetDisplay
+	*/
+	public function retrieveNonexistantFragment()
+	{
+		$html = new Silkworm();
+		$html["a"] = $html->comment("this works");
+		unset($html["a"]);
+		$this->assertSame(
+			"<div>\n" .
+			"</div>\n",
+			(string)$html->div(
+				(string)$html
+			),
+			"Failed to return div tag as parent."
 		);
 	}
 }

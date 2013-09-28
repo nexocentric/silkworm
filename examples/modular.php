@@ -5,9 +5,84 @@
 //                See copywrite at footer for more information.
 // Version  : 1.00
 ////////////////////////////////////////////////////////////////////////////////
+require_once("../Silkworm.php");
 
-
-
+class Webpage
+{
+	private $webpage = null;
+	
+	public function __construct()
+	{
+		$this->webpage = new Silkworm();
+	}
+	
+	private function createHead()
+	{
+		$head = new Silkworm();
+		$head->head(
+			$head->meta("charset", "UTF-8"),
+			$head->title("Silkworm (modular example)"),
+			$head->newline(),
+			$head->meta(
+				"name", "description", 
+				"content", "This is a demostration of how Silkworm can be encoporated into systems."
+			),
+			$head->meta("name", "viewport", "content", "width=device-width"),
+			$head->comment("end standard header block"),
+			$head->newline(),
+			$head->comment("start styles"),
+			$this->getStyles(), //I can take care of all my includes here
+			$head->comment("end styles"),
+			$head->newline(),
+			$head->comment("start javascripts"),
+			$this->getJavascripts(), //and here as well
+			$head->comment("end javascripts")
+		);
+		return $head;
+	}
+	
+	private function createBody()
+	{
+		$body = new Silkworm();
+		$body->body(
+			$this->getPageContent(),
+			$body->autoTable(
+				$this->getTableData()
+			)
+		);
+		return $body;
+	}
+	
+	private function getJavascripts()
+	{
+		
+	}
+	
+	private function getStyles()
+	{
+		
+	}
+	
+	private function getTableData()
+	{
+		
+	}
+	
+	private function getPageContent()
+	{
+		
+	}
+	
+	public function display()
+	{
+		$webpage = new Silkworm();
+		$webpage->html(
+			$this->createHead(),
+			$this->createBody()
+		);
+		return (string)$webpage;
+	}
+}
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)
 // 

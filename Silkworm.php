@@ -31,7 +31,7 @@
 // 8) $html->repeat(Silkworm, int); //repeat a fragment n times
 // 9) $html->autoTable(array(array()); //create table from array(array())
 #===============================================================================
-class Silkworm
+class Silkworm implements ArrayAccess
 {
 	/////////////////////////
 	//start class constants->
@@ -39,11 +39,17 @@ class Silkworm
     const NEWLINE = "\n";
 	const SPACE = " ";
 	const TAB = "\t";
+	const BOOLEAN_ATTRIBUTES_MAXIMIZED = "MAXIMIZED";
+	const BOOLEAN_ATTRIBUTES_MINIMIZED = "MINIMIZED";
+	const BOOLEAN_ATTRIBUTES_BOOLEAN = "BOOLEAN";
 	//<-end class constants
 	/////////////////////////
 
 	/////////////////////////
-	//start class variables->    
+	//start class variables->
+	private $booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_MAXIMIZED;
+	private $cocoons = array(); //processed silkworms saved for use later
+	private $cocoonCount = 0; //number of numerically indexed cocoons
 	private $parsingHtmlFragment = false;
 	private $parsingTableHeader = false;
 	private $indentLevel = 0;
@@ -116,7 +122,7 @@ class Silkworm
 	    //check if user wants to set a doctype
 		if(!empty($definition)) {
 		    //user specified a doctype, so set it
-			$this->doctype($definition);
+			//$this->doctype($definition);
 		}
 	}#----------------- __construct end -----------------#
 
@@ -126,7 +132,7 @@ class Silkworm
     # [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
-	# This is an overload of the PHP __call function. This 
+	# Implementation of the PHP __call function. This 
 	# passes the name of an HTML tag to be generated along with
 	# the attributes to be set to the initializeTag function.
 	# [parameters]
@@ -145,7 +151,7 @@ class Silkworm
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
-	# This is an overload of the PHP __toString() function. This
+	# Implementation of the PHP __toString() function. This
 	# prints out the generated HTML data as a printable string.
 	# [parameters]
 	# none
@@ -154,11 +160,97 @@ class Silkworm
 	#-----------------------------------------------------------
 	public function __toString()
 	{
+		$cocoons = "";
+		if(!empty($this->cocoons)) {
+			ksort($this->cocoons);
+			foreach($this->cocoons as $silkworm) {
+				$cocoons .= $silkworm;
+			}
+			return $cocoons;
+		}
 		return $this->doctype . $this->html;
 	}#----------------- __toString end -----------------#
 	//<-end magic method implementation
 	/////////////////////////////////////
 	
+	/////////////////////////////////////
+	//start array access implementation->
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Implementation of the PHP __toString() function. This
+	# prints out the generated HTML data as a printable string.
+	# [parameters]
+	# none
+	# [return]
+	# The generated HTML as a string.
+	#-----------------------------------------------------------
+	public function offsetExists($fragmentName)
+	{
+		return isset($this->cocoons[$fragmentName]);
+	}#----------------- offsetExists end -----------------#
+	
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Implementation of the PHP __toString() function. This
+	# prints out the generated HTML data as a printable string.
+	# [parameters]
+	# none
+	# [return]
+	# The generated HTML as a string.
+	#-----------------------------------------------------------
+	public function offsetGet($fragmentName)
+	{
+		if($this->offsetExists($fragmentName)) {
+			return $this->cocoons[$fragmentName];
+		}
+		return;
+	}#----------------- offsetGet end -----------------#
+	
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Implementation of the PHP __toString() function. This
+	# prints out the generated HTML data as a printable string.
+	# [parameters]
+	# none
+	# [return]
+	# The generated HTML as a string.
+	#-----------------------------------------------------------
+	public function offsetSet($fragmentName, $fragment)
+	{
+		if(empty($fragmentName)) {
+			$fragmentName = $this->cocoonCount;
+			$this->cocoonCount++;
+		}
+		$this->cocoons[$fragmentName] = $fragment;
+		$this->html = "";
+	}#----------------- offsetSet end -----------------#
+	
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Implementation of the PHP __toString() function. This
+	# prints out the generated HTML data as a printable string.
+	# [parameters]
+	# none
+	# [return]
+	# The generated HTML as a string.
+	#-----------------------------------------------------------
+	public function offsetUnset($fragmentName)
+	{
+		if(isset($this->cocoons[$fragmentName])) {
+			unset($this->cocoons[$fragmentName]);
+		}
+	}#----------------- offsetUnset end -----------------#
+	//<-end array access implementation
+	/////////////////////////////////////
+
 	#-----------------------------------------------------------
 	# [author]
 	# Dodzi Y. Dzakuma
@@ -290,7 +382,17 @@ class Silkworm
 		foreach ($attributes as $name => $value) {
 			//check if the attribute is a boolean value
 		    if(in_array($name, $this->booleanAttributes)) {
-				$attributeString .= "$space$name";
+		    	switch($this->booleanAttributeDisplayStyle) {
+		    		case Silkworm::BOOLEAN_ATTRIBUTES_MAXIMIZED:
+						$attributeString .= "$space$name=$quote$name$quote";
+						break;
+		    		case Silkworm::BOOLEAN_ATTRIBUTES_BOOLEAN:
+						$attributeString .= "$space$name=${quote}true${quote}";
+						break;
+					default:
+						$attributeString .= "$space$name";
+						break;
+		    	}
 				continue;
 		    }
 			$attributeString .=  "$space$name=$quote$value$quote";
@@ -543,6 +645,32 @@ class Silkworm
 	{
 		return "<!-- $comment -->" . Silkworm::NEWLINE;
 	}#----------------- comment end -----------------#
+	
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Changes the display style for boolean attributes.
+	# [parameters]
+	# 1) Case insensitive style name.
+	#   ([ma]ximized, [mi]nimized, [bo]olean)
+	#
+	# !NOTICE!
+	# The default for this is to set the display style to
+	# minimized.
+	# [return]
+	# none
+	#-----------------------------------------------------------
+	public function booleanDisplayStyle($style = "")
+	{
+		if (stripos($style,"ma") !== false) {
+			$this->booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_MAXIMIZED;
+		} elseif (stripos($style,"bo") !== false) {
+			$this->booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_BOOLEAN;
+		} else {
+			$this->booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_MINIMIZED;
+		}
+	}#----------------- booleanDisplayStyle end -----------------#
 	
 	#-----------------------------------------------------------
 	# [author]

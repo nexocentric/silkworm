@@ -147,18 +147,18 @@ $example2->doctype("HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.or
 $example2->html($head, $body);
 
 #-----------------------------------------------------------
-# advanced example (probably the way that you'll use it)
+# advanced example (probably the way that you might use it)
 #-----------------------------------------------------------
 //for a deeper understanding of how this works, please see
 //the modular.php for more information
-$example3 = new Webpage(); //define your doctype here if you need one
+$example3 = new Webpage();
 
 #-----------------------------------------------------------
 # remove the comment mark from an example and see how it works :)
 #-----------------------------------------------------------
 #print((string)$example1);
 #print((string)$example2);
-#print((string)$example3->display());
+#print($example3->display());
 
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)
