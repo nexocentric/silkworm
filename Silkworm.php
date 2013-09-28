@@ -162,7 +162,7 @@ class Silkworm implements ArrayAccess
 	{
 		$cocoons = "";
 		if(!empty($this->cocoons)) {
-			ksort($this->cocoons);
+			ksort($this->cocoons, SORT_NATURAL);
 			foreach($this->cocoons as $silkworm) {
 				$cocoons .= $silkworm;
 			}
@@ -905,6 +905,16 @@ class Silkworm implements ArrayAccess
 	//<-end auto table functions
 	//////////////////////////////
 }#==================== Silkworm end ====================#
+
+$html = new Silkworm();
+		$html[] = $html->newline(); //this is c
+		$html["b"] = $html->h1();
+		$html["a"] = $html->comment("this works");
+		$html[] = $html->span( //this is d
+			$html->p()
+		);
+		unset($html["a"]);
+echo (string)$html;
 
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)

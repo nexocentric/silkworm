@@ -1146,13 +1146,13 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	* @depends saveAccessFragmentNumericKey
 	* @depends saveAccessFragmentNamedKey
 	*/
-	public function saveFragmentRandomRetrieveAlphaNumericOrder()
+	public function saveFragmentRandomRetrieveNumericAlphaOrder()
 	{
 		$html = new Silkworm();
-		$html[] = $html->newline(); //this is c
-		$html["b"] = $html->h1();
-		$html["a"] = $html->comment("this works");
-		$html[] = $html->span( //this is d
+		$html["c"] = $html->newline(); //this is c
+		$html[3] = $html->h1();
+		$html[] = $html->comment("this works");
+		$html["f"] = $html->span( //this is d
 			$html->p()
 		);
 		$this->assertSame(
@@ -1176,13 +1176,31 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	* @depends saveAccessFragmentNumericKey
 	* @depends saveAccessFragmentNamedKey
 	*/
-	public function saveFragmentUnsetDisplay()
+	public function retrieveNonexistantFragment()
 	{
 		$html = new Silkworm();
-		$html[] = $html->newline(); //this is c
-		$html["b"] = $html->h1();
 		$html["a"] = $html->comment("this works");
-		$html[] = $html->span( //this is d
+		unset($html["a"]);
+		$this->assertSame(
+			"<div></div>\n",
+			(string)$html->div(
+				(string)$html
+			),
+			"Failed to return div tag as parent."
+		);
+	}
+	
+	/**
+	* @test
+	* @depends retrieveNonexistantFragment
+	*/
+	public function displaySavedFragmentAfterUnset()
+	{
+		$html = new Silkworm();
+		$html[2] = $html->newline(); //this is c
+		$html[] = $html->h1();
+		$html["a"] = $html->comment("this works");
+		$html["b"] = $html->span( //this is d
 			$html->p()
 		);
 		unset($html["a"]);
@@ -1193,25 +1211,6 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			"\t<span>\n" .
 			"\t\t<p></p>\n" .
 			"\t</span>\n" .
-			"</div>\n",
-			(string)$html->div(
-				(string)$html
-			),
-			"Failed to return div tag as parent."
-		);
-	}
-	
-	/**
-	* @test
-	* @depends saveFragmentUnsetDisplay
-	*/
-	public function retrieveNonexistantFragment()
-	{
-		$html = new Silkworm();
-		$html["a"] = $html->comment("this works");
-		unset($html["a"]);
-		$this->assertSame(
-			"<div>\n" .
 			"</div>\n",
 			(string)$html->div(
 				(string)$html
