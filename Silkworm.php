@@ -700,9 +700,9 @@ class Silkworm implements ArrayAccess
 		//trigger_error("Only ASCII spaces and tabs can be used for indentation.");
 	}#----------------- setIndentation end -----------------#
 
-	public function setSilkwormAlias($name)
+	public static function setSilkwormAlias($name)
 	{
-		class_alias(get_class($this), $name);
+		return class_alias("Silkworm", $name);
 	}
 	
 	public function setSelfClosingTagStyle($style)
