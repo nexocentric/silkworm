@@ -35,6 +35,7 @@ class Silkworm implements ArrayAccess
 {
 	/////////////////////////
 	//start class constants->
+	const FORWARD_SLASH = "/";
     const DOUBLE_QUOTE = "\"";
     const NEWLINE = "\n";
 	const SPACE = " ";
@@ -48,6 +49,7 @@ class Silkworm implements ArrayAccess
 	/////////////////////////
 	//start class variables->
 	private $booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_MAXIMIZED;
+	private $selfClosingTagStyle = "";
 	private $cocoons = array(); //processed silkworms saved for use later
 	private $cocoonCount = 0; //number of numerically indexed cocoons
 	private $parsingHtmlFragment = false;
@@ -525,6 +527,7 @@ class Silkworm implements ArrayAccess
 		//regular and self closing tags
 		if(in_array($tagName, $this->selfClosingTagList)) {
 			//self closing
+//$this->selfClosingTagStyle
 			$newline = $children ? "" : $newline; //newline if no children
 			$createdTag = "<$tagName%s>$newline%s%s";
 			$this->indentLevel = 0;
@@ -697,6 +700,21 @@ class Silkworm implements ArrayAccess
 		//trigger_error("Only ASCII spaces and tabs can be used for indentation.");
 	}#----------------- setIndentation end -----------------#
 
+	public function setSilkwormAlias($name)
+	{
+		class_alias(get_class($this), $name);
+	}
+	
+	public function setSelfClosingTagStyle($style)
+	{
+		//declarations
+		$space = Silkworm::SPACE;
+		$forwardSlash = Silkworm::FORWARD_SLASH;
+		
+		if (preg_match("/[^$space*$forwardSlash{1}]/", $indentationPattern) === 0) {
+			$this->selfClosingTagStyle = $style;
+		}
+	}
 	//////////////////////////////
 	//start auto table functions->
 	#-----------------------------------------------------------
