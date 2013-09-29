@@ -13,7 +13,6 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			is_string((string)$html),
 			"Failed to convert interface to string."
 		);
-
 	}
 
 	/** 
@@ -41,6 +40,22 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			"Failed to convert interface to string."
 		);
 
+	}
+
+	/** 
+	* @test
+	* @depends toString
+	* @depends comment
+	*/
+	public function setSilkwormClassAlias()
+	{
+		Silkworm::setSilkwormAlias("HyperTextGenerator");
+		$html = new HyperTextGenerator();
+		$this->assertSame(
+			"<!-- this is a comment -->\n",
+			$html->comment("this is a comment"),
+			"Failed to convert interface to string."
+		);
 	}
 
 	/** 
@@ -205,6 +220,41 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 
 	/** 
 	* @test
+	* @depends selfClosingTag
+	*/
+	public function selfClosingTagXMLStyle()
+	{
+		$qt = Silkworm::DOUBLE_QUOTE;
+		$html = new Silkworm();
+		$html->setSelfClosingTagStyle("x");
+		$html->meta("content", "content-text");		
+		$this->assertSame(
+			"<meta content=${qt}content-text${qt} />\n",
+			(string)$html,
+			"Space and Slash"
+		);
+
+		$html = new Silkworm();
+		$html->setSelfClosingTagStyle(" ");
+		$html->meta("content", "content-text");		
+		$this->assertSame(
+			"<meta content=${qt}content-text${qt}>\n",
+			(string)$html,
+			"space only"
+		);
+
+		$html = new Silkworm();
+		$html->setSelfClosingTagStyle("A");
+		$html->meta("content", "content-text");		
+		$this->assertSame(
+			"<meta content=${qt}content-text${qt}>\n",
+			(string)$html,
+			"random letter"
+		);
+	}
+
+	/** 
+	* @test
 	* @depends regularTag
 	* @depends selfClosingTagWithAttributes
 	*/
@@ -265,7 +315,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		$qt = Silkworm::DOUBLE_QUOTE;
 
 		$html = new Silkworm();
-		$html->booleanDisplayStyle("mi"); //does the short version work
+		$html->setBooleanDisplayStyle("mi"); //does the short version work
 		$html->input("type", "checkbox", "checked", "disabled");
 		$this->assertSame(
 			"<input type=${qt}checkbox${qt} checked disabled>\n",
@@ -274,7 +324,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		);
 		
 		$html = new Silkworm();
-		$html->booleanDisplayStyle("MAXIMIZED"); //does all caps work
+		$html->setBooleanDisplayStyle("MAXIMIZED"); //does all caps work
 		$html->input("type", "checkbox", "checked", "disabled");
 		$this->assertSame(
 			"<input type=${qt}checkbox${qt} checked=${qt}checked${qt} disabled=${qt}disabled${qt}>\n",
@@ -283,7 +333,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		);
 		
 		$html = new Silkworm();
-		$html->booleanDisplayStyle("boolean"); //does all lowercase work
+		$html->setBooleanDisplayStyle("boolean"); //does all lowercase work
 		$html->input("type", "checkbox", "checked", "disabled");
 		$this->assertSame(
 			"<input type=${qt}checkbox${qt} checked=${qt}true${qt} disabled=${qt}true${qt}>\n",
@@ -303,7 +353,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		$qt = Silkworm::DOUBLE_QUOTE;
 		
 		$html = new Silkworm();
-		$html->booleanDisplayStyle(); //no string defaults to minimized
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$html->button("hidden", "disabled", "click me");
 		$this->assertSame(
 			"<button hidden disabled>click me</button>\n",
@@ -312,7 +362,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		);
 		
 		$html = new Silkworm();
-		$html->booleanDisplayStyle("MA"); //does the caps short version work
+		$html->setBooleanDisplayStyle("MA"); //does the caps short version work
 		$html->button("hidden", "disabled", "click me");
 		$this->assertSame(
 			"<button hidden=${qt}hidden${qt} disabled=${qt}disabled${qt}>click me</button>\n",
@@ -321,7 +371,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		);
 		
 		$html = new Silkworm();
-		$html->booleanDisplayStyle("BoOl"); //does half the word random caps work
+		$html->setBooleanDisplayStyle("BoOl"); //does half the word random caps work
 		$html->button("hidden", "disabled", "click me");
 		$this->assertSame(
 			"<button hidden=${qt}true${qt} disabled=${qt}true${qt}>click me</button>\n",
@@ -339,7 +389,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	{
 		$qt = Silkworm::DOUBLE_QUOTE;
 		$html = new Silkworm();
-		$html->booleanDisplayStyle(); //no string defaults to minimized
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$attributes = array("name"=>"frame1", "marginheight"=>"10");
 		$html->frame($attributes, "noresize");		
 		$this->assertSame(
@@ -358,7 +408,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	{
 		$qt = Silkworm::DOUBLE_QUOTE;
 		$html = new Silkworm();
-		$html->booleanDisplayStyle(); //no string defaults to minimized
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$attributes = array("class"=>"classname");
 		$html->p($attributes, "disabled", "hidden", "Lorem ipsum dolor sit amet...");
 		$this->assertSame(
@@ -413,7 +463,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		$qt = Silkworm::DOUBLE_QUOTE;
 
 		$html = new Silkworm();
-		$html->booleanDisplayStyle(); //no string defaults to minimized
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$html->meta(
 			"content",
 			"content-text",
@@ -435,7 +485,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		$qt = Silkworm::DOUBLE_QUOTE;
 
 		$html = new Silkworm();
-		$html->booleanDisplayStyle(); //no string defaults to minimized
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$html->div(
 			"class", 
 			"classname",
@@ -720,7 +770,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			array("g", "h", "i")
 		);
 		$html = new Silkworm();
-		$html->booleanDisplayStyle(); //no string defaults to minimized
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table class=${qt}className${qt} noresize>\n" .
 			"\t<tr>\n" .
@@ -757,7 +807,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			array("g", "h", "i")
 		);
 		$html = new Silkworm();
-		$html->booleanDisplayStyle(); //no string defaults to minimized
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}className${qt} noresize>\n" .
@@ -794,7 +844,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			array("g", "h", "i")
 		);
 		$html = new Silkworm();
-		$html->booleanDisplayStyle(); //no string defaults to minimized
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}top${qt}>\n" .
@@ -838,7 +888,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			array("g", "h", "i")
 		);
 		$html = new Silkworm();
-		$html->booleanDisplayStyle(); //no string defaults to minimized
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}odd${qt}>\n" .
@@ -881,7 +931,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			array("g", "h", "i")
 		);
 		$html = new Silkworm();
-		$html->booleanDisplayStyle(); //no string defaults to minimized
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr class=${qt}odd${qt}>\n" .
@@ -922,7 +972,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			array("class=>left"=>"a", "class=middle"=>"b", "class, right"=>"c")
 		);
 		$html = new Silkworm();
-		$html->booleanDisplayStyle(); //no string defaults to minimized
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$this->assertSame(
 			"<table>\n" .
 			"\t<tr>\n" .

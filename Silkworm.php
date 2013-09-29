@@ -2,7 +2,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Work     : Silkworm
 // Copyright: (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
-//                See copywrite at footer for more information.
+//                See copyright at footer for more information.
 // Version  : 1.00
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -24,12 +24,15 @@
 // 1) $html = new Silkworm(); //create a new interface
 // 2) ... = new Silkworm("html"); //create a new interface with doctype
 // 3) $html->doctype("html"); //set the doctype
-// 4) $html->setIndentation(" "); //set indent character as tabs or spaces
-// 5) $html->html(); //create a tag !!see README.md for more information
-// 6) $html->newline(); //create a newline in HTML document
-// 7) $html->comment("comment text"); //create a comment in HTML document
-// 8) $html->repeat(Silkworm, int); //repeat a fragment n times
-// 9) $html->autoTable(array(array()); //create table from array(array())
+// 4) setBooleanDisplayStyle($style = "") //a vs a="a" vs a="true"
+// 5) setIndentation("") //combinations of spaces and tabs
+// 6) setSilkwormAlias("") //name to access the class
+// 7) setSelfClosingTagStyle("") //<img> vs <img />
+// 8) $html->html(); //create a tag !!see README.md for more information
+// 9) $html->newline(); //create a newline in HTML document
+// 10) $html->comment("comment text"); //create a comment in HTML document
+// 11) $html->repeat(Silkworm, int); //repeat a fragment n times
+// 12) $html->autoTable(array(array()); //create table from array(array())
 #===============================================================================
 class Silkworm implements ArrayAccess
 {
@@ -181,12 +184,12 @@ class Silkworm implements ArrayAccess
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
-	# Implementation of the PHP __toString() function. This
-	# prints out the generated HTML data as a printable string.
+	# Implementation of the PHP offsetExists() function. Checks
+	# if HTML fragment has beend saved or not.
 	# [parameters]
-	# none
+	# 1) Fragment name.
 	# [return]
-	# The generated HTML as a string.
+	# 1) Boolean showing if fragment exists.
 	#-----------------------------------------------------------
 	public function offsetExists($fragmentName)
 	{
@@ -197,12 +200,13 @@ class Silkworm implements ArrayAccess
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
-	# Implementation of the PHP __toString() function. This
-	# prints out the generated HTML data as a printable string.
+	# Implementation of the PHP offsetGet() function. Gets the 
+	# saved fragment by name if exists.
 	# [parameters]
-	# none
+	# 1) Fragment name.
 	# [return]
-	# The generated HTML as a string.
+	# 1) The fragment if exists.
+	# 2) Empty if fragment doesn't exist.
 	#-----------------------------------------------------------
 	public function offsetGet($fragmentName)
 	{
@@ -216,12 +220,14 @@ class Silkworm implements ArrayAccess
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
-	# Implementation of the PHP __toString() function. This
-	# prints out the generated HTML data as a printable string.
+	# Implementation of the PHP offsetSet() function. Saves an
+	# HTML fragment to the class by name. Saves by index if no
+	# name has been specified.
 	# [parameters]
-	# none
+	# 1) The fragment name.
+	# 2) The fragment itself.
 	# [return]
-	# The generated HTML as a string.
+	# none
 	#-----------------------------------------------------------
 	public function offsetSet($fragmentName, $fragment)
 	{
@@ -237,12 +243,12 @@ class Silkworm implements ArrayAccess
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
-	# Implementation of the PHP __toString() function. This
-	# prints out the generated HTML data as a printable string.
+	# Implementation of the PHP offsetUnset() function. Unsets
+	# a fragment by its name if the fragment exists.
 	# [parameters]
-	# none
+	# 1) The fragrment name to unset.
 	# [return]
-	# The generated HTML as a string.
+	# none
 	#-----------------------------------------------------------
 	public function offsetUnset($fragmentName)
 	{
@@ -527,9 +533,8 @@ class Silkworm implements ArrayAccess
 		//regular and self closing tags
 		if(in_array($tagName, $this->selfClosingTagList)) {
 			//self closing
-//$this->selfClosingTagStyle
 			$newline = $children ? "" : $newline; //newline if no children
-			$createdTag = "<$tagName%s>$newline%s%s";
+			$createdTag = "<$tagName%s{$this->selfClosingTagStyle}>$newline%s%s";
 			$this->indentLevel = 0;
 		} else {
 			//regular tag
@@ -664,7 +669,7 @@ class Silkworm implements ArrayAccess
 	# [return]
 	# none
 	#-----------------------------------------------------------
-	public function booleanDisplayStyle($style = "")
+	public function setBooleanDisplayStyle($style = "")
 	{
 		if (stripos($style,"ma") !== false) {
 			$this->booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_MAXIMIZED;
@@ -700,21 +705,46 @@ class Silkworm implements ArrayAccess
 		//trigger_error("Only ASCII spaces and tabs can be used for indentation.");
 	}#----------------- setIndentation end -----------------#
 
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Creates an alias for the Silkworm class.
+	# [parameters]
+	# 1) New name to access Silkworm by.
+	# [return]
+	# 1) The return value of the class_alias method.
+	#-----------------------------------------------------------
 	public static function setSilkwormAlias($name)
 	{
 		return class_alias("Silkworm", $name);
-	}
+	}#----------------- setSilkwormAlias end -----------------#
 	
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Changes the self-closing tag style.
+	# a) HTML = <img>
+	# b) XML  = <img />
+	# [parameters]
+	# 1) The style to be used ([X]ML / [H]TML)
+	# [return]
+	# none
+	#-----------------------------------------------------------
 	public function setSelfClosingTagStyle($style)
 	{
 		//declarations
 		$space = Silkworm::SPACE;
 		$forwardSlash = Silkworm::FORWARD_SLASH;
 		
-		if (preg_match("/[^$space*$forwardSlash{1}]/", $indentationPattern) === 0) {
-			$this->selfClosingTagStyle = $style;
+		if (strpos($style, "x") !== false) {
+			$this->selfClosingTagStyle = "$space$forwardSlash";
+		} else {
+			$this->selfClosingTagStyle = "";
 		}
-	}
+	}#----------------- setSelfClosingTagStyle end -----------------#
+	
 	//////////////////////////////
 	//start auto table functions->
 	#-----------------------------------------------------------
@@ -923,16 +953,6 @@ class Silkworm implements ArrayAccess
 	//<-end auto table functions
 	//////////////////////////////
 }#==================== Silkworm end ====================#
-
-$html = new Silkworm();
-		$html[] = $html->newline(); //this is c
-		$html["b"] = $html->h1();
-		$html["a"] = $html->comment("this works");
-		$html[] = $html->span( //this is d
-			$html->p()
-		);
-		unset($html["a"]);
-echo (string)$html;
 
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)
