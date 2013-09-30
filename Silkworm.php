@@ -104,6 +104,7 @@ class Silkworm implements ArrayAccess
 		"truespeed",
 		"typemustmatch"
 	);
+	private $xmlVersion = "";
 	private $doctype = "";
 	private $html = "";
 	//<-end class variables
@@ -115,20 +116,15 @@ class Silkworm implements ArrayAccess
 	# [summary]
 	# Create a new Silkworm for use to create HTML.
 	# [parameters]
-	# 1) The doctype definition of the HTML document to be
-	#    created. This is optional. By setting this a doctype
-	#    will be added to the document, otherwise the document
-	#    will be generated without a doctype.
+	# 1) A string representing if this is an XML document.
 	# [return]
 	# 1) A new Silkworm for use.
 	#-----------------------------------------------------------
-	public function __construct($definition = "")
+	public function __construct($documentSpecifier = "")
 	{
-	    //check if user wants to set a doctype
-		if(!empty($definition)) {
-		    //user specified a doctype, so set it
-			//$this->doctype($definition);
-		}
+	    if(stripos($documentSpecifier, "x") !== false) {
+			$this->setSelfClosingTagStyle("XML");
+	    }
 	}#----------------- __construct end -----------------#
 
 	/////////////////////////////////////
@@ -173,7 +169,7 @@ class Silkworm implements ArrayAccess
 			}
 			return $cocoons;
 		}
-		return $this->doctype . $this->html;
+		return $this->xmlVersion . $this->doctype . $this->html;
 	}#----------------- __toString end -----------------#
 	//<-end magic method implementation
 	/////////////////////////////////////
@@ -583,9 +579,27 @@ class Silkworm implements ArrayAccess
 	# none
 	#-----------------------------------------------------------
 	public function doctype($definition) {
+		//declarations
+		$replacementCount = 1;
+		$extraAttributes = func_get_args();
+		
+		//initializations
+		array_splice($extraAttributes, 0, 1);
+		$extraAttributes = $this->initializeTag(
+			"br",
+			$extraAttributes
+		);
+		
+		//adjust the attributes for insertion into this tag
+		//this leaves the space after the br tag intact so it doesn't
+		//hurt formatting
+		$extraAttributes = str_replace("<br", "", $extraAttributes, $replacementCount);
+		$extraAttributes = preg_replace("/(\/*>{1}[\r\n]*)/", "", $extraAttributes);
+		
 		$this->doctype = sprintf(
-			"<!DOCTYPE %s>" . Silkworm::NEWLINE,
-			$definition
+			"<!DOCTYPE %s%s>" . Silkworm::NEWLINE,
+			$definition,
+			$extraAttributes
 		);
 	}#----------------- doctype end -----------------#
 	
@@ -595,14 +609,16 @@ class Silkworm implements ArrayAccess
 	# [summary]
 	# Repeats an Silkworm fragment n number of times.
 	# [parameters]
-	# 1) Silkworm fragment.
+	# 1) Html fragment.
 	# 2) The number of times to repeat the fragment.
 	# [return]
 	# 1) A string of children repeated n number of times.
 	#-----------------------------------------------------------
-	public function repeat(Silkworm $html, $count)
+	public function repeat($html, $count)
 	{
-		$html->clearDoctype();
+		if ($html instanceof Silkworm) {
+			$html->clearDoctype();
+		}
 		return str_repeat($html, $count);
 	}#----------------- repeat end -----------------#
 	
@@ -738,12 +754,64 @@ class Silkworm implements ArrayAccess
 		$space = Silkworm::SPACE;
 		$forwardSlash = Silkworm::FORWARD_SLASH;
 		
-		if (strpos($style, "x") !== false) {
+		if (stripos($style, "x") !== false) {
 			$this->selfClosingTagStyle = "$space$forwardSlash";
 		} else {
 			$this->selfClosingTagStyle = "";
 		}
 	}#----------------- setSelfClosingTagStyle end -----------------#
+	
+	///////////////////////
+	//start xml functions->
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Sets the XML version of the document.
+	# [parameters]
+	# 1) A real number representing the XML version.
+	# 2) An variable amount of attributes for the tag.
+	# [return]
+	# none
+	#-----------------------------------------------------------
+	public function xmlVersion($version)
+	{
+		//declarations
+		$replacementCount = 1;
+		$xmlVersionTag = "";
+		$extraAttributes = func_get_args();
+		
+		//initializations
+		array_splice($extraAttributes, 0, 1);
+		$extraAttributes[] = array("version"=>"$version");
+		$xmlVersionTag = $this->initializeTag(
+			"br",
+			$extraAttributes
+		);
+		
+		//adjust the tag
+		$xmlVersionTag = str_replace("<br", "<?xml", $xmlVersionTag, $replacementCount);
+		$xmlVersionTag = preg_replace("/(\s*\/*>{1})/", "?>", $xmlVersionTag);
+		
+		$this->xmlVersion = $xmlVersionTag;
+	}
+	
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Creates a CDATA tag to be added to the tree.
+	# [parameters]
+	# 1) The CDATA to be added.
+	# [return]
+	# 1) A CDATA tag to be added to the tree.
+	#-----------------------------------------------------------
+	public function cdata($cdata)
+	{
+		return "<![CDATA[$cdata]]>" . Silkworm::NEWLINE;
+	}
+	//<-end xml functions
+	///////////////////////
 	
 	//////////////////////////////
 	//start auto table functions->
@@ -953,6 +1021,10 @@ class Silkworm implements ArrayAccess
 	//<-end auto table functions
 	//////////////////////////////
 }#==================== Silkworm end ====================#
+
+$somthing = new Silkworm("xml");
+$somthing->xmlVersion("1.0");
+(string)$somthing;
 
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)

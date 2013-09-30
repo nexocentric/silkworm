@@ -44,6 +44,21 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 
 	/** 
 	* @test
+	*/
+	public function cdata()
+	{
+		$cdata = "I think that this might really work!!!!";
+		$html = new Silkworm();
+		$this->assertSame(
+			"<![CDATA[$cdata]]>\n",
+			$html->cdata($cdata),
+			"Failed to convert interface to string."
+		);
+
+	}
+
+	/** 
+	* @test
 	* @depends toString
 	* @depends comment
 	*/
@@ -122,6 +137,62 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		$html->html();
 		$this->assertSame(
 			"<!DOCTYPE html //definitions>\n<html></html>\n", 
+			(string)$html, 
+			"Failed to set !DOCTYPE with document HTML."
+		);
+	}
+
+	/** 
+	* @test
+	* @depends regularTag
+	*/
+	public function returnsXMLVersion()
+	{
+		$qt = Silkworm::DOUBLE_QUOTE;
+		$html = new Silkworm();
+		$html->xmlVersion("1.0");
+		$this->assertSame(
+			"<?xml version=${qt}1.0${qt}?>\n", 
+			(string)$html, 
+			"Failed to set solidary !DOCTYPE."
+		);
+
+		$html = new Silkworm();
+		$html->xmlVersion("1.0");
+		$html->html();
+		$this->assertSame(
+			"<?xml version=${qt}1.0${qt}?>\n<html></html>\n", 
+			(string)$html, 
+			"Failed to set !DOCTYPE with document HTML."
+		);
+	}
+
+	/** 
+	* @test
+	* @depends returnsDoctype
+	* @depends returnsXMLVersion
+	*/
+	public function returnsDoctypeAndXMLVersion()
+	{
+		$qt = Silkworm::DOUBLE_QUOTE;
+		$html = new Silkworm();
+		$html->xmlVersion("1.0");
+		$html->doctype("html //definitions");
+		$this->assertSame(
+			"<?xml version=${qt}1.0${qt}?>\n" .
+			"<!DOCTYPE html //definitions>\n", 
+			(string)$html, 
+			"Failed to set solidary !DOCTYPE."
+		);
+
+		$html = new Silkworm();
+		$html->xmlVersion("1.0");
+		$html->doctype("html //definitions");
+		$html->html();
+		$this->assertSame(
+			"<?xml version=${qt}1.0${qt}?>\n" .
+			"<!DOCTYPE html //definitions>\n" .
+			"<html></html>\n", 
 			(string)$html, 
 			"Failed to set !DOCTYPE with document HTML."
 		);
@@ -557,6 +628,62 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			"</html>\n", 
 			(string)$html)
 		;
+	}
+
+	/** 
+	* @test
+	* @depends completeDocument
+	*/
+	public function completeXMLDocument()
+	{
+		$qt = Silkworm::DOUBLE_QUOTE;
+		//setup
+		$html = new Silkworm("xml");
+		$html->xmlVersion("1.0");
+		$html->html(
+			$html->head(
+				$html->meta("name", "description")
+			),
+			$html->body(
+				$html->p("document")
+			)
+		);
+		$this->assertSame(
+			"<?xml version=${qt}1.0${qt}?>\n" .
+			"<html>\n" .
+			"\t<head>\n" .
+			"\t\t<meta name=${qt}description${qt} />\n" .
+			"\t</head>\n" .
+			"\t<body>\n" . 
+			"\t\t<p>document</p>\n" .
+			"\t</body>\n" .
+			"</html>\n", 
+			(string)$html
+		);
+
+		$html = new Silkworm();
+		$html->setSelfClosingTagStyle("x");
+		$html->xmlVersion("1.0");
+		$html->html(
+			$html->head(
+				$html->meta("name", "description")
+			),
+			$html->body(
+				$html->p("document")
+			)
+		);
+		$this->assertSame(
+			"<?xml version=${qt}1.0${qt}?>\n" .
+			"<html>\n" .
+			"\t<head>\n" .
+			"\t\t<meta name=${qt}description${qt} />\n" .
+			"\t</head>\n" .
+			"\t<body>\n" . 
+			"\t\t<p>document</p>\n" .
+			"\t</body>\n" .
+			"</html>\n", 
+			(string)$html
+		);
 	}
 
 	/**

@@ -139,6 +139,11 @@ $tableCellAttributes = array(
 );
 
 #-----------------------------------------------------------
+# example 7 (???)
+#-----------------------------------------------------------
+$forReal = array(array("This", "is", "hot!!!!")); //or not...
+
+#-----------------------------------------------------------
 # let's display the results so you can see what happens
 #-----------------------------------------------------------
 $style = <<<PAGE_STYLES
@@ -230,6 +235,10 @@ table td {
 	background-color: #8C4B22;
 }
 
+div table.hot-pink {
+	background-color: #F433ff;
+}
+
 PAGE_STYLES;
 
 $head = new Silkworm();
@@ -283,6 +292,15 @@ $displayExamples->html(
 		$displayExamples->div(
 			$displayExamples->p("Example 6 (cell attributes)"),
 			$displayExamples->autoTable($tableCellAttributes) //you can also call direct
+		),
+		$displayExamples->newline(),
+		$displayExamples->comment("example 7???"),
+		$displayExamples->div(
+			$displayExamples->p("Example 7 (???)"),
+			$displayExamples->repeat( //cause you can!!
+				$displayExamples->autoTable($forReal, "class", "hot-pink"), //you can also call direct
+				rand(1, 40)
+			)
 		)
 	)
 );
