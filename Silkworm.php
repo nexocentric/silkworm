@@ -1022,10 +1022,6 @@ class Silkworm implements ArrayAccess
 	//////////////////////////////
 }#==================== Silkworm end ====================#
 
-$somthing = new Silkworm("xml");
-$somthing->xmlVersion("1.0");
-(string)$somthing;
-
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)
 // 
