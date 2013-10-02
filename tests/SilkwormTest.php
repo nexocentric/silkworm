@@ -1,5 +1,5 @@
 <?php
-require_once(realpath("../Silkworm.php"));
+require_once("../Silkworm.php");
 
 class SilkwormTest extends PHPUnit_Framework_TestCase
 {
