@@ -104,7 +104,7 @@ GitHubで問題をお知らせください。問題を確認後、詳細をお�
 ----------------
 開発にあたり、私を支えてくれた、助言とアドバイスを頂いたすべての方に感謝申し上げます。
 
-* Brandon Kuwahara
+* Amy Kuwahara
 * Tommie Barlow
 * Wataru Kitamura
 
