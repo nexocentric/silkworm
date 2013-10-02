@@ -1,10 +1,10 @@
 Silkworm
 ========
-[日本語はこちらです。](./README.jp)
+[日本語はこちらです。](./README[JP].md)
 
-Silkworm is a PHP library to aid in the creation of HTML documents in PHP. Silkworm is an abstraction layer from HTML which allows you to focus on PHP when you're programming in PHP and worry about HTML presentation later.
+Silkworm is a PHP library to aid in the **creation** of **HTML** and **XML** documents in PHP. Silkworm is an abstraction layer from HTML which allows you to focus on PHP when you're programming in PHP and worry about HTML presentation later.
 
-Silkworm generates nicely carriaged returned and indented HTML from your PHP files. The library is dynamic and can be used in a modular fashion allowing you to break up the document creation process into logical chunks throughout your program.
+Silkworm generates nicely carriaged returned and indented HTML or XML from your PHP files. The library is dynamic and can be used in a modular fashion allowing you to break up the document creation process into logical chunks throughout your program.
 
 History
 -------
@@ -39,11 +39,15 @@ Instantiate `$html = new Silkworm();` and go.
 All test for Silkworm have been conducted with PhpUnit. The tests are contained in the [tests folder](./tests), so feel free to run them to make sure your version is working.
 
 ### Configuration
-Silkworm doesn't require any configuration before use. Currently, only the character that is used for indentation can be changed. You can choose from a combination of tabs and/or spaces.
+Silkworm doesn't require any configuration before use. However, there are a number of seetings that you can use as demonstrated below.
 
 ```php
+Silkworm::setSilkwormAlias("HyperTextGenerator"); //change the name of the class
+
 $html = new Silkworm();
 $html->setIndentation("   "); //indentation is now set to 3 spaces
+$html->setSelfClosingTagStyle("xml"); // < /> vs <>
+$html->setBooleanDisplayStyle("maximize"); //disabled="disabled" vs disabled
 ```
 
 Usage
@@ -69,6 +73,50 @@ $html->html(
         $html->autoTable($table, true)
     )
 );
+```
+
+### Snippet Saving
+You can make and save snippets as follows.
+
+```php
+$html = new Silkworm();
+$html["error"] = $html->div(
+    $html->p(
+      "YOU MADE A BOO BOO!"
+    )
+);
+
+$html["falsePositive"] = $html->div(
+    $html->p(
+      "Sorry, about that. My bad."
+    )
+);
+
+$html["truePositive"] = $html->div(
+    $html->p(
+      "On second thought... that can't be... ;)"
+    )
+);
+```
+
+If you use the `(string)$html` as a string, all of the snippets will automatically be joined in numerical then alphabetical order.
+
+```html
+<div>
+  <p>YOU MADE A BOO BOO!</p>
+</div>
+<div>
+  <p>Sorry, about that. My bad.</p>
+</div>
+<div>
+  <p>On second thought... that can't be... ;)</p>
+</div>
+```
+
+You can also choose which snippet you would like to use.
+
+```php
+(string)$html["falsePositive"];
 ```
 
 ### Advanced
@@ -100,12 +148,16 @@ I'll go through the request to make sure that everything is okay and usable.*
 
 [*] I would like to apologize in advance for not being able to accept all pull requests.
 
+### Feedback
+I would like to hear feedback, bad and good. Anything that promotes discussion is appreciated.
+
 Acknowledgements
 ----------------
 I would like to thank all of the people who supported me through out development for all of their help and advice.
 
 * Tommie Barlow
 * Wataru Kitamura
+* Amy Kuwahara
 
 Copyright
 ---------
