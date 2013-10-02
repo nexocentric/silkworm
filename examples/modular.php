@@ -2,7 +2,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Work     : Silkworm (modular tutorial)
 // Copyright: (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
-//                See copywrite at footer for more information.
+//                See copyright at footer for more information.
 // Version  : 1.00
 ////////////////////////////////////////////////////////////////////////////////
 require_once("../Silkworm.php");
@@ -14,75 +14,117 @@ class Webpage
 	public function __construct()
 	{
 		$this->webpage = new Silkworm();
+		$this->createHead();
+		$this->createBody();
 	}
 	
 	private function createHead()
 	{
-		$head = new Silkworm();
-		$head->head(
-			$head->meta("charset", "UTF-8"),
-			$head->title("Silkworm (modular example)"),
-			$head->newline(),
-			$head->meta(
+		$this->webpage["a"] = $this->webpage->head(
+			$this->webpage->meta("charset", "UTF-8"),
+			$this->webpage->title("Silkworm (modular example)"),
+			$this->webpage->newline(),
+			$this->webpage->meta(
 				"name", "description", 
 				"content", "This is a demostration of how Silkworm can be encoporated into systems."
 			),
-			$head->meta("name", "viewport", "content", "width=device-width"),
-			$head->comment("end standard header block"),
-			$head->newline(),
-			$head->comment("start styles"),
+			$this->webpage->meta("name", "viewport", "content", "width=device-width"),
+			$this->webpage->comment("end standard header block"),
+			$this->webpage->newline(),
+			$this->webpage->comment("start styles"),
 			$this->getStyles(), //I can take care of all my includes here
-			$head->comment("end styles"),
-			$head->newline(),
-			$head->comment("start javascripts"),
+			$this->webpage->comment("end styles"),
+			$this->webpage->newline(),
+			$this->webpage->comment("start javascripts"),
 			$this->getJavascripts(), //and here as well
-			$head->comment("end javascripts")
+			$this->webpage->comment("end javascripts")
 		);
-		return $head;
 	}
 	
 	private function createBody()
 	{
-		$body = new Silkworm();
-		$body->body(
+		$this->webpage["b"] = $this->webpage->body(
 			$this->getPageContent(),
-			$body->autoTable(
-				$this->getTableData()
+			$this->webpage->autoTable(
+				$this->getTableData(),
+				true
 			)
 		);
-		return $body;
 	}
 	
 	private function getJavascripts()
 	{
-		
+		$javascriptList = new Silkworm();
+		$serverJavascriptList = array(
+			"./basic.javascript.js",
+			"./vendor.javascript.js",
+			"./display.javascript.js"
+		);
+
+		foreach($serverJavascriptList as $javascript) {
+			$javascriptList[] = $javascriptList->script(
+				array("type"=>"javascript"),
+				array("src"=>$javascript)
+			);
+		}
+		return $javascriptList;
 	}
 	
 	private function getStyles()
 	{
-		
+		$styleList = new Silkworm();
+		$serverStyleList = array(
+			"./basic.css",
+			"./vendor.css",
+			"./custom.css"
+		);
+
+		foreach($serverStyleList as $style) {
+			$styleList[] = $styleList->style(
+				array("type"=>"text/css"),
+				array("src"=>$style)
+			);
+		}
+		return $styleList;
 	}
 	
 	private function getTableData()
 	{
-		
+		return array(
+			array("genre", "work 1", "work 2", "work 3"),
+			array("horror", "death", "pain", "suffering"),
+			array("fantasy", "dragons", "magic", "fire wildthings"),
+			array("science fiction", "L.A.S.E.R.s", "hyper warp", "time parameter")
+		);
 	}
 	
 	private function getPageContent()
 	{
-		
+		$content = new Silkworm();
+		$content->div(
+			$content->p(
+				"Just a crappy example. " .
+				"This can be improved."
+			)
+		);
+		return $content;
 	}
 	
 	public function display()
 	{
-		$webpage = new Silkworm();
-		$webpage->html(
-			$this->createHead(),
-			$this->createBody()
+		$this->webpage->doctype("html");
+		return (string)$this->webpage->html(
+			(string)$this->webpage
 		);
-		return (string)$webpage;
 	}
 }
+
+#-----------------------------------------------------------
+# remove the comment mark from an example and see how it works :)
+#-----------------------------------------------------------
+$webpage = new Webpage();
+print($webpage->display());
+
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)
 // 

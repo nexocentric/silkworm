@@ -37,7 +37,7 @@ $xmlDrinks->drinks(
 		),
 		$xmlDrinks->sodas(
 			$xmlDrinks->drink("ginger ale"),
-			$xmlDrinks->drink("apple-hop"),
+			$xmlDrinks->drink("apple hop"),
 			$xmlDrinks->drink("caramel")
 		)
 	),
@@ -74,8 +74,10 @@ $xmlDrinks->drinks(
 # example 2 (just to reiterate on the modular example)
 #-----------------------------------------------------------
 $xmlData = new Silkworm("xml"); //this sets silkworm to default to xml styles
-$xmlData->xmlVersion("1.0");
-$xmlData->doctype("1.0");
+$xmlData->xmlVersion("1.0", array("encoding"=>"utf-8")); //XML version definition
+$xmlData->doctype("HTML"); //doctype definition
+
+#same object, different structure
 $xmlData["novels"] = $xmlData->writtenMedia( //save to an array like this
 	$xmlData->horror(
 		$xmlData->work("death"),
@@ -85,7 +87,7 @@ $xmlData["novels"] = $xmlData->writtenMedia( //save to an array like this
 	$xmlData->fantasy(
 		$xmlData->work("dragons"),
 		$xmlData->work("magic"),
-		$xmlData->work("fire-wildthings")
+		$xmlData->work("fire wildthings")
 	),
 	$xmlData->scienceFiction(
 		$xmlData->work("L.A.S.E.R.s"),
@@ -93,6 +95,8 @@ $xmlData["novels"] = $xmlData->writtenMedia( //save to an array like this
 		$xmlData->work("time parameter")
 	)
 );
+
+#same object, different structure
 $xmlData["magazines"] = $xmlData->writtenMedia(
 	$xmlData->fashion(
 		$xmlData->work("shirts"),
@@ -110,6 +114,8 @@ $xmlData["magazines"] = $xmlData->writtenMedia(
 		$xmlData->work("mexican")
 	)
 );
+
+#same object, different structure
 $xmlData["newspapers"] = $xmlData->writtenMedia(
 	$xmlData->local(
 		$xmlData->work("farmer bill"),
@@ -127,6 +133,8 @@ $xmlData["newspapers"] = $xmlData->writtenMedia(
 		$xmlData->work("obtuse")
 	)
 );
+
+#same object, different structure
 $xmlData["comics"] = $xmlData->writtenMedia(
 	$xmlData->superhero(
 		$xmlData->work("superpunch"),
@@ -144,6 +152,8 @@ $xmlData["comics"] = $xmlData->writtenMedia(
 		$xmlData->work("diesel powered")
 	)
 );
+
+#same object, different structure
 $xmlData["blogs"] = $xmlData->writtenMedia(
 	$xmlData->news(
 		$xmlData->work("the post"),
@@ -164,11 +174,28 @@ $xmlData["blogs"] = $xmlData->writtenMedia(
 
 //lets write these to a file for use later
 file_put_contents("./drinks.xml", (string)$xmlDrinks);
-file_put_contents("./novels.xml", (string)$xmlData["novels"]);
-file_put_contents("./magazines.xml", (string)$xmlData["magazines"]);
-file_put_contents("./newspapers.xml", (string)$xmlData["newspapers"]);
-file_put_contents("./comics.xml", (string)$xmlData["comics"]);
-file_put_contents("./blogs.xml", (string)$xmlData["blogs"]);
+
+//because these are in parts, they don't have the document headers appeneded to them
+file_put_contents(
+	"./novels.xml",
+	(string)$xmlData->stringWithDocumentHeader($xmlData["novels"])
+);
+file_put_contents(
+	"./magazines.xml",
+	(string)$xmlData->stringWithDocumentHeader($xmlData["magazines"])
+);
+file_put_contents(
+	"./newspapers.xml",
+	(string)$xmlData->stringWithDocumentHeader($xmlData["newspapers"])
+);
+file_put_contents(
+	"./comics.xml",
+	(string)$xmlData->stringWithDocumentHeader($xmlData["comics"])
+);
+file_put_contents(
+	"./blogs.xml",
+	(string)$xmlData->stringWithDocumentHeader($xmlData["blogs"])
+);
 
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)

@@ -33,7 +33,7 @@ $example1->html(
 		$example1->div(
 			$example1->div(
 				"class", "content",
-				$example1->p("This is a short and sweet example to demonstrate Ageha Blue's writer usage.")
+				$example1->p("This is a short and sweet example to demonstrate Silkworm usage.")
 			),
 			$example1->newline(),
 			$example1->table( 

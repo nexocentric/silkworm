@@ -674,6 +674,23 @@ class Silkworm implements ArrayAccess
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
+	# Creates a string of the passed structure with doctype and
+	# or XML version appended to it.
+	# [parameters]
+	# 1) A new structure.
+	# [return]
+	# 1) A string representing the structure with doctype and 
+	#    XML version appened to it.
+	#-----------------------------------------------------------
+	public function stringWithDocumentHeader($data)
+	{
+		return $this->xmlVersion . $this->doctype . $data;
+	}#----------------- comment end -----------------#
+	
+	#-----------------------------------------------------------
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
 	# Changes the display style for boolean attributes.
 	# [parameters]
 	# 1) Case insensitive style name.
@@ -782,8 +799,7 @@ class Silkworm implements ArrayAccess
 		$extraAttributes = func_get_args();
 		
 		//initializations
-		array_splice($extraAttributes, 0, 1);
-		$extraAttributes[] = array("version"=>"$version");
+		$extraAttributes[0] = array("version"=>"$version");
 		$xmlVersionTag = $this->initializeTag(
 			"br",
 			$extraAttributes
