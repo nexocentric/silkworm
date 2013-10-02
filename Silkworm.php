@@ -161,10 +161,15 @@ class Silkworm implements ArrayAccess
 	#-----------------------------------------------------------
 	public function __toString()
 	{
+		
+		$classCocoons = $this->cocoons;
 		$cocoons = "";
-		if(!empty($this->cocoons)) {
-			ksort($this->cocoons, SORT_NATURAL);
-			foreach($this->cocoons as $silkworm) {
+		if(!empty($classCocoons)) {
+			foreach($classCocoons as $key => $silkworm) {
+				$classCocoons["$key"] = $silkworm;
+			}
+			ksort($classCocoons, 5);
+			foreach($classCocoons as $silkworm) {
 				$cocoons .= $silkworm;
 			}
 			return $cocoons;

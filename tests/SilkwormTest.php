@@ -1375,7 +1375,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	{
 		$html = new Silkworm();
 		$html[2] = $html->newline(); //this is c
-		$html[] = $html->h1();
+		$html[0] = $html->h1();
 		$html["a"] = $html->comment("this works");
 		$html["b"] = $html->span( //this is d
 			$html->p()
