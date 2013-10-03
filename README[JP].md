@@ -1,6 +1,6 @@
 Silkworm
 ===================
-[English here.](./README)
+[English here.](./README.md)
 
 Silkwormは、PHPでHTMLドキュメントを作りやすくするためのPHPライブラリーです。あなたがPHPでプログラミングを組んでいて、後でHTML presentationをしなければならないときでも、心配はいりません。SilkwormはHTMLからの抽象化レイヤーなので、あなたはPHPでのプログラミングに集中することができます。
 
