@@ -1,8 +1,8 @@
-Silkworm
+Silkworm [![Build Status](https://travis-ci.org/nexocentric/silkworm.png?branch=master)](https://travis-ci.org/nexocentric/silkworm)
 ========
 [日本語はこちらです。](./README[JP].md)
 
-Silkworm is a PHP library to aid in the **creation** of **HTML** and **XML** documents in PHP. Silkworm is an abstraction layer from HTML which allows you to focus on PHP when you're programming in PHP and worry about HTML presentation later.
+Silkworm is a PHP library to aid in the **creation** of **HTML** and **XML** documents in PHP. Silkworm acts as an abstraction layer allowing you to focus on PHP when you're programming eliminating the need to worry about properly formatting your HTML `\t\t<tags>\n` manually.
 
 Silkworm generates nicely carriaged returned and indented HTML or XML from your PHP files. The library is dynamic and can be used in a modular fashion allowing you to break up the document creation process into logical chunks throughout your program.
 
@@ -20,19 +20,20 @@ Installation and Configuration
 ------------------------------
 ### Installation
 Silkworm has no dependencies and can be installed the following ways:
-1. GitHub Copy and Include
-  * Copy the library from GitHub
-  * Move Silkworm.php to the directory of your choice
-  * Include Silkworm.php in the file that you'll be using it in
-2. Via Composer
+1. GitHub Copy and Include  
+  * Copy the library from GitHub  
+  * Move Silkworm.php to the directory of your choice  
+  * Include Silkworm.php in the file that you'll be using it in  
+2. Via Composer  
   * Add the following to your composer requirements
   ```json
-  {
-    "require": {
-      "nexocentric/silkworm": "1.*"
-    }
-  }
+  {  
+    "require": {  
+      "nexocentric/silkworm": "dev-master"  
+    }  
+  }  
   ```
+
 Instantiate `$html = new Silkworm();` and go.
 
 #### Testing
@@ -78,6 +79,7 @@ $html->html(
 ### Snippet Saving
 You can make and save snippets as follows.
 
+##### Setup
 ```php
 $html = new Silkworm();
 $html["error"] = $html->div(
@@ -101,6 +103,7 @@ $html["truePositive"] = $html->div(
 
 If you use the `(string)$html` as a string, all of the snippets will automatically be joined in numerical then alphabetical order.
 
+##### Output
 ```html
 <div>
   <p>YOU MADE A BOO BOO!</p>
@@ -138,11 +141,12 @@ Please submit the issue via GitHub and I'll contact you for more information.
 Your contributions are greatly appreciated!
 
 If you would like to contribute, please:
-1. Fork the library on GitHub
-2. Make any changes that you think will better the project
-3. Make tests for the changes that you've made
-4. Make a pull request
-5. I'll message you about making any needed documentation changes (so that you don't make documentation changes before you know if the pull request can be accepted or not)
+
+1. Fork the library on GitHub  
+2. Make any changes that you think will better the project  
+3. Make tests for the changes that you've made  
+4. Make a pull request  
+5. I'll message you about making any needed documentation changes (so that you don't make documentation changes before you know if the pull request can be accepted or not)  
 
 I'll go through the request to make sure that everything is okay and usable.*
 
@@ -155,9 +159,9 @@ Acknowledgements
 ----------------
 I would like to thank all of the people who supported me through out development for all of their help and advice.
 
+* Amy Kuwahara
 * Tommie Barlow
 * Wataru Kitamura
-* Amy Kuwahara
 
 Copyright
 ---------
