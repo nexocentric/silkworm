@@ -1,2 +1,2 @@
 <?php
-include_once("../Silkworm.php");
+include_once("./Silkworm.php");
