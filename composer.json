@@ -2,7 +2,7 @@
 	"name": "nexocentric/silkworm",
 	"type": "library",
 	"description": "Silkworm is a flexible HTML generator for use in PHP projects.",
-	"keywords": ["html","generator","flexible", "parser", "formatting"],
+	"keywords": ["html", "xml", "generator", "flexible", "parser", "formatting"],
 	"homepage": "http://github.com/nexocentric/silkworm",
 	"license": "MIT",
 	"authors": [
