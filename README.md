@@ -36,10 +36,10 @@ Silkworm has no dependencies and can be installed the following ways:
 Instantiate `$html = new Silkworm();` and go.
 
 #### Testing
-All test for Silkworm have been conducted with PhpUnit. The tests are contained in the [tests folder](./tests), so feel free to run them to make sure your version is working.
+All tests for Silkworm have been conducted with PhpUnit. The tests are contained in the [tests folder](./tests), so feel free to run them to make sure your version is working.
 
 ### Configuration
-Silkworm doesn't require any configuration before use. However, there are a number of seetings that you can use as demonstrated below.
+Silkworm doesn't require any configuration before use. However, there are a number of settings that you can use as demonstrated below.
 
 ```php
 Silkworm::setSilkwormAlias("HyperTextGenerator"); //change the name of the class
