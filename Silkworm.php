@@ -39,8 +39,8 @@ class Silkworm implements ArrayAccess
 	/////////////////////////
 	//start class constants->
 	const FORWARD_SLASH = "/";
-    const DOUBLE_QUOTE = "\"";
-    const NEWLINE = "\n";
+	const DOUBLE_QUOTE = "\"";
+	const NEWLINE = "\n";
 	const SPACE = " ";
 	const TAB = "\t";
 	const BOOLEAN_ATTRIBUTES_MAXIMIZED = "MAXIMIZED";
@@ -122,15 +122,15 @@ class Silkworm implements ArrayAccess
 	#-----------------------------------------------------------
 	public function __construct($documentSpecifier = "")
 	{
-	    if(stripos($documentSpecifier, "x") !== false) {
+		if(stripos($documentSpecifier, "x") !== false) {
 			$this->setSelfClosingTagStyle("XML");
-	    }
+		}
 	}#----------------- __construct end -----------------#
 
 	/////////////////////////////////////
 	//start magic method implementation->
-    #-----------------------------------------------------------
-    # [author]
+	#-----------------------------------------------------------
+	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
 	# Implementation of the PHP __call function. This 
@@ -144,7 +144,7 @@ class Silkworm implements ArrayAccess
 	#-----------------------------------------------------------
 	public function __call($tagName, $properties)
 	{
-	    //parse the tag properties and generate tag of $tagName
+		//parse the tag properties and generate tag of $tagName
 		return $this->html = $this->initializeTag($tagName, $properties);
 	}#----------------- __call end -----------------#
 
@@ -276,7 +276,7 @@ class Silkworm implements ArrayAccess
 	#-----------------------------------------------------------
 	protected function initializeTag($tagName, $properties)
 	{
-	    //declarations
+		//declarations
 		$attributes = array();
 		$innerText = "";
 		$stringList = array(); //work storage for strings passed to this function
@@ -285,13 +285,13 @@ class Silkworm implements ArrayAccess
 		//go through the complete property list and
 		//divide it by property type
 		foreach($properties as $property) {
-		    //check if this is an Silkworm fragment
+			//check if this is an Silkworm fragment
 			//since Silkworm has a to __toString method
 			//this has to be valuated before any
 			//string evaluations
 			if($property instanceof Silkworm) {
-			    //safety for users who set doctypes
-			    //on Silkworm fragments
+				//safety for users who set doctypes
+				//on Silkworm fragments
 				$property->clearDoctype();
 				
 				//treat the fragment as a child
@@ -324,45 +324,45 @@ class Silkworm implements ArrayAccess
 			
 			//these are either attributes or inner text
 			if(is_string($property)) {
-			    //save for later and check for inner text
+				//save for later and check for inner text
 				$stringList[] = $property;
 				continue;
 			}
-	    }
+		}
 
-	    //set up boolean attributes for parsing
+		//set up boolean attributes for parsing
 		$stringCount = count($stringList);
 		for ($nextString = $stringCount; $nextString > 0; $nextString--) {
 			//going backwards through the list because of array slice
-	    	$property = $stringList[$nextString - 1];
-	    	if(in_array($property, $this->booleanAttributes)) {
-	    		//pair the boolean with a blank value
-	    		//for parsing purposes only
-	    		array_splice($stringList, $nextString, 0, "");
-	    	}
+			$property = $stringList[$nextString - 1];
+			if(in_array($property, $this->booleanAttributes)) {
+				//pair the boolean with a blank value
+				//for parsing purposes only
+				array_splice($stringList, $nextString, 0, "");
+			}
 		}
 
-	    //begin analyzing the string list
-	    $stringCount = count($stringList);
-	    //if has a remainder this contains inner text
-	    if($stringCount % 2) {
-	        //inner text is always last string in list
+		//begin analyzing the string list
+		$stringCount = count($stringList);
+		//if has a remainder this contains inner text
+		if($stringCount % 2) {
+			//inner text is always last string in list
 			$innerText = $stringList[$stringCount - 1];
-	    }
-	    
-	    //pair the rest of the strings as attributes
-	    for ($nextString = 0; ($nextString + 1) < $stringCount; $nextString += 2) {
-	        //attribute name = attribute value
-	        //this makes it easier for the create tag function
-	    	$attributes[$stringList[$nextString]] = $stringList[$nextString + 1];
-	    }
-        
-        //create a tag and return it
+		}
+		
+		//pair the rest of the strings as attributes
+		for ($nextString = 0; ($nextString + 1) < $stringCount; $nextString += 2) {
+			//attribute name = attribute value
+			//this makes it easier for the create tag function
+			$attributes[$stringList[$nextString]] = $stringList[$nextString + 1];
+		}
+		
+		//create a tag and return it
 		return $this->createTag($tagName, $attributes, $innerText, $children);
 	}#----------------- initializeTag end -----------------#
-    
-    #-----------------------------------------------------------
-    # [author]
+	
+	#-----------------------------------------------------------
+	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
 	# Function for turning the associative attribute array into
@@ -375,14 +375,14 @@ class Silkworm implements ArrayAccess
 	#-----------------------------------------------------------
 	protected function parseAttributes($attributes)
 	{
-	    //declarations
-	    $space = Silkworm::SPACE;
-	    $quote = Silkworm::DOUBLE_QUOTE;
+		//declarations
+		$space = Silkworm::SPACE;
+		$quote = Silkworm::DOUBLE_QUOTE;
 		$attributeString = ""; //parsed string of attributes
 		
 		//check if attributes where set
 		if(empty($attributes)) {
-		    //always return a blank string
+			//always return a blank string
 			return $attributeString;
 		}
 		
@@ -390,27 +390,27 @@ class Silkworm implements ArrayAccess
 		//and pair them accordingly
 		foreach ($attributes as $name => $value) {
 			//check if the attribute is a boolean value
-		    if(in_array($name, $this->booleanAttributes)) {
-		    	switch($this->booleanAttributeDisplayStyle) {
-		    		case Silkworm::BOOLEAN_ATTRIBUTES_MAXIMIZED:
+			if(in_array($name, $this->booleanAttributes)) {
+				switch($this->booleanAttributeDisplayStyle) {
+					case Silkworm::BOOLEAN_ATTRIBUTES_MAXIMIZED:
 						$attributeString .= "$space$name=$quote$name$quote";
 						break;
-		    		case Silkworm::BOOLEAN_ATTRIBUTES_BOOLEAN:
+					case Silkworm::BOOLEAN_ATTRIBUTES_BOOLEAN:
 						$attributeString .= "$space$name=${quote}true${quote}";
 						break;
 					default:
 						$attributeString .= "$space$name";
 						break;
-		    	}
+				}
 				continue;
-		    }
+			}
 			$attributeString .=  "$space$name=$quote$value$quote";
 		}
 		return $attributeString;
 	}#----------------- parseAttributes end -----------------#
 
-    #-----------------------------------------------------------
-    # [author]
+	#-----------------------------------------------------------
+	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
 	# This increases the indentation of nested children.
@@ -421,13 +421,13 @@ class Silkworm implements ArrayAccess
 	#    adjusted.
 	#-----------------------------------------------------------
 	protected function increaseIndent($childString)
-    {
-    	//declarations
-    	$newline = Silkworm::NEWLINE;
-    	
-        //remove the final carriage because
-        //if it's there explode will treat
-        //it as an empty string
+	{
+		//declarations
+		$newline = Silkworm::NEWLINE;
+		
+		//remove the final carriage because
+		//if it's there explode will treat
+		//it as an empty string
 		$childList = substr_replace(
 			$childString,
 			"",
@@ -439,8 +439,8 @@ class Silkworm implements ArrayAccess
 		
 		//go through each and adjust the indentation
 		foreach($childList as $index => $child) {
-		    // they have to stay at their original index
-		    // for order
+			// they have to stay at their original index
+			// for order
 			$childList[$index] = $this->indent() . $child;
 		}
 		
@@ -463,12 +463,12 @@ class Silkworm implements ArrayAccess
 	#-----------------------------------------------------------
 	protected function parseChildren($children)
 	{
-	    //delcarations
+		//delcarations
 		$childString = "";
 		
 		//check if children exists
 		if(empty($children)) {
-		    //return empty string
+			//return empty string
 			return $childString;
 		}
 		
@@ -481,8 +481,8 @@ class Silkworm implements ArrayAccess
 		//a) a single string that missed array formatting
 		//b) an Silkworm fragment
 		if(!is_array($children)) {
-		    //convert the children to an array
-		    //for parsing
+			//convert the children to an array
+			//for parsing
 			$children = array($children);
 		}
 		
@@ -510,9 +510,9 @@ class Silkworm implements ArrayAccess
 		}
 		return $newline . $childString;
 	}#----------------- parseChildren end -----------------#
-    
-    #-----------------------------------------------------------
-    # [author]
+	
+	#-----------------------------------------------------------
+	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
 	# Creates a tag of with the specified parameters.
@@ -554,8 +554,8 @@ class Silkworm implements ArrayAccess
 		return $createdTag;
 	}#----------------- createTag end -----------------#
 
-    #-----------------------------------------------------------
-    # [author]
+	#-----------------------------------------------------------
+	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
 	# Removes !DOCTYPE from children if the user accidentally
@@ -930,16 +930,16 @@ class Silkworm implements ArrayAccess
 		$differentAttributes = array();
 
 		//walkthrough and parse row properties
-        foreach($properties as $property) {
-        	//this is a flat array
-            if(is_string($property)) {
-                $rowAttributes[] = $property;
-            }
-            //alternating properties passed
-            if(is_array($property)) {
+		foreach($properties as $property) {
+			//this is a flat array
+			if(is_string($property)) {
+				$rowAttributes[] = $property;
+			}
+			//alternating properties passed
+			if(is_array($property)) {
 				$differentAttributes[] = $property;
-            }
-        }
+			}
+		}
 
 		//this parses properties and adds it
 		//and creates new rows
@@ -954,11 +954,11 @@ class Silkworm implements ArrayAccess
 						$rowAttributes[] = $value;
 						continue;
 					}
-		            $rowAttributes[] = $attribute;
-		            $rowAttributes[] = $value;
-		        }
-		        
-		        //alternate the properties using this marker
+					$rowAttributes[] = $attribute;
+					$rowAttributes[] = $value;
+				}
+				
+				//alternate the properties using this marker
 				if(($differentArrayMarker + 1) == $differentArrayCount) {
 					$differentArrayMarker = 0;		
 				} else {
