@@ -2,7 +2,7 @@
 ============
 [日本語はこちらです。](./README[JP].md)
 
-(ml)Silkworm, or just Silkworm, is a *m*arkup *l*anguage library for PHP to aid in the **creation** of **HTML** and **XML** documents. Silkworm acts as an abstraction layer allowing you to focus solely on PHP when you're programming eliminating the need to worry about properly formatting your HTML `\t\t<tags>\n` manually.
+(ml)Silkworm, or just Silkworm, is a **m**arkup **l**anguage library for PHP to aid in the **creation** of **HTML** and **XML** documents. Silkworm acts as an abstraction layer allowing you to focus solely on PHP when you're programming eliminating the need to worry about properly formatting your HTML `\t\t<tags>\n` manually.
 
 Silkworm generates nicely carriaged, returned and indented HTML or XML from your PHP files. The library is dynamic and can be used in a modular fashion allowing you to break up the document creation process into logical chunks throughout your program.
 
