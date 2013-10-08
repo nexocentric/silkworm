@@ -1,10 +1,10 @@
-Silkworm [![Build Status](https://travis-ci.org/nexocentric/silkworm.png?branch=master)](https://travis-ci.org/nexocentric/silkworm)
-========
+(ml)Silkworm [![Build Status](https://travis-ci.org/nexocentric/silkworm.png?branch=master)](https://travis-ci.org/nexocentric/silkworm)
+============
 [日本語はこちらです。](./README[JP].md)
 
 Silkworm is a PHP library to aid in the **creation** of **HTML** and **XML** documents in PHP. Silkworm acts as an abstraction layer allowing you to focus on PHP when you're programming eliminating the need to worry about properly formatting your HTML `\t\t<tags>\n` manually.
 
-Silkworm generates nicely carriaged returned and indented HTML or XML from your PHP files. The library is dynamic and can be used in a modular fashion allowing you to break up the document creation process into logical chunks throughout your program.
+Silkworm generates nicely carriaged, returned and indented HTML or XML from your PHP files. The library is dynamic and can be used in a modular fashion allowing you to break up the document creation process into logical chunks throughout your program.
 
 History
 -------
@@ -160,6 +160,7 @@ Acknowledgements
 I would like to thank all of the people who supported me through out development for all of their help and advice.
 
 * Amy Kuwahara
+* John Goodland
 * Tommie Barlow
 * Wataru Kitamura
 
