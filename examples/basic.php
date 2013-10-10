@@ -1,8 +1,8 @@
 <?php
 ////////////////////////////////////////////////////////////////////////////////
-// Work     : Silkworm (basic example)
+// Work     : (ml)Silkworm (basic example)
 // Copyright: (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
-//                See copywrite at footer for more information.
+//                See copyright at footer for more information.
 // Version  : 1.00
 ////////////////////////////////////////////////////////////////////////////////
 require_once("../Silkworm.php");

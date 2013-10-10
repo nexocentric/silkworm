@@ -1,6 +1,6 @@
 <?php
 ////////////////////////////////////////////////////////////////////////////////
-// Work     : Silkworm (modular tutorial)
+// Work     : (ml)Silkworm (modular tutorial)
 // Copyright: (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
 //                See copyright at footer for more information.
 // Version  : 1.00
