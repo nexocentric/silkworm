@@ -463,7 +463,7 @@ class Silkworm implements ArrayAccess
 	#-----------------------------------------------------------
 	protected function parseChildren($children)
 	{
-		//delcarations
+		//declarations
 		$childString = "";
 		
 		//check if children exists

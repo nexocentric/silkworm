@@ -36,26 +36,26 @@ Silkwormは他ライブラリへの依存がかく、下記の幾つかの方法
 
 Silkwormをインスタンス化して`$html = new Silkworm();`らくらく開発開始。
 
-#### Testing
-All tests for Silkworm have been conducted with PhpUnit. The tests are contained in the [tests folder](./tests), so feel free to run them to make sure your version is working.
+#### 検証
+Silkwormの全ての検証はPhpUnitで行いました。試験実体は[testsフォルダ](./tests)に入っていますので、どうぞ独自にご確認ください。
 
-### Configuration
-Silkworm doesn't require any configuration before use. However, there are a number of settings that you can use as demonstrated below.
+### 設定
+Silkwormは使用するのに、特別な設置が必要ではありません。但し、自分の開発スタイルに合うように幾つか設定を変える事が出来ます。変更出来る設定の例が下記です。
 
 ```php
-Silkworm::setSilkwormAlias("HyperTextGenerator"); //change the name of the class
+Silkworm::setSilkwormAlias("HyperTextGenerator"); //クラス名を変更
 
 $html = new Silkworm();
-$html->setIndentation("   "); //indentation is now set to 3 spaces
-$html->setSelfClosingTagStyle("xml"); // < /> vs <>
-$html->setBooleanDisplayStyle("maximize"); //disabled="disabled" vs disabled
+$html->setIndentation("   "); //インデントを空白三個に設定する
+$html->setSelfClosingTagStyle("xml"); // < />か<>
+$html->setBooleanDisplayStyle("maximize"); //disabled="disabled"かdisabled
 ```
 
-Usage
------
-There are a number of ways to use Silkworm.
+使い方
+------
+Silkwormは幾つかの使用方法があります。
 
-### Basic
+### 基本
 ```php
 $table = array(
     array("Version", "Name", "Changes"),
@@ -76,84 +76,89 @@ $html->html(
 );
 ```
 
-### Snippet Saving
+### HTML断片保存
 You can make and save snippets as follows.
 
-##### Setup
+##### 事前準備
 ```php
 $html = new Silkworm();
 $html["error"] = $html->div(
     $html->p(
-      "YOU MADE A BOO BOO!"
+      "エラー起こしたぞう！"
     )
 );
 
 $html["falsePositive"] = $html->div(
     $html->p(
-      "Sorry, about that. My bad."
+      "ごめん、ごめん、気のせいだった。"
     )
 );
 
 $html["truePositive"] = $html->div(
     $html->p(
-      "On second thought... that can't be... ;)"
+      "ちょっと待った！"
     )
 );
 ```
 
-If you use the `(string)$html` as a string, all of the snippets will automatically be joined in numerical then alphabetical order.
+`(string)$html`でクラスを文字列化すると、全ての断片が自動的に数字そして英文字の昇順に結合されます。
 
-##### Output
+##### 出力
 ```html
 <div>
-  <p>YOU MADE A BOO BOO!</p>
+  <p>エラー起こしたぞう！</p>
 </div>
 <div>
-  <p>Sorry, about that. My bad.</p>
+  <p>ごめん、ごめん、気のせいだった。</p>
 </div>
 <div>
-  <p>On second thought... that can't be... ;)</p>
+  <p>ちょっと待った！</p>
 </div>
 ```
 
-You can also choose which snippet you would like to use.
+特定な断片を選択する事も出来ます。書式は下記です。
 
 ```php
 (string)$html["falsePositive"];
 ```
 
-### Advanced
-For advanced usage please see the example folder. The examples are set up and ready for display. You should be able to access the files from your browser and see how they display there. Feel free to tinker with the examples to test out the system.
+断片に`<!DOCTYPE>`のようなヘッダー情報を追加したければ、下記の関数を利用すると便利です。
 
-Contact
--------
-### General
-You can contact me via:
+```php
+(string)$html->stringWithDocumentHeader($html["truePositive"]);
+```
+
+### 高度な使い方
+高度な使い方については[examplesフォルダ](./examples)を参照してください。全ての使用例はそのまま実行できますので、サーバにあげてから好きなブラウザで出力を確認出来ます。ソースコードを変えて、出力はどう変わるのかもご自由に確認してください。
+
+連絡情報
+--------
+### 一般
+ご連絡は下記へどうぞ:
 * Twitter: [@nexocentric](https://twitter.com/nexocentric)
 * GitHub: [nexocentric](https://github.com/nexocentric)
 
-### Bugs
-If you find any bugs while using Silkworm, I'd like to know so that I can fix them as soon as possible.
+### バグ
+バグを発見された場合、どうかお知らせください。早急に対応いたします。
 
-Please submit the issue via GitHub and I'll contact you for more information.
+GitHubで問題をお知らせください。連絡とってからフォローしたいと思っております。
 
-### Contributing
-Your contributions are greatly appreciated!
+### 貢献
+あなたの協力をお待ちしております！
 
-If you would like to contribute, please:
+プログラムに関してご協力いただけるのであれば、
 
-1. Fork the library on GitHub  
-2. Make any changes that you think will better the project  
-3. Make tests for the changes that you've made  
-4. Make a pull request  
-5. I'll message you about making any needed documentation changes (so that you don't make documentation changes before you know if the pull request can be accepted or not)  
+1. GitHubでライブラリをForkしてください。
+2. プロジェクトをより良くするための変更を加えてください。
+3. 変更点のテストを行ってください。
+4. Pull Request（プルリクエスト）を行ってください。
+5. ドキュメント化の変更に必要な情報に関してこちらからご連絡いたします。
 
-I'll go through the request to make sure that everything is okay and usable.*
+すべてがきちんと動作するよう、リクエストを検討いたします（*）。
+*すべてのリクエストにお答えすることはできません。予めご了承ください
 
-[*] I would like to apologize in advance for not being able to accept all pull requests.
-
-### Feedback
-I would like to hear feedback, bad and good. Anything that promotes discussion is appreciated.
+### フィードバック
+良くても悪くて、そちらのフィードバックをしりたいです。ライブラリの向上に関わる意見であればなんでも聞かせてください。
 
 謝辞
 ----------------
@@ -161,7 +166,9 @@ I would like to hear feedback, bad and good. Anything that promotes discussion i
 
 * Amy Kuwahara
 * John Goodland
+* Leo Lee
 * Tommie Barlow
+* Tom Griffin
 * Wataru Kitamura
 
 ライセンス

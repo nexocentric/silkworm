@@ -122,8 +122,14 @@ You can also choose which snippet you would like to use.
 (string)$html["falsePositive"];
 ```
 
+If you need the snippet to include header information like `<!DOCTYPE>`, you can wrap the string with the following function.
+
+```php
+(string)$html->stringWithDocumentHeader($html["truePositive"]);
+```
+
 ### Advanced
-For advanced usage please see the example folder. The examples are set up and ready for display. You should be able to access the files from your browser and see how they display there. Feel free to tinker with the examples to test out the system.
+For advanced usage please see the [examples](./examples) folder. The examples are set up and ready for display. You should be able to access the files from your browser and see how they display there. Feel free to tinker with the examples to test out the system.
 
 Contact
 -------
