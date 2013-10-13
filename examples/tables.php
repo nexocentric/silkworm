@@ -241,72 +241,74 @@ div table.hot-pink {
 
 PAGE_STYLES;
 
-$head = new Silkworm();
-$head->head(
-	$head->meta("charset", "UTF-8"),
-	$head->title("Silkworm (tables example)"),
-	$head->newline(),
-	$head->meta("name", "description", "content", "This demostrates how to use tables."),
-	$head->meta("name", "viewport", "content", "width=device-width"),
-	$head->newline(),
-	$head->comment("page styles"),
-	$head->style($style)
+$displayExamples = new Silkworm();
+
+$displayExamples["head"] = $displayExamples->head(
+	$displayExamples->meta("charset", "UTF-8"),
+	$displayExamples->title("Silkworm (tables example)"),
+	$displayExamples->newline(),
+	$displayExamples->meta("name", "description", "content", "This demostrates how to use tables."),
+	$displayExamples->meta("name", "viewport", "content", "width=device-width"),
+	$displayExamples->newline(),
+	$displayExamples->comment("page styles"),
+	$displayExamples->style($style)
 );
 
-$displayExamples = new Silkworm();
-$displayExamples->html(
-	$head,
-	$displayExamples->body(
-		$displayExamples->newline(),
-		$displayExamples->comment("example 1"),
-		$displayExamples->div(
-			$displayExamples->p("Example 1 (basic)"),
-			(string)$example1
-		),
-		$displayExamples->newline(),
-		$displayExamples->comment("example 2"),
-		$displayExamples->div(
-			$displayExamples->p("Example 2 (autoTable no attributes)"),
-			(string)$example2
-		),
-		$displayExamples->newline(),
-		$displayExamples->comment("example 3"),
-		$displayExamples->div(
-			$displayExamples->p("Example 3 (autoTable with attributes)"),
-			(string)$example3
-		),
-		$displayExamples->newline(),
-		$displayExamples->comment("example 4"),
-		$displayExamples->div(
-			$displayExamples->p("Example 4 (nested tables)"),
-			(string)$example4
-		),
-		$displayExamples->newline(),
-		$displayExamples->comment("example 5"),
-		$displayExamples->div(
-			$displayExamples->p("Example 5 (alternating attributes)"),
-			(string)$example5 //you can pass a fragement to be added and parsed
-		),
-		$displayExamples->newline(),
-		$displayExamples->comment("example 6"),
-		$displayExamples->div(
-			$displayExamples->p("Example 6 (cell attributes)"),
-			$displayExamples->autoTable($tableCellAttributes) //you can also call direct
-		),
-		$displayExamples->newline(),
-		$displayExamples->comment("example 7???"),
-		$displayExamples->div(
-			$displayExamples->p("Example 7 (???)"),
-			$displayExamples->repeat( //cause you can!!
-				$displayExamples->autoTable($forReal, "class", "hot-pink"), //you can also call direct
-				rand(1, 40)
-			)
+$displayExamples["body"] = $displayExamples->body(
+	$displayExamples->newline(),
+	$displayExamples->comment("example 1"),
+	$displayExamples->div(
+		$displayExamples->p("Example 1 (basic)"),
+		(string)$example1
+	),
+	$displayExamples->newline(),
+	$displayExamples->comment("example 2"),
+	$displayExamples->div(
+		$displayExamples->p("Example 2 (autoTable no attributes)"),
+		(string)$example2
+	),
+	$displayExamples->newline(),
+	$displayExamples->comment("example 3"),
+	$displayExamples->div(
+		$displayExamples->p("Example 3 (autoTable with attributes)"),
+		(string)$example3
+	),
+	$displayExamples->newline(),
+	$displayExamples->comment("example 4"),
+	$displayExamples->div(
+		$displayExamples->p("Example 4 (nested tables)"),
+		(string)$example4
+	),
+	$displayExamples->newline(),
+	$displayExamples->comment("example 5"),
+	$displayExamples->div(
+		$displayExamples->p("Example 5 (alternating attributes)"),
+		(string)$example5 //you can pass a fragement to be added and parsed
+	),
+	$displayExamples->newline(),
+	$displayExamples->comment("example 6"),
+	$displayExamples->div(
+		$displayExamples->p("Example 6 (cell attributes)"),
+		$displayExamples->autoTable($tableCellAttributes) //you can also call direct
+	),
+	$displayExamples->newline(),
+	$displayExamples->comment("example 7???"),
+	$displayExamples->div(
+		$displayExamples->p("Example 7 (???)"),
+		$displayExamples->repeat( //cause you can!!
+			$displayExamples->autoTable($forReal, "class", "hot-pink"), //you can also call direct
+			rand(1, 40)
 		)
 	)
 );
 
+$displayExamples["page"] = $displayExamples->html(
+	(string)$displayExamples["head"],
+	(string)$displayExamples["body"]
+);
+
 //let's see how it looks
-print((string)$displayExamples);
+print((string)$displayExamples["page"]);
 
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)
