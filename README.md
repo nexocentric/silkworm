@@ -20,10 +20,12 @@ Installation and Configuration
 ------------------------------
 ### Installation
 Silkworm has no dependencies and can be installed the following ways:
+
 1. GitHub Copy and Include  
   * Copy the library from GitHub  
   * Move Silkworm.php to the directory of your choice  
   * Include Silkworm.php in the file that you'll be using it in  
+  
 2. Via Composer  
   * Add the following to your composer requirements
   ```json
