@@ -242,6 +242,7 @@ div table.hot-pink {
 PAGE_STYLES;
 
 $displayExamples = new Silkworm();
+$displayExamples->doctype("html");
 
 $displayExamples["head"] = $displayExamples->head(
 	$displayExamples->meta("charset", "UTF-8"),
@@ -308,7 +309,11 @@ $displayExamples["page"] = $displayExamples->html(
 );
 
 //let's see how it looks
-print((string)$displayExamples["page"]);
+print(
+	$displayExamples->stringWithDocumentHeader(
+		(string)$displayExamples["page"]
+	)
+);
 
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)

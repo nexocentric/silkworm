@@ -1394,4 +1394,191 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			"Failed to return div tag as parent."
 		);
 	}
+	
+	/**
+	* @test
+	* @depends retrieveNonexistantFragment
+	*/
+	public function autoJoinFragmentsWithHeader()
+	{
+		$html = new Silkworm();
+		$html->doctype("html");
+		$html[0] = $html->h1("hello");
+		$html["zebra"] = $html->span( //this is d
+			$html->p("stripes")
+		);
+		$html["comment"] = $html->comment("this works");
+		
+		$this->assertSame(
+			"<!DOCTYPE html>\n" .
+			"<h1>hello</h1>\n" .
+			"<!-- this works -->\n" .
+			"<span>\n" .
+			"\t<p>stripes</p>\n" .
+			"</span>\n",
+			$html->stringWithDocumentHeader(
+				(string)$html
+			),
+			"Failed to return div tag as parent."
+		);
+	}
+	
+	/**
+	* @test
+	* @depends retrieveNonexistantFragment
+	*/
+	public function manualJoinFragments()
+	{
+		$html = new Silkworm();
+		$html[0] = $html->h1("hello");
+		$html["zebra"] = $html->span( //this is d
+			$html->p("stripes")
+		);
+		$html["comment"] = $html->comment("this works");
+		
+		$this->assertSame(
+			"<h1>hello</h1>\n" .
+			"<!-- this works -->\n" .
+			"<span>\n" .
+			"\t<p>stripes</p>\n" .
+			"</span>\n",
+			(string)$html[0] .
+			(string)$html["comment"] .
+			(string)$html["zebra"],
+			"Failed to return div tag as parent."
+		);
+	}
+	
+	/**
+	* @test
+	* @depends retrieveNonexistantFragment
+	*/
+	public function manualJoinFragmentWithHeader()
+	{
+		$html = new Silkworm();
+		$html->doctype("html");
+		$html[0] = $html->h1("hello");
+		$html["zebra"] = $html->span( //this is d
+			$html->p("stripes")
+		);
+		$html["comment"] = $html->comment("this works");
+		
+		$this->assertSame(
+			"<!DOCTYPE html>\n" .
+			"<h1>hello</h1>\n" .
+			"<!-- this works -->\n" .
+			"<span>\n" .
+			"\t<p>stripes</p>\n" .
+			"</span>\n",
+			$html->stringWithDocumentHeader(
+				(string)$html[0] .
+				(string)$html["comment"] .
+				(string)$html["zebra"]
+			),
+			"Failed to return div tag as parent."
+		);
+	}
+	
+	/**
+	* @test
+	* @depends retrieveNonexistantFragment
+	*/
+	public function fragmentOfFragments()
+	{
+		$html = new Silkworm();
+		$html->doctype("html");
+		$html[0] = $html->h1("hello");
+		$html["zebra"] = $html->span( //this is d
+			$html->p("stripes")
+		);
+		$html["comment"] = $html->comment("this works");
+		$html["content"] = $html->div(
+			(string)$html[0],
+			(string)$html["comment"],
+			(string)$html["zebra"]
+		);
+		
+		$this->assertSame(
+			"<div>\n" .
+			"\t<h1>hello</h1>\n" .
+			"\t<!-- this works -->\n" .
+			"\t<span>\n" .
+			"\t\t<p>stripes</p>\n" .
+			"\t</span>\n" .
+			"</div>\n",
+			(string)$html["content"],
+			"Failed to return div tag as parent."
+		);
+	}
+	
+	/**
+	* @test
+	* @depends retrieveNonexistantFragment
+	*/
+	public function fragmentOfFragmentsWithHeader()
+	{
+		$html = new Silkworm();
+		$html->doctype("html");
+		$html[0] = $html->h1("hello");
+		$html["zebra"] = $html->span( //this is d
+			$html->p("stripes")
+		);
+		$html["comment"] = $html->comment("this works");
+		$html["content"] = $html->div(
+			(string)$html[0],
+			(string)$html["comment"],
+			(string)$html["zebra"]
+		);
+		
+		$this->assertSame(
+			"<!DOCTYPE html>\n" .
+			"<div>\n" .
+			"\t<h1>hello</h1>\n" .
+			"\t<!-- this works -->\n" .
+			"\t<span>\n" .
+			"\t\t<p>stripes</p>\n" .
+			"\t</span>\n" .
+			"</div>\n",
+			$html->stringWithDocumentHeader(
+				(string)$html["content"]
+			),
+			"Failed to return div tag as parent."
+		);
+	}
+	
+	/**
+	* @test
+	* @depends retrieveNonexistantFragment
+	*/
+	public function fragmentOfFragmentsInHtmlTag()
+	{
+		$html = new Silkworm();
+		$html->doctype("html");
+		$html[0] = $html->h1("hello");
+		$html["zebra"] = $html->span( //this is d
+			$html->p("stripes")
+		);
+		$html["comment"] = $html->comment("this works");
+		$html["content"] = $html->div(
+			(string)$html[0],
+			(string)$html["comment"],
+			(string)$html["zebra"]
+		);
+		
+		$this->assertSame(
+			"<html>\n" .
+			"\t<div>\n" .
+			"\t\t<h1>hello</h1>\n" .
+			"\t\t<!-- this works -->\n" .
+			"\t\t<span>\n" .
+			"\t\t\t<p>stripes</p>\n" .
+			"\t\t</span>\n" .
+			"\t</div>\n" .
+			"</html>\n",
+			(string)$html->html(
+				$html["content"]
+			),
+			"Failed to return div tag as parent."
+		);
+	}
 }
