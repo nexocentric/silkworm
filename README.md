@@ -13,9 +13,15 @@ Silkworm was built from the ground up and has been throughly tested using PhpUni
 
 Changelog
 ---------
-| Version | Name            | Changes         |
-|---------|-----------------|-----------------|
-| 1.00    | ao              | initial release |
+| Version | Name            | Changes                                   |
+|---------|-----------------|-------------------------------------------|
+| 1.00    | ao              | initial release                           |
+| 1.01    | beige           | fixed code formatting                     |
+| 1.02    | cyan            | updated English readme                    |
+| 1.03    | daidai          | drafted Japanese readme                   |
+| 1.04    | emerald         | completed Japanese readme                 |
+| 1.05    | gold            | drafted Chinese readme                    |
+| 1.06    | hui             | fixed clipping issues, added new tests    |
 
 Installation and Configuration
 ------------------------------
