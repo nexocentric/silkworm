@@ -291,8 +291,35 @@
 			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 6512,
+				"buffer_size": 7034,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "For Everyone\n\nThis form was created with the purpose of improving the role playing experience of both players and GMs through the possible introduction of a digital character management system. This form is semi-anonymous. We require a valid e-mail address in order to submit this form. This is strictly for quality purposes. Your e-mail address will not be sold or given to any other parties. No spam of any kind will be sent to your e-mail address.\n\nFor Gamers\nHow many role playing games have you participated in?\nfree input number\n\nWhat system(s) have you played using?\n\nWhat do you admire about the role playing system of your choice (in regards character managment)?\n\nHow much time do you spend initially creating your character?\nfree input number\n\nHow much time do you spend leveling your character up?\nfree input number\n\nWhat settings have you played in?\nFantasy\nModern\nSci-fi\nSteampunk\nCyberpunk\nPost-apacalyptic\n\nWhich character sheet do you find to be the most difficult to use?\n\nWhich character sheet do you find to be the easiest to use?\n\nHow much time does the GM spend checking you and your fellow player's character sheets?\nfree input number\n\nHow many games have you GMed?\nfree input number\n\nHave you heard of a digital management system for character sheets in existence?\nyes/no\n\nIf yes, what is the name of the system?\nfree input\n\nDo you think the implementation of a digital character management system would increase your player experience?\nyes/no\n\nIf implemented what features would you like to see (Please fill out the next 10 items)? \n\nHow do you like to access your internet?\nPC / Mobile\n\nDo you think it would be a detrment if there was no mobile version available?\nyes/no\n\nWhich would be most convienent for role playing?\nPC / mobile\n\n\n\n\nFor GMs (administered 5 games or more)\nHow many gaming systems are you familiar with?\n1, 2, 3, 4, 5+\n\nWhat is your system of choice?\nmultiple check boxes\n\nWhat system(s) is your system of choice similar to?\nmultiple check boxes\n\nHow much time do your players spend upgrading between sessions (rough average per session)?\n\nHow would you rate your ability to give out appropriate experience points to players for leveling?\nslider \npoor fair good\n\nCould a digital charcter management system improve your ability to award points?\n\nThe next questions deal with ease of managing other players, gaming and their character sheets:\nHow often have you dealt with players improving the characters without permissions from the GM?\n\nWhat are the most common character sheet errors that you deal with?\nmiscalculations\nbonuses\npowers/abilities/skills that can't be used by a character\nmismatched equipment\n\n\nDo you think that you would benefit from digitally based point award character management system?\nyes/no\n\nWhat are some of the challenges that you have faced as a GM:\n140\n\nFeatures:\nAs a player I would like to be able to _______ so that I can _________.\nAs a GM I would like to be able to...\nAs a GM I would like my players to be able to...\n\n=======================\nPoint build/buy Systems\n-----------------------\nLARP\nWhite Wolf Publishing\nWarhammer\nGURPS\nLegend of the Five Rings\nBESM\nParanoia\nScion\nShadowrun\n\nLeveling Systems\n----------------\nWizards of the Coast\nPathfinder\nAll Flesh Must Be Eaten\nDeadlands\nA Game of Thrones\nMutants and Masterminds\nRifts\n\nHybrid\n------\nAlternity\nCall of Cthulhu\nFate\n\n\nFree Form\n---------\nAmber",
+			"settings":
+			{
+				"buffer_size": 3391,
+				"line_ending": "Windows",
+				"name": "For Everyone"
+			}
+		},
+		{
+			"file": "/C/Users/nexocentric/Documents/AutoHotkey.ahk",
+			"settings":
+			{
+				"buffer_size": 2986,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Package Control Messages\n========================\n\nSublimeLinter:\n-------------\n\n  =====================\n  SublimeLinter for ST3\n  Fundraising update\n  October 31, 2013\n  =====================\n  \n  Through October 30, we have raised $2885 (after fees) from 226 donations. Thank you for your support!\n  Development has started, and I’m very excited about this new version! But there is still a lot of work\n  to do, and I’m getting cool new ideas every day.\n  \n  So if you are one of the thousands of happy SublimeLinter users who has not donated yet, it isn’t too late\n  to contribute. Please consider making a small donation to fund ongoing development and to compensate\n  Ryan Hileman for the great work on which SublimeLinter3 is based.\n  \n  Open source software is not free! It is we the developers who usually end up paying for it.\n  To donate and find out more about what you can expect from SublimeLinter3, go here:\n  \n  https://github.com/SublimeLinter/SublimeLinter3#sublimelinter3\n  \n  If you are interested in helping with development, please leave a message here:\n  \n  https://github.com/SublimeLinter/SublimeLinter3/issues/3\n  \n  Thanks again for your support,\n  \n  - Aparajita Fishman\n    SublimeLinter maintainer\n  \n\n  =====================\n  SublimeLinter for ST3\n  Fundraising update\n  =====================\n  \n  As of October 28, we have raised $980 (after fees) from 90 donations.\n  This is enough to get started, but I was hoping for twice that amount.\n  If you are one of the thousands of happy SublimeLinter users who has not donated,\n  please consider making a small donation to keep this plugin alive.\n  Open source software is not free! It is we the developers who usually\n  end up paying for it.\n  \n  To donate and find out more about what you can expect from SublimeLinter3,\n  go here:\n  \n  https://github.com/SublimeLinter/SublimeLinter3#sublimelinter3\n  \n  If you are interested in helping with development, please leave a message\n  here:\n  \n  https://github.com/SublimeLinter/SublimeLinter3/issues/3\n  \n  Thanks again for your support,\n  \n  - Aparajita Fishman\n    SublimeLinter maintainer\n  \n\n  =====================\n  SublimeLinter for ST3\n  We need your help!\n  =====================\n  \n  According to the Package Control site, SublimeLinter is the 4th most popular\n  plugin for Sublime Text, with 224K installs. That's an incredible number.\n  Thank you to everyone!\n  \n  We all want SublimeLinter to become fully compatible with Sublime Text 3,\n  and we want it to be better supported. In moving to ST3 (and python 3),\n  we decided to start from scratch with a new architecture (based on sublimelint)\n  that allows us to get the most out of both ST3 and python 3. And we plan\n  to join forces with Ryan Hileman and merge sublimelint and SublimeLinter,\n  so we can pool our resources.\n  \n  To find out more about what you can expect from SublimeLinter3,\n  read about it here:\n  \n  https://github.com/SublimeLinter/SublimeLinter3#sublimelinter3\n  \n  To make this happen any time soon, we need your help. I have lots of other\n  projects that currently have a higher priority than SublimeLinter3. If you\n  value SublimeLinter and want to see it running on ST3 sooner rather than later,\n  please consider donating. If we can raise $3-5K, I'll move SublimeLinter3\n  to top of my priority list and finish it off within a week or two.\n  \n  See the link above for info on donating.\n  \n  Thanks again,\n  \n  - Aparajita Fishman\n    SublimeLinter maintainer\n  \n",
+			"settings":
+			{
+				"buffer_size": 3482,
+				"line_ending": "Windows",
+				"name": "Package Control Messages",
+				"scratch": true
 			}
 		},
 		{
@@ -532,6 +559,7 @@
 	},
 	"file_history":
 	[
+		"/C/Users/nexocentric/Documents/AutoHotkey.ahk",
 		"/W/html-interface/.travis.yml",
 		"/W/html-interface/Silkworm.php",
 		"/W/html-interface/examples/basic.php",
@@ -578,7 +606,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 90.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"W:\\html-interface"
@@ -704,7 +732,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -712,15 +740,15 @@
 					"file": "README.md",
 					"settings":
 					{
-						"buffer_size": 6512,
+						"buffer_size": 7034,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								207,
-								207
+								1427,
+								1427
 							]
 						],
 						"settings":
@@ -799,7 +827,7 @@
 							],
 							"sublimelinter_executable_map":
 							{
-								"php": "C:/Dropbox/portable/applications/php/php.exe"
+								"php": "%DROPBOX_ROOT%/portable/applications/php/php.exe"
 							},
 							"sublimelinter_fill_outlines": false,
 							"sublimelinter_gutter_marks": true,
@@ -827,6 +855,265 @@
 				},
 				{
 					"buffer": 1,
+					"settings":
+					{
+						"buffer_size": 3391,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3023,
+								3391
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"auto_name": "For Everyone",
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+								"php": "%DROPBOX_ROOT%/portable/applications/php/php.exe"
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": true,
+							"sublimelinter_gutter_marks_theme": "simple",
+							"sublimelinter_mark_style": "none",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1545.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/nexocentric/Documents/AutoHotkey.ahk",
+					"settings":
+					{
+						"buffer_size": 2986,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2158,
+								2158
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+								"php": "%DROPBOX_ROOT%/portable/applications/php/php.exe"
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": true,
+							"sublimelinter_gutter_marks_theme": "simple",
+							"sublimelinter_mark_style": "none",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/AutoHotkey/AutoHotkey.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 690.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"settings":
+					{
+						"buffer_size": 3482,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3482,
+								3482
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 45.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
 					"file": "README[JP].md",
 					"settings":
 					{
@@ -917,7 +1204,7 @@
 							],
 							"sublimelinter_executable_map":
 							{
-								"php": "C:/Dropbox/portable/applications/php/php.exe"
+								"php": "%DROPBOX_ROOT%/portable/applications/php/php.exe"
 							},
 							"sublimelinter_fill_outlines": false,
 							"sublimelinter_gutter_marks": true,
@@ -944,7 +1231,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 5,
 					"file": "README[ZH].md",
 					"settings":
 					{
@@ -1035,7 +1322,7 @@
 							],
 							"sublimelinter_executable_map":
 							{
-								"php": "C:/Dropbox/portable/applications/php/php.exe"
+								"php": "%DROPBOX_ROOT%/portable/applications/php/php.exe"
 							},
 							"sublimelinter_fill_outlines": false,
 							"sublimelinter_gutter_marks": true,
@@ -1062,7 +1349,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 6,
 					"file": "Silkworm.php",
 					"settings":
 					{
@@ -1153,7 +1440,7 @@
 							],
 							"sublimelinter_executable_map":
 							{
-								"php": "C:/Dropbox/portable/applications/php/php.exe"
+								"php": "%DROPBOX_ROOT%/portable/applications/php/php.exe"
 							},
 							"sublimelinter_fill_outlines": false,
 							"sublimelinter_gutter_marks": true,
@@ -1179,7 +1466,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 7,
 					"file": "examples/xml.php",
 					"settings":
 					{
@@ -1270,7 +1557,7 @@
 							],
 							"sublimelinter_executable_map":
 							{
-								"php": "C:/Dropbox/portable/applications/php/php.exe"
+								"php": "%DROPBOX_ROOT%/portable/applications/php/php.exe"
 							},
 							"sublimelinter_fill_outlines": false,
 							"sublimelinter_gutter_marks": true,
