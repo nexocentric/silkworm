@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE HTML >
+<writtenMedia>
+	<horror>
+		<work>death</work>
+		<work>pain</work>
+		<work>suffering</work>
+	</horror>
+	<fantasy>
+		<work>dragons</work>
+		<work>magic</work>
+		<work>fire wildthings</work>
+	</fantasy>
+	<scienceFiction>
+		<work>L.A.S.E.R.s</work>
+		<work>hyper warp</work>
+		<work>time parameter</work>
+	</scienceFiction>
+</writtenMedia>

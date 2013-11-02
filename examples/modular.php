@@ -113,17 +113,20 @@ class Webpage
 	public function display()
 	{
 		$this->webpage->doctype("html");
-		return (string)$this->webpage->html(
+		$this->webpage->html(
+			(string)$this->webpage
+		);
+		return $this->webpage->stringWithDocumentHeader(
 			(string)$this->webpage
 		);
 	}
 }
 
 #-----------------------------------------------------------
-# remove the comment mark from an example and see how it works :)
+# remove the comments below and see how it works :)
 #-----------------------------------------------------------
-$webpage = new Webpage();
-print($webpage->display());
+#$webpage = new Webpage();
+#print($webpage->display());
 
 ////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)

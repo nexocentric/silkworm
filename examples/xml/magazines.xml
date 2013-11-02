@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE HTML >
+<writtenMedia>
+	<fashion>
+		<work>shirts</work>
+		<work>suits</work>
+		<work>blouses</work>
+	</fashion>
+	<tech>
+		<work>gigakeys</work>
+		<work>random access keyboards</work>
+		<work>laundry and lint</work>
+	</tech>
+	<cooking>
+		<work>vegetables</work>
+		<work>bagels</work>
+		<work>mexican</work>
+	</cooking>
+</writtenMedia>

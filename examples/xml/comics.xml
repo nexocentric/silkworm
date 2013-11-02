@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE HTML >
+<writtenMedia>
+	<superhero>
+		<work>superpunch</work>
+		<work>maggot person</work>
+		<work>vunerable human</work>
+	</superhero>
+	<manga>
+		<work>squids and octopus</work>
+		<work>ninjas and cowboys</work>
+		<work>firballs and school girls</work>
+	</manga>
+	<strip>
+		<work>the cashews</work>
+		<work>kalvin cline</work>
+		<work>diesel powered</work>
+	</strip>
+</writtenMedia>
