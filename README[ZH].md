@@ -3,14 +3,14 @@
 [English version here.](./README.md)  
 [日本語はこちらです。](./README[JP].md)
 
-(ml)Silkworm，（绰号Silkworm）是帮**遍****HTML**和**XML**文的**PHP*代码程序库。
-Silkworm是从HTML的抽象层，所以遍程序的时候可以只用PHP开发。不要自己的输出HTML`\t\t<tags>\n`。
+(ml)Silkworm，（绰号Silkworm）是帮助**编辑HTML**和**XML**文的**PHP**的代码程序库。
+Silkworm是从HTML的抽象层，所以编程序的时候可以只用PHP开发。不要自己的输出HTML`\t\t<tags>\n`。
 
-Silkworm是从遍了的PHP文件输出回车和好好排的HTML和XML。这程序库有很都的用法，可以分解遍HTML程合适你的开发方法。
+Silkworm输出的HTML和XML比只用PHP更简单清楚。这程序库有很多的用法，可以分解HTML然后合成您想用想要的程序。
 
 历史
 -------
-Silkworm从头开始编写了。用了PhpUnit测试了。
+Silkworm是我从零开始编写完成的程序。而且用PhpUnit进行测试。
 
 Changelog
 ---------
@@ -28,15 +28,15 @@ Changelog
 装机和设置
 ------------------------------
 ### 安装
-Silkworm没有依赖和别序库。用下个方法可以安装：
+Silkworm不依赖别的程序库。用下列方法可以安装：
 
 1. 从GitHub复制导入法  
   * 从GitHub复制程序库  
-  * 搬Silkworm.php到选文件夹  
-  * 想开发文件里打包Silkworm.php  
+  * 移动Silkworm.php到选定文件夹  
+  * 在想开发文件里应用Silkworm.php  
 
 2. 经由Composer  
-  * composer包加下个代码
+  * composer应用下列代码
   ```json
   {  
     "require": {  
@@ -45,10 +45,10 @@ Silkworm没有依赖和别序库。用下个方法可以安装：
   }  
   ```
 
-这样得实例以后`$html = new Silkworm();`可以开始开发.
+然后编写下列代码`$html = new Silkworm();`可以开始开发.
 
 #### 测试
-Silkworm的全部的测试用PhpUnit完了。测试在[tests文件夹](./tests)里，想确定这版本的Silkworm好不好的话，请测试一下。
+Silkworm全部用PhpUnit测试完了。测试在[tests文件夹](./tests)里，如果您想确定这版本的Silkworm好不好，请测试一下。
 
 ### Configuration
 用Silkworm前不要变设置。但是，Silkworm有多可以变的设置。例子在下面。
@@ -87,8 +87,8 @@ $html->html(
 );
 ```
 
-### HTML断片保存
-想保存HTML断片的话，下面和一样得保。
+### HTML部分保存
+想保存HTML部分的话，请叁考和下列一样保存方法。
 
 ##### 事前准备
 ```php
@@ -112,7 +112,7 @@ $html["truePositive"] = $html->div(
 );
 ```
 
-断片保存以后，这样地`(string)$html`文字列化Silkworm对象的话，全部的断片自动地连接。连接顺序是数字上顺，以后英语字母表上顺。
+部分保存以后，把像`(string)$html`的结合后，所有部分的数字英文字母将按顺序排列。
 
 ##### 输出
 ```html
@@ -127,41 +127,41 @@ $html["truePositive"] = $html->div(
 </div>
 ```
 
-也可以选用的断片。
+也可以选用这样的部分。
 
 ```php
 (string)$html["falsePositive"];
 ```
 
-想引用`<!DOCTYPE>`和一样的头文件的话，想下面和一样的可以输出。
+想引用`<!DOCTYPE>`背景标题的话，请叁考下列的输出方法。
 
 ```php
 (string)$html->stringWithDocumentHeader($html["truePositive"]);
 ```
 
-### 先进
-先进的用法请看[examples文件夹](./examples)。例子已经准备了。从你的浏览器可以看看。请变代码学习这程序库的用法一下。
+### 高级用法
+学习高级用法时，请叁考[examples文件夹](./examples)。已经准备了叁考资料。您可以通过您的浏览器查看。请改尝试写代码学习这程序库的用法一下。
 
 联系信息
 -------
 ### 一般
-用下个联系信息可以连我:
+请用下列联系方式联系我:
 * Twitter: [@nexocentric](https://twitter.com/nexocentric)
 * GitHub: [nexocentric](https://github.com/nexocentric)
 
-### 出错
-用Silkworm的时候发现出错的话，请告诉我一下。那事我快快地修改。
+### 出错的话
+用Silkworm的时候发现错误的话，请告诉我。我会尽快修改。
 
-请用GitHub提Issue还有那出错的内容给我，以后我连你商量商量。
+请用GitHub写Issue给我，以后我会及时回复。
 
-### 貢献
-你可以貢献我很高兴。
+### 如果您想帮助我
+感谢您对我的帮助。
 
-想貢献的话请:
+愿意帮助我的话:
 
 1. 用GitHub复制这程序库  
-2. 修改代码一下  
-3. 遍测试为修改的部分  
+2. 修改代码  
+3. 编测试为修改的部分  
 4. 申请pull request  
 5. 以后，我连您请您做说明一下  
 
