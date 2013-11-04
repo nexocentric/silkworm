@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<drinks>
+	<![CDATA[This contains a lot of data about drinks that don't really matter.]]>
+	<hot>
+		<alcohols>
+			<drink>wine</drink>
+			<drink>coffee</drink>
+			<drink>rum</drink>
+		</alcohols>
+		<teas>
+			<drink>green</drink>
+			<drink>oolong</drink>
+			<drink>white</drink>
+		</teas>
+		<coffees>
+			<drink>espresso</drink>
+			<drink>milk</drink>
+			<drink>black</drink>
+		</coffees>
+		<juices>
+			<drink>apple</drink>
+			<drink>orange</drink>
+			<drink>tomato</drink>
+		</juices>
+		<sodas>
+			<drink>ginger ale</drink>
+			<drink>apple hop</drink>
+			<drink>caramel</drink>
+		</sodas>
+	</hot>
+	<cold>
+		<alcohols>
+			<drink>vodka</drink>
+			<drink>beer</drink>
+			<drink>wine</drink>
+		</alcohols>
+		<teas>
+			<drink>green</drink>
+			<drink>corn</drink>
+			<drink>white</drink>
+		</teas>
+		<coffees>
+			<drink>frappuccino</drink>
+			<drink>iced</drink>
+			<drink>espresso</drink>
+		</coffees>
+		<juices>
+			<drink>grapefruit</drink>
+			<drink>apple</drink>
+			<drink>orange</drink>
+		</juices>
+		<sodas>
+			<drink>cola</drink>
+			<drink>root beer</drink>
+			<drink>punch</drink>
+		</sodas>
+	</cold>
+</drinks>

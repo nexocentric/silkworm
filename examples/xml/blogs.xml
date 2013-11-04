@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE HTML >
+<writtenMedia>
+	<news>
+		<work>the post</work>
+		<work>the site</work>
+		<work>the post site</work>
+	</news>
+	<photo>
+		<work>mine</work>
+		<work>my friend</work>
+		<work>my dad</work>
+	</photo>
+	<video>
+		<work>nsfw</work>
+		<work>nsfw x 2</work>
+		<work>nsfw duplicated x 4</work>
+	</video>
+</writtenMedia>
