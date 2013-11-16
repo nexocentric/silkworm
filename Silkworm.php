@@ -305,12 +305,12 @@ class Silkworm implements ArrayAccess
 			if(is_array($property)) {
 				foreach($property as $attributeName => $value) {
 					//key is attribute name
-					$stringList[] = $attributeName;
+					$stringList[] = htmlspecialchars($attributeName);
 					
 					//non booleans get paired
 					if(!in_array($property, $this->booleanAttributes)) {
 						//value is attribute value
-						$stringList[] = $value;
+						$stringList[] = htmlspecialchars($value);
 					}
 				}
 				continue;
@@ -325,7 +325,7 @@ class Silkworm implements ArrayAccess
 			//these are either attributes or inner text
 			if(is_string($property)) {
 				//save for later and check for inner text
-				$stringList[] = $property;
+				$stringList[] = htmlspecialchars($property);
 				continue;
 			}
 		}
