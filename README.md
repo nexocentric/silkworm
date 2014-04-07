@@ -22,7 +22,7 @@ Changelog
 | 1.04    | emerald         | completed Japanese readme                    |
 | 1.05    | fen             | drafted Chinese readme                       |
 | 1.06    | gin             | fixed clipping issues, added new tests       |
-| 1.07    | hui             | completed Chinese readme, removed work files |
+| 1.07    | hui             | completed Chinese readme, removed work files | 
 
 Installation and Configuration
 ------------------------------
