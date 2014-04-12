@@ -513,8 +513,9 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** 
-	* 
+	* @test 
 	* @depends regularTagWithBooleanAttributes
+	* @depends selfClosingTagWithUserDefinedBooleanAttributes
 	*/
 	public function regularTagWithUserDefinedBooleanAttributes()
 	{
@@ -523,32 +524,12 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		
 		$html = new Silkworm();
 		$html->setBooleanDisplayStyle(); //no string defaults to minimized
-		$html->defineBooleanAttributes("mi"); //does the short version work
-		$html->button("hidden", "disabled", "click me");
+		$html->defineBooleanAttributes("filled-with-goodness");
+		$html->button("hidden", "filled-with-goodness", "click me");
 		$this->assertSame(
-			"<button hidden disabled>click me</button>\n",
+			"<button hidden filled-with-goodness>click me</button>\n",
 			(string)$html,
-			"Failed to return div tag as parent."
-		);
-		
-		$html = new Silkworm();
-		$html->setBooleanDisplayStyle("MA"); //does the caps short version work
-		$html->defineBooleanAttributes("mi"); //does the short version work
-		$html->button("hidden", "disabled", "click me");
-		$this->assertSame(
-			"<button hidden=${qt}hidden${qt} disabled=${qt}disabled${qt}>click me</button>\n",
-			(string)$html,
-			"Failed to return div tag as parent."
-		);
-		
-		$html = new Silkworm();
-		$html->setBooleanDisplayStyle("BoOl"); //does half the word random caps work
-		$html->defineBooleanAttributes("mi"); //does the short version work
-		$html->button("hidden", "disabled", "click me");
-		$this->assertSame(
-			"<button hidden=${qt}true${qt} disabled=${qt}true${qt}>click me</button>\n",
-			(string)$html,
-			"Failed to return div tag as parent."
+			"Failed to define boolean attributes for use in regular tag."
 		);
 	}
 
