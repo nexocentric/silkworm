@@ -157,7 +157,7 @@ class Silkworm implements ArrayAccess
 		return $this->html = $this->initializeTag($tagName, $properties);
 	}
 
-	public function adjustIndentation($markupText)
+	public function adjustIndentation($markupText, $indentLevel = null)
 	{
 		if ($this->adjustedIndentLevel == 0) {
 			return $markupText;
@@ -166,7 +166,7 @@ class Silkworm implements ArrayAccess
 		$newline = Silkworm::NEWLINE;
 		$adjustedIndentation = str_repeat(
 			$this->indentationPattern, 
-			$this->adjustedIndentLevel
+			is_null($indentLevel) ? $this->adjustedIndentLevel : $indentLevel
 		);
 
 		$adjustedMarkupText = explode($newline, $markupText);
@@ -353,6 +353,16 @@ class Silkworm implements ArrayAccess
 	{
 		if (is_int($string)) {
 			$this->adjustedIndentLevel = $string;
+			return;
+		}
+
+		$string = str_split($string);
+		$whitespace = "";
+		foreach ($string as $marker) {
+			if (!in_array($marker, array(Silkworm::SPACE, Silkworm::TAB))) {
+				break;
+			}
+			$this->adjustedIndentLevel++;
 		}
 	}
 	#===========================================================

@@ -320,22 +320,68 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	*/
 	public function increasedInitialIndentation()
 	{
+		#---------------------------------------
+		# initalizations
+		#---------------------------------------
 		$tab = Silkworm::TAB;
-		$byNumber = 2;
-		$newIndentation = str_repeat($tab, $byNumber);
+		$space = Silkworm::SPACE;
+		$indentationLevel = 2;
+		$adjustedIndentation = str_repeat($tab, $indentationLevel);
+
+		#---------------------------------------
+		# test by numeric parameter
+		#---------------------------------------
 		$html = new Silkworm();
-		$html->setAdjustedIndentation($byNumber);
+		$html->setAdjustedIndentation($indentationLevel);
 		$html->div(
 			$html->div(),
 			$html->div()
 		);
 		$this->assertSame(
-			str_replace($tab, "*", "${newIndentation}<div>\n" .
-			"${newIndentation}${tab}<div></div>\n" .
-			"${newIndentation}${tab}<div></div>\n" .
-			"${newIndentation}</div>\n"),
+			str_replace($tab, "*", "${adjustedIndentation}<div>\n" .
+			"${adjustedIndentation}${tab}<div></div>\n" .
+			"${adjustedIndentation}${tab}<div></div>\n" .
+			"${adjustedIndentation}</div>\n"),
 			str_replace($tab, "*", (string)$html),
 			"Failed to return markup with an increased inital indent."
+		);
+
+		#---------------------------------------
+		# from string parse same whitespace
+		#---------------------------------------
+		$html = new Silkworm();
+		$html->setAdjustedIndentation($adjustedIndentation);
+		$html->div(
+			$html->div(),
+			$html->div()
+		);
+		$this->assertSame(
+			str_replace($tab, "*", "${adjustedIndentation}<div>\n" .
+			"${adjustedIndentation}${tab}<div></div>\n" .
+			"${adjustedIndentation}${tab}<div></div>\n" .
+			"${adjustedIndentation}</div>\n"),
+			str_replace($tab, "*", (string)$html),
+			"Failed to return markup with an increased inital indent from string parse."
+		);
+
+		#---------------------------------------
+		# from string parse differing whitespace
+		#---------------------------------------
+		$html = new Silkworm();
+		$html->setAdjustedIndentation(
+			"${tab}${space}I have strange indentation!${tab}${space}"
+		);
+		$html->div(
+			$html->div(),
+			$html->div()
+		);
+		$this->assertSame(
+			str_replace($tab, "*", "${adjustedIndentation}<div>\n" .
+			"${adjustedIndentation}${tab}<div></div>\n" .
+			"${adjustedIndentation}${tab}<div></div>\n" .
+			"${adjustedIndentation}</div>\n"),
+			str_replace($tab, "*", (string)$html),
+			"Failed to return markup with an increased inital indent from string parse mixed."
 		);
 	}
 
