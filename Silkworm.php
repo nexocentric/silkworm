@@ -198,6 +198,19 @@ class Silkworm implements ArrayAccess
 
 	/////////////////////////////////////
 	//start array access implementation->
+
+	/*private function combineBooleanAttributeList()
+	{
+		if (!empty($this->userDefinedBooleanAttributes)) {
+			$this->booleanAttributes = array_merge(
+				$this->booleanAttributes,
+				$this->userDefinedBooleanAttributes
+			);
+			$this->userDefinedBooleanAttributes = array();
+		}
+		return $this->booleanAttributes;
+	}*/
+
 	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
@@ -360,13 +373,10 @@ class Silkworm implements ArrayAccess
 					new RecursiveArrayIterator($attribute)
 				);
 
-				# add the attributes
-				array_merge(
-					$userDefinedBooleanAttributes = array_merge(
-						$userDefinedBooleanAttributes,
-						$attribute
-					)
-				);
+				#add each attribute
+				foreach ($attribute as $value) {
+					$userDefinedBooleanAttributes[] = $value;
+				}
 				continue;
 			}
 
@@ -380,8 +390,8 @@ class Silkworm implements ArrayAccess
 			$attributeLastCharacter = strlen($attribute) - 1;
 			if (
 				strpos($attribute, ",") !== false && 
-				strpos($attribute, ",", $attributeLastCharacter) && 
-				strpos($attribute, "${$space}", $attributeLastCharacter)
+				strpos($attribute, ",", $attributeLastCharacter) === false && 
+				strpos($attribute, "${space}", $attributeLastCharacter) === false 
 			) {
 				#---------------------------------------
 				# add the parsed values to the list
@@ -402,8 +412,8 @@ class Silkworm implements ArrayAccess
 		#---------------------------------------
 		# add these to the global list
 		#---------------------------------------
-		$this->userDefinedBooleanAttributes = array_merge(
-			$this->userDefinedBooleanAttributes,
+		$this->booleanAttributes = array_merge(
+			$this->booleanAttributes,
 			$userDefinedBooleanAttributes
 		);
 	}

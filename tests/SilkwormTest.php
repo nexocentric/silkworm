@@ -460,6 +460,100 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 
 	/** 
 	* @test
+	* @depends selfClosingTagWithBooleanAttributes
+	*/
+	public function selfClosingTagWithUserDefinedBooleanAttributes()
+	{
+		//declarations
+		$qt = Silkworm::DOUBLE_QUOTE;
+
+		$html = new Silkworm();
+		$html->setBooleanDisplayStyle("mi"); //does the short version work
+		$html->defineBooleanAttributes("sugar-coated", "optimally-coated"); //regular parameters
+		$html->input("type", "checkbox", "sugar-coated", "optimally-coated");
+		$this->assertSame(
+			"<input type=${qt}checkbox${qt} sugar-coated optimally-coated>\n",
+			(string)$html,
+			"Failed to define boolean attributes as parameters."
+		);
+		
+		$html = new Silkworm();
+		$html->setBooleanDisplayStyle("MAXIMIZED"); //does all caps work
+		$html->defineBooleanAttributes(array("sugar-coated", "optimally-coated")); //array of parameters
+		$html->input("type", "checkbox", "sugar-coated", "optimally-coated");
+		$this->assertSame(
+			"<input type=${qt}checkbox${qt} sugar-coated=${qt}sugar-coated${qt} optimally-coated=${qt}optimally-coated${qt}>\n",
+			(string)$html,
+			"Failed to define boolean attributes as array."
+		);
+		
+		$html = new Silkworm();
+		$html->setBooleanDisplayStyle("boolean"); //does all lowercase work
+		$html->defineBooleanAttributes("sugar-coated, optimally-coated"); //comma delimited
+		$html->input("type", "checkbox", "sugar-coated", "optimally-coated");
+		$this->assertSame(
+			"<input type=${qt}checkbox${qt} sugar-coated=${qt}true${qt} optimally-coated=${qt}true${qt}>\n",
+			(string)$html,
+			"Failed to define boolean attributes as comma delimited list."
+		);
+
+		$html = new Silkworm();
+		$html->setBooleanDisplayStyle("boolean"); //does all lowercase work
+		$html->defineBooleanAttributes( //mixed
+			"sugar-coated, optimally-coated", 
+			array("cream-filled", "fully-loaded"),
+			"filled-with-goodness"
+		);
+		$html->input("type", "checkbox", "sugar-coated", "optimally-coated", "cream-filled", "fully-loaded", "filled-with-goodness");
+		$this->assertSame(
+			"<input type=${qt}checkbox${qt} sugar-coated=${qt}true${qt} optimally-coated=${qt}true${qt} cream-filled=${qt}true${qt} fully-loaded=${qt}true${qt} filled-with-goodness=${qt}true${qt}>\n",
+			(string)$html,
+			"Failed to define boolean attributes mixed."
+		);
+	}
+
+	/** 
+	* 
+	* @depends regularTagWithBooleanAttributes
+	*/
+	public function regularTagWithUserDefinedBooleanAttributes()
+	{
+		//declarations
+		$qt = Silkworm::DOUBLE_QUOTE;
+		
+		$html = new Silkworm();
+		$html->setBooleanDisplayStyle(); //no string defaults to minimized
+		$html->defineBooleanAttributes("mi"); //does the short version work
+		$html->button("hidden", "disabled", "click me");
+		$this->assertSame(
+			"<button hidden disabled>click me</button>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+		
+		$html = new Silkworm();
+		$html->setBooleanDisplayStyle("MA"); //does the caps short version work
+		$html->defineBooleanAttributes("mi"); //does the short version work
+		$html->button("hidden", "disabled", "click me");
+		$this->assertSame(
+			"<button hidden=${qt}hidden${qt} disabled=${qt}disabled${qt}>click me</button>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+		
+		$html = new Silkworm();
+		$html->setBooleanDisplayStyle("BoOl"); //does half the word random caps work
+		$html->defineBooleanAttributes("mi"); //does the short version work
+		$html->button("hidden", "disabled", "click me");
+		$this->assertSame(
+			"<button hidden=${qt}true${qt} disabled=${qt}true${qt}>click me</button>\n",
+			(string)$html,
+			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+	* @test
 	* @depends selfClosingTagWithAttributesFromArray
 	* @depends selfClosingTagWithBooleanAttributes
 	*/
