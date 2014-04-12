@@ -67,7 +67,7 @@ class Silkworm implements ArrayAccess
 	private $indentLevel = 0;
 	private $zeroPaddingLength = Silkworm::DEFAULT_ZERO_PADDING_LENGTH;
 	private $indentationPattern = Silkworm::TAB;
-	private $selfClosingTagList = array(
+	private $selfClosingTags = array(
 		"base", 
 		"basefont", 
 		"br", 
@@ -334,24 +334,23 @@ class Silkworm implements ArrayAccess
 	# [return]
 	# none
 	#===========================================================
-	private function defineUser($functionName)
+	private function addUserDefinedParameter($functionName)
 	{
 		#---------------------------------------
 		# initalizations
 		#---------------------------------------
 		$space = Silkworm::SPACE;
-		$classArray = null;
-		$userDefinedBooleanAttributes = array();
-		$booleanAttributes = func_get_args();
-		$halfParsedAttributes = array();
-		$stringList = array();
-		$booleanAttributes = $booleanAttributes[1];
+		$classParameterArray = null;
+		$userDefinedParameters = array();
+		$parameters = func_get_args();
+		# adjust the parameter list
+		$parameters = $parameters[1]; //the first parameter is $functionName
 
 		#which operation are we doing
-		if (stripos($functionName, "boolean")) {
-			$classArray = &$this->booleanAttributes;
-		} else if (stripos($functionName, "closing")) {
-			$classArray = &$this->selfClosingTagList;
+		if (stripos($functionName, "booleanAttributes")) {
+			$classParameterArray = &$this->booleanAttributes;
+		} else if (stripos($functionName, "selfClosingTags")) {
+			$classParameterArray = &$this->selfClosingTags;
 		} else {
 			return;
 		}
@@ -360,7 +359,7 @@ class Silkworm implements ArrayAccess
 		# run through and parse all attributes
 		# passed to this method
 		#---------------------------------------
-		foreach ($booleanAttributes as $attribute) {
+		foreach ($parameters as $attribute) {
 			#---------------------------------------
 			# user defined attributes as an array
 			#---------------------------------------
@@ -370,17 +369,16 @@ class Silkworm implements ArrayAccess
 					new RecursiveArrayIterator($attribute)
 				);
 
-				#add each attribute
-				//iterator_to_array
-				foreach ($attribute as $value) {
-					$userDefinedBooleanAttributes[] = $value;
-				}
+				#add the list to the list of parsed attibutes
+				$userDefinedParameters = array_merge(
+					$userDefinedParameters,
+					iterator_to_array($attribute)
+				);
 				continue;
 			}
 
-			# remove spaces for safety
+			# remove spaces to save parsing troubles
 			$attribute = str_replace($space, "", $attribute);
-
 
 			#---------------------------------------
 			# check to see if this is a comma
@@ -396,8 +394,8 @@ class Silkworm implements ArrayAccess
 				# add the parsed values to the list
 				#---------------------------------------
 				array_merge(
-					$userDefinedBooleanAttributes = array_merge(
-						$userDefinedBooleanAttributes,
+					$userDefinedParameters = array_merge(
+						$userDefinedParameters,
 						explode(",", $attribute)
 					)
 				);
@@ -405,15 +403,15 @@ class Silkworm implements ArrayAccess
 			}
 
 			# just a single value add it to the list
-			$userDefinedBooleanAttributes[] = $attribute;
+			$userDefinedParameters[] = $attribute;
 		}
 
 		#---------------------------------------
 		# add these to the global list
 		#---------------------------------------
-		$classArray = array_merge(
-			$classArray,
-			$userDefinedBooleanAttributes
+		$classParameterArray = array_merge(
+			$classParameterArray,
+			$userDefinedParameters
 		);
 	}
 
@@ -430,7 +428,7 @@ class Silkworm implements ArrayAccess
 	#===========================================================
 	public function defineSelfClosingTags()
 	{
-		$this->defineUser(__FUNCTION__, func_get_args());
+		$this->addUserDefinedParameter(__FUNCTION__, func_get_args());
 	}
 
 	#===========================================================
@@ -446,7 +444,7 @@ class Silkworm implements ArrayAccess
 	#===========================================================
 	public function defineBooleanAttributes()
 	{
-		$this->defineUser(__FUNCTION__, func_get_args());
+		$this->addUserDefinedParameter(__FUNCTION__, func_get_args());
 	}
 	
 	#===========================================================
@@ -721,7 +719,7 @@ class Silkworm implements ArrayAccess
 
 		//change sprintf statment for 
 		//regular and self closing tags
-		if(in_array($tagName, $this->selfClosingTagList)) {
+		if(in_array($tagName, $this->selfClosingTags)) {
 			//self closing
 			$newline = $children ? "" : $newline; //newline if no children
 			$createdTag = "<$tagName%s{$this->selfClosingTagStyle}>$newline%s%s";
