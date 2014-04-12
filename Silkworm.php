@@ -80,8 +80,6 @@ class Silkworm implements ArrayAccess
 		"param"
 	);
 
-	#newRIGHT HERE!!!!
-	private $userDefinedBooleanAttributes = array();
 	private $booleanAttributes = array(
 		"allowfullscreen",
 		"async",
