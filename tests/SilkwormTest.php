@@ -509,7 +509,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(
 			"<input type=${qt}checkbox${qt} sugar-coated optimally-coated>\n",
 			(string)$html,
-			"Failed to define boolean attributes as parameters."
+			"Failed to define boolean attributes from parameters."
 		);
 		
 		$html = new Silkworm();
@@ -519,7 +519,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(
 			"<input type=${qt}checkbox${qt} sugar-coated=${qt}sugar-coated${qt} optimally-coated=${qt}optimally-coated${qt}>\n",
 			(string)$html,
-			"Failed to define boolean attributes as array."
+			"Failed to define boolean attributes from array."
 		);
 		
 		$html = new Silkworm();
@@ -529,7 +529,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(
 			"<input type=${qt}checkbox${qt} sugar-coated=${qt}true${qt} optimally-coated=${qt}true${qt}>\n",
 			(string)$html,
-			"Failed to define boolean attributes as comma delimited list."
+			"Failed to define boolean attributes from comma delimited list."
 		);
 
 		$html = new Silkworm();
@@ -543,7 +543,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(
 			"<input type=${qt}checkbox${qt} sugar-coated=${qt}true${qt} optimally-coated=${qt}true${qt} cream-filled=${qt}true${qt} fully-loaded=${qt}true${qt} filled-with-goodness=${qt}true${qt}>\n",
 			(string)$html,
-			"Failed to define boolean attributes mixed."
+			"Failed to define boolean attributes from mixed types."
 		);
 	}
 

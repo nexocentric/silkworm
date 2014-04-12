@@ -334,7 +334,101 @@ class Silkworm implements ArrayAccess
 	# [return]
 	# none
 	#===========================================================
-	public function defineBooleanAttributes()
+	private function defineUser($functionName)
+	{
+		#---------------------------------------
+		# initalizations
+		#---------------------------------------
+		$space = Silkworm::SPACE;
+		$classArray = null;
+		$userDefinedBooleanAttributes = array();
+		$booleanAttributes = func_get_args();
+		$halfParsedAttributes = array();
+		$stringList = array();
+		$booleanAttributes = $booleanAttributes[1];
+
+		#which operation are we doing
+		if (stripos($functionName, "boolean")) {
+			$classArray = &$this->booleanAttributes;
+		} else if (stripos($functionName, "closing")) {
+			$classArray = &$this->selfClosingTagList;
+		} else {
+			return;
+		}
+
+		#---------------------------------------
+		# run through and parse all attributes
+		# passed to this method
+		#---------------------------------------
+		foreach ($booleanAttributes as $attribute) {
+			#---------------------------------------
+			# user defined attributes as an array
+			#---------------------------------------
+			if (is_array($attribute)) {
+				# flatten the array for safety
+				$attribute = new RecursiveIteratorIterator(
+					new RecursiveArrayIterator($attribute)
+				);
+
+				#add each attribute
+				//iterator_to_array
+				foreach ($attribute as $value) {
+					$userDefinedBooleanAttributes[] = $value;
+				}
+				continue;
+			}
+
+			# remove spaces for safety
+			$attribute = str_replace($space, "", $attribute);
+
+
+			#---------------------------------------
+			# check to see if this is a comma
+			# delimited list
+			#---------------------------------------
+			$attributeLastCharacter = strlen($attribute) - 1;
+			if (
+				strpos($attribute, ",") !== false && 
+				strpos($attribute, ",", $attributeLastCharacter) === false && 
+				strpos($attribute, "${space}", $attributeLastCharacter) === false 
+			) {
+				#---------------------------------------
+				# add the parsed values to the list
+				#---------------------------------------
+				array_merge(
+					$userDefinedBooleanAttributes = array_merge(
+						$userDefinedBooleanAttributes,
+						explode(",", $attribute)
+					)
+				);
+				continue;
+			}
+
+			# just a single value add it to the list
+			$userDefinedBooleanAttributes[] = $attribute;
+		}
+
+		#---------------------------------------
+		# add these to the global list
+		#---------------------------------------
+		$classArray = array_merge(
+			$classArray,
+			$userDefinedBooleanAttributes
+		);
+	}
+
+	#===========================================================
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Implementation of the PHP offsetUnset() function. Unsets
+	# a fragment by its name if the fragment exists.
+	# [parameters]
+	# 1) The fragrment name to unset.
+	# [return]
+	# none
+	#===========================================================
+	public function defineBooleanAttributesDJLFKJFLFKJ()
 	{
 		#---------------------------------------
 		# initalizations
@@ -401,6 +495,22 @@ class Silkworm implements ArrayAccess
 			$this->booleanAttributes,
 			$userDefinedBooleanAttributes
 		);
+	}
+
+	#===========================================================
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Implementation of the PHP offsetUnset() function. Unsets
+	# a fragment by its name if the fragment exists.
+	# [parameters]
+	# 1) The fragrment name to unset.
+	# [return]
+	# none
+	#===========================================================
+	public function defineBooleanAttributes()
+	{
+		$this->defineUser(__FUNCTION__, func_get_args());
 	}
 	
 	#===========================================================
