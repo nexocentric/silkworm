@@ -37,13 +37,13 @@
 # 11) comment($comment) //create a comment in HTML document
 # 12) stringWithDocumentHeader($data)
 # 14) setIndentation($indentationPattern = "") //combinations of spaces and tabs
-# 15) setAdjustedIndentation($string)
-# 16) defineSelfClosingTags()
+# 15) setAdjustedIndentation($string) //adjust last minute indentation
+# 16) defineSelfClosingTags() //define additional self closing tags via a list
 # 17) setSelfClosingTagStyle($style) //<img> vs <img />
-# 18) defineBooleanAttributes()
+# 18) defineBooleanAttributes() //define additional boolean attributes
 # 13) setBooleanDisplayStyle($style = "") //a vs a="a" vs a="true"
-# 19) xmlVersion($version)
-# 20) cdata($cdata)
+# 19) xmlVersion($version) //set xml version
+# 20) cdata($cdata) //add a cdata element
 # 21) autoTable(array(array())) //create table from array(array())
 #───────────────────────────────────────────────────────────────────────────────
 class Silkworm implements ArrayAccess

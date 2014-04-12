@@ -22,7 +22,19 @@ Changelog
 | 1.04    | emerald         | completed Japanese readme                    |
 | 1.05    | fen             | drafted Chinese readme                       |
 | 1.06    | gin             | fixed clipping issues, added new tests       |
-| 1.07    | hui             | completed Chinese readme, removed work files | 
+| 1.07    | hui             | completed Chinese readme, removed work files |
+| 2.00    | jade            | added some new functionality as listed below |
+|         |                 | 1) htmlspecialchars escaping                 |
+|         |                 | 2) ability to define extra boolean attributes|
+|         |                 | 3) ability to define extra self-closing tags |
+|         |                 | 4) ability to adjust last minute indentation |
+|         |                 |    for each silkworm before outputting text  |
+|         |                 | 5) padding to integer defined array keys for |
+|         |                 |    improved and more reliable sorting        |
+|         |                 |                                              |
+|         |                 | changelog on English readme file, added      |
+|         |                 | additional tests                             |
+
 
 Installation and Configuration
 ------------------------------
