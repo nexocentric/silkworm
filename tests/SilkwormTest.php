@@ -316,6 +316,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	/** 
 	* @test
 	* @depends selfClosingTag
+	* @depends userDefinedSelfClosingTag
 	*/
 	public function selfClosingTagWithAttributes()
 	{
