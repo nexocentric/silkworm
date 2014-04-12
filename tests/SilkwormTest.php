@@ -2,6 +2,14 @@
 
 class SilkwormTest extends PHPUnit_Framework_TestCase
 {
+	protected function exposePrivateFunction($className, $name)
+	{
+		$class = new ReflectionClass($className);
+		$method = $class->getMethod($name);
+		$method->setAccessible(true);
+		return $method;
+	}
+
 	/** 
 	* @test
 	*/
@@ -1235,6 +1243,58 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	
 	/** 
 	* @test
+	*/
+	public function zeroPadArrayIndex()
+	{
+		#---------------------------------------
+		# initalizations
+		#---------------------------------------
+		$dummySilkwormClass = new Silkworm();
+		$testIndexInteger = 300;
+
+		#---------------------------------------
+		# expose private method for testing
+		#---------------------------------------
+		$functionCalculateZeroPaddingLength = $this->exposePrivateFunction(
+			"Silkworm", 
+			"calculateZeroPaddingLength"
+		);
+		$functionZeroPadArrayIndex = $this->exposePrivateFunction(
+			"Silkworm", 
+			"zeroPadArrayIndex"
+		);
+
+		#---------------------------------------
+		# the length that should be calculated
+		# by the Silkworm class
+		#---------------------------------------
+		$zeroPaddingLength = $functionCalculateZeroPaddingLength->invokeArgs(
+			$dummySilkwormClass, 
+			array()
+		);
+
+		#---------------------------------------
+		# the padded index
+		#---------------------------------------
+		$paddedIndex = $functionZeroPadArrayIndex->invokeArgs(
+			$dummySilkwormClass, 
+			array($testIndexInteger)
+		);
+		
+		#---------------------------------------
+		# check to make sure the index is
+		# properly padded
+		#---------------------------------------
+		$this->assertSame(
+			sprintf("%0${zeroPaddingLength}s", $testIndexInteger),
+			$paddedIndex,
+			"Failed to zero pad the index in question."
+		);
+	}
+
+	/** 
+	* @test
+	* @depends zeroPadArrayIndex
 	* @depends documentFragment
 	*/
 	public function saveAccessFragmentNumericKey()

@@ -1,43 +1,50 @@
 <?php
-////////////////////////////////////////////////////////////////////////////////
-// Work     : (ml)Silkworm
-// Copyright: (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
-//                See copyright at footer for more information.
-// Version  : 1.00
-////////////////////////////////////////////////////////////////////////////////
+#═══════════════════════════════════════════════════════════════════════════════
+# [work]
+# (ml)Silkworm
+# [version]
+# 2.00
+# [copyright]
+# (c) 2014 Dodzi Y. Dzakuma (http://www.nexocentric.com)
+# See LICENSE file for copyright information.
+# [summary]
+# This is the bootstrap file that should be included by every PHP file
+# in this site. Without this file, most of the files will not run.
+#═══════════════════════════════════════════════════════════════════════════════
 
-#===============================================================================
-// [author]
-// Dodzi Y. Dzakuma
-// [summary]
-// This is a simple class designed for making it possible to produce
-// html tags and documents using PHP. This interfaces always produces
-// systematically indented HTML code to ease the reading and visual debugging
-// of HTML documents.
-//
-// This interface has no external dependencies and can be used by including it
-// in a PHP file and creating an instance of the class.
-// [usage]
-// This is a list of public methods. Please see the README for more detailed
-// documentation on usage.
-//
-// 1) $html = new Silkworm(); //create a new interface
-// 2) ... = new Silkworm("html"); //create a new interface with doctype
-// 3) $html->doctype("html"); //set the doctype
-// 4) setBooleanDisplayStyle($style = "") //a vs a="a" vs a="true"
-// 5) setIndentation("") //combinations of spaces and tabs
-// 6) setSilkwormAlias("") //name to access the class
-// 7) setSelfClosingTagStyle("") //<img> vs <img />
-// 8) $html->html(); //create a tag !!see README.md for more information
-// 9) $html->newline(); //create a newline in HTML document
-// 10) $html->comment("comment text"); //create a comment in HTML document
-// 11) $html->repeat(Silkworm, int); //repeat a fragment n times
-// 12) $html->autoTable(array(array()); //create table from array(array())
-#===============================================================================
+#───────────────────────────────────────────────────────────────────────────────
+# [author]
+# Dodzi Y. Dzakuma
+# [summary]
+# This is a simple class designed for making it possible to produce
+# html tags and documents using PHP. This interfaces always produces
+# systematically indented HTML code to ease the reading and visual debugging
+# of HTML documents.
+#
+# This interface has no external dependencies and can be used by including it
+# in a PHP file and creating an instance of the class.
+# [usage]
+# This is a list of public methods. Please see the README for more detailed
+# documentation on usage.
+#
+# 1) $html = new Silkworm(); //create a new interface
+# 2) ... = new Silkworm("html"); //create a new interface with doctype
+# 3) $html->doctype("html"); //set the doctype
+# 4) setBooleanDisplayStyle($style = "") //a vs a="a" vs a="true"
+# 5) setIndentation("") //combinations of spaces and tabs
+# 6) setSilkwormAlias("") //name to access the class
+# 7) setSelfClosingTagStyle("") //<img> vs <img />
+# 8) $html->html(); //create a tag !!see README.md for more information
+# 9) $html->newline(); //create a newline in HTML document
+# 10) $html->comment("comment text"); //create a comment in HTML document
+# 11) $html->repeat(Silkworm, int); //repeat a fragment n times
+# 12) $html->autoTable(array(array()); //create table from array(array())
+#───────────────────────────────────────────────────────────────────────────────
 class Silkworm implements ArrayAccess
 {
-	/////////////////////////
-	//start class constants->
+	#-----------------------------------------------------------
+	# class constants
+	#-----------------------------------------------------------
 	const FORWARD_SLASH = "/";
 	const DOUBLE_QUOTE = "\"";
 	const NEWLINE = "\n";
@@ -46,11 +53,11 @@ class Silkworm implements ArrayAccess
 	const BOOLEAN_ATTRIBUTES_MAXIMIZED = "MAXIMIZED";
 	const BOOLEAN_ATTRIBUTES_MINIMIZED = "MINIMIZED";
 	const BOOLEAN_ATTRIBUTES_BOOLEAN = "BOOLEAN";
-	//<-end class constants
-	/////////////////////////
+	const DEFAULT_ZERO_PADDING_LENGTH = 10;
 
-	/////////////////////////
-	//start class variables->
+	#-----------------------------------------------------------
+	# class variables
+	#-----------------------------------------------------------
 	private $booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_MAXIMIZED;
 	private $selfClosingTagStyle = "";
 	private $cocoons = array(); //processed silkworms saved for use later
@@ -58,6 +65,7 @@ class Silkworm implements ArrayAccess
 	private $parsingHtmlFragment = false;
 	private $parsingTableHeader = false;
 	private $indentLevel = 0;
+	private $zeroPaddingLength = Silkworm::DEFAULT_ZERO_PADDING_LENGTH;
 	private $indentationPattern = Silkworm::TAB;
 	private $selfClosingTagList = array(
 		"base", 
@@ -71,6 +79,9 @@ class Silkworm implements ArrayAccess
 		"meta", 
 		"param"
 	);
+
+	#newRIGHT HERE!!!!
+	private $userDefinedBooleanAttributes = array();
 	private $booleanAttributes = array(
 		"allowfullscreen",
 		"async",
@@ -107,10 +118,8 @@ class Silkworm implements ArrayAccess
 	private $xmlVersion = "";
 	private $doctype = "";
 	private $html = "";
-	//<-end class variables
-	/////////////////////////
 
-	#-----------------------------------------------------------
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -119,17 +128,25 @@ class Silkworm implements ArrayAccess
 	# 1) A string representing if this is an XML document.
 	# [return]
 	# 1) A new Silkworm for use.
-	#-----------------------------------------------------------
-	public function __construct($documentSpecifier = "")
+	#===========================================================
+	public function __construct($documentSpecifier = "", $initialIndentLevel = 0)
 	{
+		# saftey check
+		if (is_numeric($initialIndentLevel)) {
+			$this->indentLevel = $initialIndentLevel;
+		}
+
+		#
 		if(stripos($documentSpecifier, "x") !== false) {
 			$this->setSelfClosingTagStyle("XML");
 		}
-	}#----------------- __construct end -----------------#
+
+		$this->zeroPaddingLength = $this->calculateZeroPaddingLength();
+	}
 
 	/////////////////////////////////////
 	//start magic method implementation->
-	#-----------------------------------------------------------
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -141,14 +158,14 @@ class Silkworm implements ArrayAccess
 	# 2) Tag properies(attributes, innertext, children/siblings)
 	# [return]
 	# 1) The tag generated by the initializeTag function.
-	#-----------------------------------------------------------
+	#===========================================================
 	public function __call($tagName, $properties)
 	{
 		//parse the tag properties and generate tag of $tagName
 		return $this->html = $this->initializeTag($tagName, $properties);
-	}#----------------- __call end -----------------#
+	}
 
-	#-----------------------------------------------------------
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -158,10 +175,10 @@ class Silkworm implements ArrayAccess
 	# none
 	# [return]
 	# The generated HTML as a string.
-	#-----------------------------------------------------------
+	#===========================================================
 	public function __toString()
 	{
-		
+
 		$classCocoons = $this->cocoons;
 		$cocoons = "";
 		if(!empty($classCocoons)) {
@@ -175,13 +192,57 @@ class Silkworm implements ArrayAccess
 			return $cocoons;
 		}
 		return $this->xmlVersion . $this->doctype . $this->html;
-	}#----------------- __toString end -----------------#
+	}
 	//<-end magic method implementation
 	/////////////////////////////////////
-	
+
 	/////////////////////////////////////
 	//start array access implementation->
-	#-----------------------------------------------------------
+	#===========================================================
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Implementation of the PHP __toString() function. This
+	# prints out the generated HTML data as a printable string.
+	# [parameters]
+	# none
+	# [return]
+	# The generated HTML as a string.
+	#===========================================================
+	private function calculateZeroPaddingLength()
+	{
+		$maxDigits = PHP_INT_MAX;
+		$maxDigits = str_split($maxDigits);
+		return count($maxDigits);
+	}
+
+	#===========================================================
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Implementation of the PHP __toString() function. This
+	# prints out the generated HTML data as a printable string.
+	# [parameters]
+	# none
+	# [return]
+	# The generated HTML as a string.
+	#===========================================================
+	private function zeroPadArrayIndex($string)
+	{
+		if (strpos($string, ".") !== false) {
+			return $string;
+		}
+
+		if (!is_int($string)) {
+			return $string;
+		}
+
+		$zeroPaddingLength = $this->zeroPaddingLength;
+		$string = sprintf("%0${zeroPaddingLength}s", $string);
+		return (string)$string;
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -191,13 +252,14 @@ class Silkworm implements ArrayAccess
 	# 1) Fragment name.
 	# [return]
 	# 1) Boolean showing if fragment exists.
-	#-----------------------------------------------------------
+	#===========================================================
 	public function offsetExists($fragmentName)
 	{
+		$fragmentName = $this->zeroPadArrayIndex($fragmentName);
 		return isset($this->cocoons[$fragmentName]);
-	}#----------------- offsetExists end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -208,16 +270,17 @@ class Silkworm implements ArrayAccess
 	# [return]
 	# 1) The fragment if exists.
 	# 2) Empty if fragment doesn't exist.
-	#-----------------------------------------------------------
+	#===========================================================
 	public function offsetGet($fragmentName)
 	{
+		$fragmentName = $this->zeroPadArrayIndex($fragmentName);
 		if($this->offsetExists($fragmentName)) {
 			return $this->cocoons[$fragmentName];
 		}
 		return;
-	}#----------------- offsetGet end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -229,18 +292,19 @@ class Silkworm implements ArrayAccess
 	# 2) The fragment itself.
 	# [return]
 	# none
-	#-----------------------------------------------------------
+	#===========================================================
 	public function offsetSet($fragmentName, $fragment)
 	{
 		if(empty($fragmentName)) {
 			$fragmentName = $this->cocoonCount;
 			$this->cocoonCount++;
 		}
+		$fragmentName = $this->zeroPadArrayIndex($fragmentName);
 		$this->cocoons[$fragmentName] = $fragment;
 		$this->html = "";
-	}#----------------- offsetSet end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -250,17 +314,101 @@ class Silkworm implements ArrayAccess
 	# 1) The fragrment name to unset.
 	# [return]
 	# none
-	#-----------------------------------------------------------
+	#===========================================================
 	public function offsetUnset($fragmentName)
 	{
+		$fragmentName = $this->zeroPadArrayIndex($fragmentName);
 		if(isset($this->cocoons[$fragmentName])) {
 			unset($this->cocoons[$fragmentName]);
 		}
-	}#----------------- offsetUnset end -----------------#
+	}
 	//<-end array access implementation
 	/////////////////////////////////////
 
-	#-----------------------------------------------------------
+	#===========================================================
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Implementation of the PHP offsetUnset() function. Unsets
+	# a fragment by its name if the fragment exists.
+	# [parameters]
+	# 1) The fragrment name to unset.
+	# [return]
+	# none
+	#===========================================================
+	public function defineBooleanAttributes()
+	{
+		#---------------------------------------
+		# initalizations
+		#---------------------------------------
+		$space = Silkworm::SPACE;
+		$userDefinedBooleanAttributes = array();
+		$booleanAttributes = func_get_args();
+
+		#---------------------------------------
+		# run through and parse all attributes
+		# passed to this method
+		#---------------------------------------
+		foreach ($booleanAttributes as $attribute) {
+			
+			#---------------------------------------
+			# user defined attributes as an array
+			#---------------------------------------
+			if (is_array($attribute)) {
+				# flatten the array for safety
+				$attribute = new RecursiveIteratorIterator(
+					new RecursiveArrayIterator($attribute)
+				);
+
+				# add the attributes
+				array_merge(
+					$userDefinedBooleanAttributes = array_merge(
+						$userDefinedBooleanAttributes,
+						$attribute
+					)
+				);
+				continue;
+			}
+
+			# remove spaces for safety
+			$attribute = str_replace($space, "", $attribute);
+
+			#---------------------------------------
+			# check to see if this is a comma
+			# delimited list
+			#---------------------------------------
+			$attributeLastCharacter = strlen($attribute) - 1;
+			if (
+				strpos($attribute, ",") !== false && 
+				strpos($attribute, ",", $attributeLastCharacter) && 
+				strpos($attribute, "${$space}", $attributeLastCharacter)
+			) {
+				#---------------------------------------
+				# add the parsed values to the list
+				#---------------------------------------
+				array_merge(
+					$userDefinedBooleanAttributes = array_merge(
+						$userDefinedBooleanAttributes,
+						explode(",", $attribute)
+					)
+				);
+				continue;
+			}
+
+			# just a single value add it to the list
+			$userDefinedBooleanAttributes[] = $attribute;
+		}
+
+		#---------------------------------------
+		# add these to the global list
+		#---------------------------------------
+		$this->userDefinedBooleanAttributes = array_merge(
+			$this->userDefinedBooleanAttributes,
+			$userDefinedBooleanAttributes
+		);
+	}
+	
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -273,7 +421,7 @@ class Silkworm implements ArrayAccess
 	# 2) Tag properies(attributes, innertext, children/siblings)
 	# [return]
 	# 1) A tag string created by the createTag function.
-	#-----------------------------------------------------------
+	#===========================================================
 	protected function initializeTag($tagName, $properties)
 	{
 		//declarations
@@ -281,7 +429,7 @@ class Silkworm implements ArrayAccess
 		$innerText = "";
 		$stringList = array(); //work storage for strings passed to this function
 		$children = array();
-		
+
 		//go through the complete property list and
 		//divide it by property type
 		foreach($properties as $property) {
@@ -293,12 +441,12 @@ class Silkworm implements ArrayAccess
 				//safety for users who set doctypes
 				//on Silkworm fragments
 				$property->clearDoctype();
-				
+
 				//treat the fragment as a child
 				$children[] = $property;
 				continue;
 			}
-			
+
 			//these are probably matched attributes
 			//this check is done before the strpos check
 			//because arrays break strpos
@@ -306,7 +454,7 @@ class Silkworm implements ArrayAccess
 				foreach($property as $attributeName => $value) {
 					//key is attribute name
 					$stringList[] = htmlspecialchars($attributeName);
-					
+
 					//non booleans get paired
 					if(!in_array($property, $this->booleanAttributes)) {
 						//value is attribute value
@@ -315,13 +463,13 @@ class Silkworm implements ArrayAccess
 				}
 				continue;
 			}
-			
+
 			//if it has a carriage, it's a chlid
 			if(strpos($property, Silkworm::NEWLINE) !== false) {
 				$children[] = $property;
 				continue;
 			}
-			
+
 			//these are either attributes or inner text
 			if(is_string($property)) {
 				//save for later and check for inner text
@@ -349,19 +497,19 @@ class Silkworm implements ArrayAccess
 			//inner text is always last string in list
 			$innerText = $stringList[$stringCount - 1];
 		}
-		
+
 		//pair the rest of the strings as attributes
 		for ($nextString = 0; ($nextString + 1) < $stringCount; $nextString += 2) {
 			//attribute name = attribute value
 			//this makes it easier for the create tag function
 			$attributes[$stringList[$nextString]] = $stringList[$nextString + 1];
 		}
-		
+
 		//create a tag and return it
 		return $this->createTag($tagName, $attributes, $innerText, $children);
-	}#----------------- initializeTag end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -372,20 +520,20 @@ class Silkworm implements ArrayAccess
 	# [return]
 	# 1) A string of attributes.
 	# 2) If no attributes are set, a blank string is returned.
-	#-----------------------------------------------------------
+	#===========================================================
 	protected function parseAttributes($attributes)
 	{
 		//declarations
 		$space = Silkworm::SPACE;
 		$quote = Silkworm::DOUBLE_QUOTE;
 		$attributeString = ""; //parsed string of attributes
-		
+
 		//check if attributes where set
 		if(empty($attributes)) {
 			//always return a blank string
 			return $attributeString;
 		}
-		
+
 		//go through the array of attributes
 		//and pair them accordingly
 		foreach ($attributes as $name => $value) {
@@ -407,9 +555,9 @@ class Silkworm implements ArrayAccess
 			$attributeString .=  "$space$name=$quote$value$quote";
 		}
 		return $attributeString;
-	}#----------------- parseAttributes end -----------------#
+	}
 
-	#-----------------------------------------------------------
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -419,12 +567,12 @@ class Silkworm implements ArrayAccess
 	# [return]
 	# 1) A string of child tags that have had the indentation 
 	#    adjusted.
-	#-----------------------------------------------------------
+	#===========================================================
 	protected function increaseIndent($childString)
 	{
 		//declarations
 		$newline = Silkworm::NEWLINE;
-		
+
 		//remove the final carriage because
 		//if it's there explode will treat
 		//it as an empty string
@@ -433,23 +581,23 @@ class Silkworm implements ArrayAccess
 			"",
 			strrpos($childString, $newline)
 		);
-		
+
 		//split the children into their respective lines
 		$childList = explode($newline, $childList);
-		
+
 		//go through each and adjust the indentation
 		foreach($childList as $index => $child) {
 			// they have to stay at their original index
 			// for order
 			$childList[$index] = $this->indent() . $child;
 		}
-		
+
 		//glue together with carriages and add the final
 		//one as well
 		return implode($newline, $childList) . $newline;
-	}#----------------- increaseIndent end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -460,23 +608,23 @@ class Silkworm implements ArrayAccess
 	# [return]
 	# 1) A string of parsed children.
 	# 2) If no children are present, an empty string.
-	#-----------------------------------------------------------
+	#===========================================================
 	protected function parseChildren($children)
 	{
 		//declarations
 		$childString = "";
-		
+
 		//check if children exists
 		if(empty($children)) {
 			//return empty string
 			return $childString;
 		}
-		
+
 		//special parse loop for Silkworm fragments
 		//the top line of a fragment doesn't have a carriage
 		//before it, so add it here
 		$newline = $this->parsingHtmlFragment ? "" : Silkworm::NEWLINE;
-		
+
 		//the children for this tag are either
 		//a) a single string that missed array formatting
 		//b) an Silkworm fragment
@@ -485,23 +633,23 @@ class Silkworm implements ArrayAccess
 			//for parsing
 			$children = array($children);
 		}
-		
+
 		//save the indent level just incase changes
 		//must be made
 		$currentIndentLevel = $this->indentLevel;
-		
+
 		//adjust the indentation of childrent to be nested
 		foreach($children as $child) {
 			//check if this is an html fragment
 			if($child instanceof Silkworm) {
 				$this->parsingHtmlFragment = true; //start fragment parsing
-				
+
 				//the fragment is already indented
 				//so don't indent while parsing it to a string
 				$this->indentLevel = 0;
 				$child = $this->parseChildren((string)$child);
 				$this->indentLevel = $currentIndentLevel;
-				
+
 				$this->parsingHtmlFragment = false; //end fragment parsing
 			}
 			//properly indent children
@@ -509,9 +657,9 @@ class Silkworm implements ArrayAccess
 			$childString .= $child;
 		}
 		return $newline . $childString;
-	}#----------------- parseChildren end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -523,13 +671,13 @@ class Silkworm implements ArrayAccess
 	# 4) Children as strings or HTML fragments.
 	# [return]
 	# 1) The generated tag.
-	#-----------------------------------------------------------
+	#===========================================================
 	protected function createTag($tagName, $attributes, $innerText = "", $children = "")
 	{
 		//declarations
 		$createdTag = "";
 		$newline = Silkworm::NEWLINE;
-		
+
 		//change sprintf statment for 
 		//regular and self closing tags
 		if(in_array($tagName, $this->selfClosingTagList)) {
@@ -550,11 +698,11 @@ class Silkworm implements ArrayAccess
 			$innerText,
 			$this->parseChildren($children)
 		);
-		
-		return $createdTag;
-	}#----------------- createTag end -----------------#
 
-	#-----------------------------------------------------------
+		return $createdTag;
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -567,13 +715,13 @@ class Silkworm implements ArrayAccess
 	# none
 	# [return]
 	# none
-	#-----------------------------------------------------------
+	#===========================================================
 	protected function clearDoctype()
 	{
 		$this->doctype = "";	
-	}#----------------- clearDoctype end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -582,33 +730,33 @@ class Silkworm implements ArrayAccess
 	# 1) !DOCTYPE definition
 	# [return]
 	# none
-	#-----------------------------------------------------------
+	#===========================================================
 	public function doctype($definition) {
 		//declarations
 		$replacementCount = 1;
 		$extraAttributes = func_get_args();
-		
+
 		//initializations
 		array_splice($extraAttributes, 0, 1);
 		$extraAttributes = $this->initializeTag(
 			"br",
 			$extraAttributes
 		);
-		
+
 		//adjust the attributes for insertion into this tag
 		//this leaves the space after the br tag intact so it doesn't
 		//hurt formatting
 		$extraAttributes = str_replace("<br", "", $extraAttributes, $replacementCount);
 		$extraAttributes = preg_replace("/(\/*>{1}[\r\n]*)/", "", $extraAttributes);
-		
+
 		$this->doctype = sprintf(
 			"<!DOCTYPE %s%s>" . Silkworm::NEWLINE,
 			$definition,
 			$extraAttributes
 		);
-	}#----------------- doctype end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -618,16 +766,16 @@ class Silkworm implements ArrayAccess
 	# 2) The number of times to repeat the fragment.
 	# [return]
 	# 1) A string of children repeated n number of times.
-	#-----------------------------------------------------------
+	#===========================================================
 	public function repeat($html, $count)
 	{
 		if ($html instanceof Silkworm) {
 			$html->clearDoctype();
 		}
 		return str_repeat($html, $count);
-	}#----------------- repeat end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -636,12 +784,12 @@ class Silkworm implements ArrayAccess
 	# none
 	# [return]
 	# none
-	#-----------------------------------------------------------
+	#===========================================================
 	public function newline() {
 		return Silkworm::NEWLINE;
-	}#----------------- newline end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -654,13 +802,13 @@ class Silkworm implements ArrayAccess
 	# none
 	# [return]
 	# An indentation pattern.
-	#-----------------------------------------------------------
+	#===========================================================
 	protected function indent()
 	{
 		return str_repeat($this->indentationPattern, $this->indentLevel);
-	}#----------------- indent end -----------------#
+	}
 
-	#-----------------------------------------------------------
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -669,13 +817,13 @@ class Silkworm implements ArrayAccess
 	# 1) Comment contents.
 	# [return]
 	# 1) A comment for display.
-	#-----------------------------------------------------------
+	#===========================================================
 	public function comment($comment)
 	{
 		return "<!-- $comment -->" . Silkworm::NEWLINE;
-	}#----------------- comment end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -686,13 +834,13 @@ class Silkworm implements ArrayAccess
 	# [return]
 	# 1) A string representing the structure with doctype and 
 	#    XML version appened to it.
-	#-----------------------------------------------------------
+	#===========================================================
 	public function stringWithDocumentHeader($data)
 	{
 		return $this->xmlVersion . $this->doctype . $data;
-	}#----------------- comment end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -706,7 +854,7 @@ class Silkworm implements ArrayAccess
 	# minimized.
 	# [return]
 	# none
-	#-----------------------------------------------------------
+	#===========================================================
 	public function setBooleanDisplayStyle($style = "")
 	{
 		if (stripos($style,"ma") !== false) {
@@ -716,9 +864,9 @@ class Silkworm implements ArrayAccess
 		} else {
 			$this->booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_MINIMIZED;
 		}
-	}#----------------- booleanDisplayStyle end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -727,7 +875,7 @@ class Silkworm implements ArrayAccess
 	# 1) An indentation pattern consisting of tabs or spaces.
 	# [return]
 	# none
-	#-----------------------------------------------------------
+	#===========================================================
 	public function setIndentation($indentationPattern = "")
 	{
 		//declarations
@@ -741,9 +889,9 @@ class Silkworm implements ArrayAccess
 			return;
 		}
 		//trigger_error("Only ASCII spaces and tabs can be used for indentation.");
-	}#----------------- setIndentation end -----------------#
+	}
 
-	#-----------------------------------------------------------
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -752,13 +900,13 @@ class Silkworm implements ArrayAccess
 	# 1) New name to access Silkworm by.
 	# [return]
 	# 1) The return value of the class_alias method.
-	#-----------------------------------------------------------
+	#===========================================================
 	public static function setSilkwormAlias($name)
 	{
 		return class_alias("Silkworm", $name);
-	}#----------------- setSilkwormAlias end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -769,23 +917,23 @@ class Silkworm implements ArrayAccess
 	# 1) The style to be used ([X]ML / [H]TML)
 	# [return]
 	# none
-	#-----------------------------------------------------------
+	#===========================================================
 	public function setSelfClosingTagStyle($style)
 	{
 		//declarations
 		$space = Silkworm::SPACE;
 		$forwardSlash = Silkworm::FORWARD_SLASH;
-		
+
 		if (stripos($style, "x") !== false) {
 			$this->selfClosingTagStyle = "$space$forwardSlash";
 		} else {
 			$this->selfClosingTagStyle = "";
 		}
-	}#----------------- setSelfClosingTagStyle end -----------------#
-	
+	}
+
 	///////////////////////
 	//start xml functions->
-	#-----------------------------------------------------------
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -795,29 +943,29 @@ class Silkworm implements ArrayAccess
 	# 2) An variable amount of attributes for the tag.
 	# [return]
 	# none
-	#-----------------------------------------------------------
+	#===========================================================
 	public function xmlVersion($version)
 	{
 		//declarations
 		$replacementCount = 1;
 		$xmlVersionTag = "";
 		$extraAttributes = func_get_args();
-		
+
 		//initializations
 		$extraAttributes[0] = array("version"=>"$version");
 		$xmlVersionTag = $this->initializeTag(
 			"br",
 			$extraAttributes
 		);
-		
+
 		//adjust the tag
 		$xmlVersionTag = str_replace("<br", "<?xml", $xmlVersionTag, $replacementCount);
 		$xmlVersionTag = preg_replace("/(\s*\/*>{1})/", "?>", $xmlVersionTag);
-		
+
 		$this->xmlVersion = $xmlVersionTag;
 	}
-	
-	#-----------------------------------------------------------
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -826,17 +974,17 @@ class Silkworm implements ArrayAccess
 	# 1) The CDATA to be added.
 	# [return]
 	# 1) A CDATA tag to be added to the tree.
-	#-----------------------------------------------------------
+	#===========================================================
 	public function cdata($cdata)
 	{
 		return "<![CDATA[$cdata]]>" . Silkworm::NEWLINE;
 	}
 	//<-end xml functions
 	///////////////////////
-	
+
 	//////////////////////////////
 	//start auto table functions->
-	#-----------------------------------------------------------
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -851,14 +999,14 @@ class Silkworm implements ArrayAccess
 	# 1) A single dimenion array to parse.
 	# [return]
 	# 1) A string of parsed cells.
-	#-----------------------------------------------------------
+	#===========================================================
 	private function parseCells($array)
 	{
 		//declarations
 		$cells = "";
 		$cellType = $this->parsingTableHeader ? "th" : "td";
 		$properties = array();
-		
+
 		//decide whether to parse cells or rows
 		foreach($array as $attributes => $cell) {
 			$properties = array();
@@ -872,7 +1020,7 @@ class Silkworm implements ArrayAccess
 				);
 				continue;
 			}
-			
+
 			if (!is_numeric($attributes)) {
 				if (strpos($attributes, "=>") !== false) {
 					$attributes = explode("=>", $attributes);
@@ -890,9 +1038,9 @@ class Silkworm implements ArrayAccess
 			} else {
 				$attributes = "";
 			}
-			
+
 			$properties[] = $cell;
-			
+
 			//regular cell parse
 			$cells .= $this->initializeTag(
 				$cellType,
@@ -900,11 +1048,11 @@ class Silkworm implements ArrayAccess
 				$properties
 			);
 		}
-		
+
 		return $cells;
-	}#----------------- parseCells end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -921,7 +1069,7 @@ class Silkworm implements ArrayAccess
 	# 2) Row attributes.
 	# [return]
 	# 1) A string of rows and attributes.
-	#-----------------------------------------------------------
+	#===========================================================
 	private function parseRows($array, $properties)
 	{
 		//declarations
@@ -957,7 +1105,7 @@ class Silkworm implements ArrayAccess
 					$rowAttributes[] = $attribute;
 					$rowAttributes[] = $value;
 				}
-				
+
 				//alternate the properties using this marker
 				if(($differentArrayMarker + 1) == $differentArrayCount) {
 					$differentArrayMarker = 0;		
@@ -965,23 +1113,23 @@ class Silkworm implements ArrayAccess
 					$differentArrayMarker++;
 				}
 			}
-			
+
 			//add the parsed cells to the row attributes
 			$rowAttributes["cells"] = $this->parseCells($row);
 			//finished parsing table header if already set
 			$this->parsingTableHeader = false;
-			
+
 			//tag created
 			$rows .= $this->initializeTag(
 				"tr",
 				$rowAttributes
 			);
 		}
-		
+
 		return $rows;
-	}#----------------- parseRows end -----------------#
-	
-	#-----------------------------------------------------------
+	}
+
+	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
@@ -993,18 +1141,18 @@ class Silkworm implements ArrayAccess
 	# 4) Boolean to designate use of the th tag for first row.
 	# [return]
 	# 1) An HTML table.
-	#-----------------------------------------------------------
+	#===========================================================
 	public function autoTable($array)
 	{
 		//declarations
 		$table = "";
 		$tableAttributes = array();
 		$rowAttributes = array();
-		
+
 		//initializations
 		$properties = func_get_args();
 		array_splice($properties, 0, 1); //array that the table is to parse
-		
+
 		//separate attributes
 		foreach($properties as $property) {
 			//check for row attributes
@@ -1030,39 +1178,18 @@ class Silkworm implements ArrayAccess
 
 		//add parsed rows to table attributes
 		$tableAttributes[] = $this->parseRows($array, $rowAttributes);
-		
+
 		//table created
 		$table = $this->__call(
 			"table",
 			$tableAttributes
 		);
-		
+
 		return $table;
-	}#----------------- comment end -----------------#
+	}
 	//<-end auto table functions
 	//////////////////////////////
-}#==================== Silkworm end ====================#
-
-////////////////////////////////////////////////////////////////////////////////
-// The MIT License (MIT)
-// 
-// Copyright (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-////////////////////////////////////////////////////////////////////////////////
+}
+#═══════════════════════════════════════════════════════════════════════════════
+# 
+#═══════════════════════════════════════════════════════════════════════════════
