@@ -5,7 +5,7 @@
 # [version]
 # 2.00
 # [copyright]
-# (c) 2014 Dodzi Y. Dzakuma (http://www.nexocentric.com)
+# (c) Dodzi Y. Dzakuma (http://www.nexocentric.com)
 # See LICENSE file for copyright information.
 # [summary]
 # This is a snippet generation library for HTML or XML document generation.
@@ -1342,5 +1342,5 @@ class Silkworm implements ArrayAccess
 	//////////////////////////////
 }
 #═══════════════════════════════════════════════════════════════════════════════
-# 
+# End (ml)Silkworm
 #═══════════════════════════════════════════════════════════════════════════════

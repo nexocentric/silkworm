@@ -33,7 +33,7 @@ Changelog
 |         |                 |    improved and more reliable sorting        |
 |         |                 |                                              |
 |         |                 | changelog on English readme file, added      |
-|         |                 | additional tests                             |
+|         |                 | additional tests, added LICENSE file         |
 
 
 Installation and Configuration
@@ -196,24 +196,4 @@ I would like to thank all of the people who supported me through out development
 
 Copyright
 ---------
-The MIT License (MIT)
-
-Copyright (c) 2013 Dodzi Y. Dzakuma (http://www.nexocentric.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+See [LICENSE](./LICENSE) file for more information.
