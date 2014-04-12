@@ -298,7 +298,7 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	* @test
 	* @depends tabIndentation
 	*/
-	public function reversionToTabIndentation()
+	public function fallbackToTabIndentation()
 	{
 		$html = new Silkworm();
 		$html->setIndentation("A");
@@ -310,6 +310,32 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			"<html>\n\t<head></head>\n\t<body></body>\n</html>\n",
 			(string)$html,
 			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+	* @test
+	* @depends tabIndentation
+	* @depends spaceIndentation
+	*/
+	public function increasedInitialIndentation()
+	{
+		$tab = Silkworm::TAB;
+		$byNumber = 2;
+		$newIndentation = str_repeat($tab, $byNumber);
+		$html = new Silkworm();
+		$html->setAdjustedIndentation($byNumber);
+		$html->div(
+			$html->div(),
+			$html->div()
+		);
+		$this->assertSame(
+			str_replace($tab, "*", "${newIndentation}<div>\n" .
+			"${newIndentation}${tab}<div></div>\n" .
+			"${newIndentation}${tab}<div></div>\n" .
+			"${newIndentation}</div>\n"),
+			str_replace($tab, "*", (string)$html),
+			"Failed to return markup with an increased inital indent."
 		);
 	}
 

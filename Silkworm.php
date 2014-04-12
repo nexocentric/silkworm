@@ -65,6 +65,7 @@ class Silkworm implements ArrayAccess
 	private $parsingHtmlFragment = false;
 	private $parsingTableHeader = false;
 	private $indentLevel = 0;
+	private $adjustedIndentLevel = 0;
 	private $zeroPaddingLength = Silkworm::DEFAULT_ZERO_PADDING_LENGTH;
 	private $indentationPattern = Silkworm::TAB;
 	private $selfClosingTags = array(
@@ -126,14 +127,8 @@ class Silkworm implements ArrayAccess
 	# [return]
 	# 1) A new Silkworm for use.
 	#===========================================================
-	public function __construct($documentSpecifier = "", $initialIndentLevel = 0)
+	public function __construct($documentSpecifier = "")
 	{
-		# saftey check
-		if (is_numeric($initialIndentLevel)) {
-			$this->indentLevel = $initialIndentLevel;
-		}
-
-		#
 		if(stripos($documentSpecifier, "x") !== false) {
 			$this->setSelfClosingTagStyle("XML");
 		}
@@ -162,6 +157,34 @@ class Silkworm implements ArrayAccess
 		return $this->html = $this->initializeTag($tagName, $properties);
 	}
 
+	public function adjustIndentation($markupText)
+	{
+		if ($this->adjustedIndentLevel == 0) {
+			return $markupText;
+		}
+
+		$newline = Silkworm::NEWLINE;
+		$adjustedIndentation = str_repeat(
+			$this->indentationPattern, 
+			$this->adjustedIndentLevel
+		);
+
+		$adjustedMarkupText = explode($newline, $markupText);
+
+		$currentLine = 0;
+		$lineCount = count($adjustedMarkupText);
+		foreach ($adjustedMarkupText as &$line) {
+			$currentLine++;
+			if ($lineCount == $currentLine) {
+				continue;
+			}
+
+			$line = $adjustedIndentation . $line;
+		}
+
+		return implode($newline, $adjustedMarkupText);
+	}
+
 	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
@@ -188,6 +211,9 @@ class Silkworm implements ArrayAccess
 			}
 			return $cocoons;
 		}
+
+		$this->html = $this->adjustIndentation($this->html);			
+
 		return $this->xmlVersion . $this->doctype . $this->html;
 	}
 	//<-end magic method implementation
@@ -323,6 +349,12 @@ class Silkworm implements ArrayAccess
 	//<-end array access implementation
 	/////////////////////////////////////
 
+	public function setAdjustedIndentation($string)
+	{
+		if (is_int($string)) {
+			$this->adjustedIndentLevel = $string;
+		}
+	}
 	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
