@@ -127,6 +127,23 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 
 	/** 
 	* @test
+	* @depends regularTagWithInnerText
+	*/
+	public function regularTagWithEscapedInnerText()
+	{
+		$html = new Silkworm();
+		$unescapedInnerText = "<script></script>";
+		$escapedInnerText = htmlspecialchars($unescapedInnerText);
+		$html->div($unescapedInnerText);
+		$this->assertSame(
+			"<div>${escapedInnerText}</div>\n",
+			(string)$html,
+			"Failed to escpae inner text."
+		);
+	}
+
+	/** 
+	* @test
 	* @depends regularTag
 	*/
 	public function returnsDoctype()
@@ -345,6 +362,24 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 			"<div class=${qt}classname${qt}></div>\n",
 			(string)$html,
 			"Failed to return div tag as parent."
+		);
+	}
+
+	/** 
+	* @test
+	* @depends regularTagWithAttributes
+	*/
+	public function regularTagWithEscapedAttributes()
+	{
+		$qt = Silkworm::DOUBLE_QUOTE;
+		$html = new Silkworm();
+		$unescapedAttribute = "<script></script>";
+		$escapedAttribute = htmlspecialchars($unescapedAttribute);
+		$html->div("class", $unescapedAttribute);
+		$this->assertSame(
+			"<div class=${qt}${escapedAttribute}${qt}></div>\n",
+			(string)$html,
+			"Failed to return div with escaped attributes."
 		);
 	}
 

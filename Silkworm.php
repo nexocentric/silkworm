@@ -79,7 +79,6 @@ class Silkworm implements ArrayAccess
 		"meta", 
 		"param"
 	);
-
 	private $booleanAttributes = array(
 		"allowfullscreen",
 		"async",
@@ -196,18 +195,6 @@ class Silkworm implements ArrayAccess
 
 	/////////////////////////////////////
 	//start array access implementation->
-
-	/*private function combineBooleanAttributeList()
-	{
-		if (!empty($this->userDefinedBooleanAttributes)) {
-			$this->booleanAttributes = array_merge(
-				$this->booleanAttributes,
-				$this->userDefinedBooleanAttributes
-			);
-			$this->userDefinedBooleanAttributes = array();
-		}
-		return $this->booleanAttributes;
-	}*/
 
 	#===========================================================
 	# [author]
