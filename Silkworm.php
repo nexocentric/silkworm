@@ -8,8 +8,7 @@
 # (c) 2014 Dodzi Y. Dzakuma (http://www.nexocentric.com)
 # See LICENSE file for copyright information.
 # [summary]
-# This is the bootstrap file that should be included by every PHP file
-# in this site. Without this file, most of the files will not run.
+# This is a snippet generation library for HTML or XML document generation.
 #═══════════════════════════════════════════════════════════════════════════════
 
 #───────────────────────────────────────────────────────────────────────────────
@@ -27,18 +26,25 @@
 # This is a list of public methods. Please see the README for more detailed
 # documentation on usage.
 #
-# 1) $html = new Silkworm(); //create a new interface
-# 2) ... = new Silkworm("html"); //create a new interface with doctype
-# 3) $html->doctype("html"); //set the doctype
-# 4) setBooleanDisplayStyle($style = "") //a vs a="a" vs a="true"
-# 5) setIndentation("") //combinations of spaces and tabs
+# 1) $html = new Silkworm() //create a new interface
+# 2) ... = new Silkworm("html") //create a new interface with doctype
 # 6) setSilkwormAlias("") //name to access the class
-# 7) setSelfClosingTagStyle("") //<img> vs <img />
-# 8) $html->html(); //create a tag !!see README.md for more information
-# 9) $html->newline(); //create a newline in HTML document
-# 10) $html->comment("comment text"); //create a comment in HTML document
-# 11) $html->repeat(Silkworm, int); //repeat a fragment n times
-# 12) $html->autoTable(array(array()); //create table from array(array())
+# 8) $html->html() //create a tag !!see README.md for more information
+# 3) adjustIndentation($markupText, $indentLevel) // change final indentation
+# 8) doctype($definition) //set the doctype
+# 9) repeat(Silkworm, int) //repeat a fragment n times
+# 10) newline() //create a newline in HTML document
+# 11) comment($comment) //create a comment in HTML document
+# 12) stringWithDocumentHeader($data)
+# 14) setIndentation($indentationPattern = "") //combinations of spaces and tabs
+# 15) setAdjustedIndentation($string)
+# 16) defineSelfClosingTags()
+# 17) setSelfClosingTagStyle($style) //<img> vs <img />
+# 18) defineBooleanAttributes()
+# 13) setBooleanDisplayStyle($style = "") //a vs a="a" vs a="true"
+# 19) xmlVersion($version)
+# 20) cdata($cdata)
+# 21) autoTable(array(array())) //create table from array(array())
 #───────────────────────────────────────────────────────────────────────────────
 class Silkworm implements ArrayAccess
 {
@@ -47,7 +53,7 @@ class Silkworm implements ArrayAccess
 	#-----------------------------------------------------------
 	const FORWARD_SLASH = "/";
 	const DOUBLE_QUOTE = "\"";
-	const NEWLINE = "\n";
+	const NEWLINE = PHP_EOL;
 	const SPACE = " ";
 	const TAB = "\t";
 	const BOOLEAN_ATTRIBUTES_MAXIMIZED = "MAXIMIZED";
@@ -129,7 +135,7 @@ class Silkworm implements ArrayAccess
 	#===========================================================
 	public function __construct($documentSpecifier = "")
 	{
-		if(stripos($documentSpecifier, "x") !== false) {
+		if (stripos($documentSpecifier, "x") !== false) {
 			$this->setSelfClosingTagStyle("XML");
 		}
 
@@ -157,20 +163,47 @@ class Silkworm implements ArrayAccess
 		return $this->html = $this->initializeTag($tagName, $properties);
 	}
 
+	#===========================================================
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Adjusts the overall indentation of the markup text to 
+	# output if the adjustedIndentLevel variable has been set.
+	# This can also be used stand alone in which case an indent
+	# level can be set manually.
+	# [parameters]
+	# 1) the string form of the markup text to indent
+	# 2) an indent level (optional)
+	# [return]
+	# 1) the markup text with its indentatinon adjusted 
+	#    (if specified)
+	#===========================================================
 	public function adjustIndentation($markupText, $indentLevel = null)
 	{
+		#---------------------------------------
+		# from string parse same whitespace
+		#---------------------------------------
 		if ($this->adjustedIndentLevel == 0) {
 			return $markupText;
 		}
 
+		#---------------------------------------
+		# from string parse same whitespace
+		#---------------------------------------
 		$newline = Silkworm::NEWLINE;
 		$adjustedIndentation = str_repeat(
 			$this->indentationPattern, 
 			is_null($indentLevel) ? $this->adjustedIndentLevel : $indentLevel
 		);
 
+		#---------------------------------------
+		# from string parse same whitespace
+		#---------------------------------------
 		$adjustedMarkupText = explode($newline, $markupText);
 
+		#---------------------------------------
+		# from string parse same whitespace
+		#---------------------------------------
 		$currentLine = 0;
 		$lineCount = count($adjustedMarkupText);
 		foreach ($adjustedMarkupText as &$line) {
@@ -182,6 +215,9 @@ class Silkworm implements ArrayAccess
 			$line = $adjustedIndentation . $line;
 		}
 
+		#---------------------------------------
+		# from string parse same whitespace
+		#---------------------------------------
 		return implode($newline, $adjustedMarkupText);
 	}
 
@@ -221,17 +257,16 @@ class Silkworm implements ArrayAccess
 
 	/////////////////////////////////////
 	//start array access implementation->
-
 	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
-	# Implementation of the PHP __toString() function. This
-	# prints out the generated HTML data as a printable string.
+	# Uses PHP_INT_MAX to determine the number of digits used
+	# for padding array index integers.
 	# [parameters]
 	# none
 	# [return]
-	# The generated HTML as a string.
+	# 1) the number of digits to use for padding integers
 	#===========================================================
 	private function calculateZeroPaddingLength()
 	{
@@ -244,12 +279,12 @@ class Silkworm implements ArrayAccess
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
-	# Implementation of the PHP __toString() function. This
-	# prints out the generated HTML data as a printable string.
+	# Determines if the string for an array index is a number,
+	# then left pads the number with zeros if is a pure integer.
 	# [parameters]
-	# none
+	# 1) a string to evaluate
 	# [return]
-	# The generated HTML as a string.
+	# 1) the original or padded string
 	#===========================================================
 	private function zeroPadArrayIndex($string)
 	{
@@ -349,30 +384,17 @@ class Silkworm implements ArrayAccess
 	//<-end array access implementation
 	/////////////////////////////////////
 
-	public function setAdjustedIndentation($string)
-	{
-		if (is_int($string)) {
-			$this->adjustedIndentLevel = $string;
-			return;
-		}
-
-		$string = str_split($string);
-		$whitespace = "";
-		foreach ($string as $marker) {
-			if (!in_array($marker, array(Silkworm::SPACE, Silkworm::TAB))) {
-				break;
-			}
-			$this->adjustedIndentLevel++;
-		}
-	}
 	#===========================================================
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
-	# Implementation of the PHP offsetUnset() function. Unsets
-	# a fragment by its name if the fragment exists.
+	# Parses a list of user defined parameters and adds it to
+	# the overall class list by matching the function name of
+	# the calling class to an array in this class.
 	# [parameters]
-	# 1) The fragrment name to unset.
+	# 1) the function name to use in finding an array
+	# 2) a variable list of arguments that to be parsed and
+	#    added to a class list (see implementation below)
 	# [return]
 	# none
 	#===========================================================
@@ -455,38 +477,6 @@ class Silkworm implements ArrayAccess
 			$classParameterArray,
 			$userDefinedParameters
 		);
-	}
-
-	#===========================================================
-	# [author]
-	# Dodzi Y. Dzakuma
-	# [summary]
-	# Implementation of the PHP offsetUnset() function. Unsets
-	# a fragment by its name if the fragment exists.
-	# [parameters]
-	# 1) The fragrment name to unset.
-	# [return]
-	# none
-	#===========================================================
-	public function defineSelfClosingTags()
-	{
-		$this->addUserDefinedParameter(__FUNCTION__, func_get_args());
-	}
-
-	#===========================================================
-	# [author]
-	# Dodzi Y. Dzakuma
-	# [summary]
-	# Implementation of the PHP offsetUnset() function. Unsets
-	# a fragment by its name if the fragment exists.
-	# [parameters]
-	# 1) The fragrment name to unset.
-	# [return]
-	# none
-	#===========================================================
-	public function defineBooleanAttributes()
-	{
-		$this->addUserDefinedParameter(__FUNCTION__, func_get_args());
 	}
 	
 	#===========================================================
@@ -925,32 +915,6 @@ class Silkworm implements ArrayAccess
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
-	# Changes the display style for boolean attributes.
-	# [parameters]
-	# 1) Case insensitive style name.
-	#   ([ma]ximized, [mi]nimized, [bo]olean)
-	#
-	# !NOTICE!
-	# The default for this is to set the display style to
-	# minimized.
-	# [return]
-	# none
-	#===========================================================
-	public function setBooleanDisplayStyle($style = "")
-	{
-		if (stripos($style,"ma") !== false) {
-			$this->booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_MAXIMIZED;
-		} elseif (stripos($style,"bo") !== false) {
-			$this->booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_BOOLEAN;
-		} else {
-			$this->booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_MINIMIZED;
-		}
-	}
-
-	#===========================================================
-	# [author]
-	# Dodzi Y. Dzakuma
-	# [summary]
 	# Changes the indentation pattern for the document.
 	# [parameters]
 	# 1) An indentation pattern consisting of tabs or spaces.
@@ -976,15 +940,59 @@ class Silkworm implements ArrayAccess
 	# [author]
 	# Dodzi Y. Dzakuma
 	# [summary]
-	# Creates an alias for the Silkworm class.
+	# Implementation of the PHP offsetUnset() function. Unsets
+	# a fragment by its name if the fragment exists.
 	# [parameters]
-	# 1) New name to access Silkworm by.
+	# 1) The fragrment name to unset.
 	# [return]
-	# 1) The return value of the class_alias method.
+	# none
 	#===========================================================
-	public static function setSilkwormAlias($name)
+	public function setAdjustedIndentation($string)
 	{
-		return class_alias("Silkworm", $name);
+		#---------------------------------------
+		# the user is setting the indent via int
+		#---------------------------------------
+		if (is_int($string)) {
+			$this->adjustedIndentLevel = $string;
+			return;
+		}
+
+		#---------------------------------------
+		# use a string supplied as a method for
+		# parsing adjusting the curent indent
+		# level by counting the whitespace
+		# characters until the first non white-
+		# space character
+		#---------------------------------------
+		$string = str_split($string); //prepare for analysis
+		foreach ($string as $marker) {
+			# check if accepted whitespace character
+			if (!in_array($marker, array(Silkworm::SPACE, Silkworm::TAB))) {
+				break;
+			}
+			$this->adjustedIndentLevel++;
+		}
+	}
+	
+	#===========================================================
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# A method to allow the user to set which parameters will be
+	# parsed as self-closing tags.
+	# [parameters]
+	# 1) a variable list of parameters can be passed to this
+	#    function if they follow the following format
+	#    a) multiple variables ("a", "b", "c") 
+	#    b) a comma delimited string ("a, b, c")
+	#    c) an array of values (array("a", "b", "c"))
+	#    the formats can each be handed together to the function
+	# [return]
+	# none
+	#===========================================================
+	public function defineSelfClosingTags()
+	{
+		$this->addUserDefinedParameter(__FUNCTION__, func_get_args());
 	}
 
 	#===========================================================
@@ -1010,6 +1018,68 @@ class Silkworm implements ArrayAccess
 		} else {
 			$this->selfClosingTagStyle = "";
 		}
+	}
+
+	#===========================================================
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# A method to allow the user to set which parameters will be
+	# parsed as boolean attributes.
+	# [parameters]
+	# 1) a variable list of parameters can be passed to this
+	#    function if they follow the following format
+	#    a) multiple variables ("a", "b", "c") 
+	#    b) a comma delimited string ("a, b, c")
+	#    c) an array of values (array("a", "b", "c"))
+	#    the formats can each be handed together to the function
+	# [return]
+	# none
+	#===========================================================
+	public function defineBooleanAttributes()
+	{
+		$this->addUserDefinedParameter(__FUNCTION__, func_get_args());
+	}
+
+	#===========================================================
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Changes the display style for boolean attributes.
+	# [parameters]
+	# 1) Case insensitive style name.
+	#   ([ma]ximized, [mi]nimized, [bo]olean)
+	#
+	# !NOTICE!
+	# The default for this is to set the display style to
+	# minimized.
+	# [return]
+	# none
+	#===========================================================
+	public function setBooleanDisplayStyle($style = "")
+	{
+		if (stripos($style,"ma") !== false) {
+			$this->booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_MAXIMIZED;
+		} elseif (stripos($style,"bo") !== false) {
+			$this->booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_BOOLEAN;
+		} else {
+			$this->booleanAttributeDisplayStyle = Silkworm::BOOLEAN_ATTRIBUTES_MINIMIZED;
+		}
+	}
+	
+	#===========================================================
+	# [author]
+	# Dodzi Y. Dzakuma
+	# [summary]
+	# Creates an alias for the Silkworm class.
+	# [parameters]
+	# 1) New name to access Silkworm by.
+	# [return]
+	# 1) The return value of the class_alias method.
+	#===========================================================
+	public static function setSilkwormAlias($name)
+	{
+		return class_alias("Silkworm", $name);
 	}
 
 	///////////////////////
