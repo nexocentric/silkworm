@@ -525,9 +525,9 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 		$html = new Silkworm();
 		$html->setBooleanDisplayStyle(); //no string defaults to minimized
 		$html->defineBooleanAttributes("filled-with-goodness");
-		$html->button("hidden", "filled-with-goodness", "click me");
+		$html->button("disabled", "filled-with-goodness", "click me");
 		$this->assertSame(
-			"<button hidden filled-with-goodness>click me</button>\n",
+			"<button disabled filled-with-goodness>click me</button>\n",
 			(string)$html,
 			"Failed to define boolean attributes for use in regular tag."
 		);
