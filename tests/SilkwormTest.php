@@ -99,6 +99,22 @@ class SilkwormTest extends PHPUnit_Framework_TestCase
 	* @test
 	* @depends selfClosingTag
 	*/
+	public function userDefinedSelfClosingTag()
+	{
+		$html = new Silkworm();
+		$html->defineSelfClosingTags("ironman");
+		$html->ironman();
+		$this->assertSame(
+			"<ironman>\n",
+			(string)$html,
+			"Failed to return ironman tag as parent (self-closing)."
+		);
+	}
+
+	/** 
+	* @test
+	* @depends selfClosingTag
+	*/
 	public function regularTag()
 	{
 		$html = new Silkworm();
